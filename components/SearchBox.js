@@ -1,10 +1,9 @@
 import React from 'react'
-import { MdSearch} from 'react-icons/md'
 import { FaSearch} from 'react-icons/fa'
 const SearchBox = () => {
   return (
-    <form className='w-full md:w-1/3 '>   
-     <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+    <form className='w-full md:w-1/3 lg:w-1/2 '>   
+     <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div className="relative">
             <input type="search" id="default-search" 
             className=" border border-gray-300
@@ -19,7 +18,7 @@ const SearchBox = () => {
                 right-2.5 top-1
                 bg-black focus:ring-2 focus:outline-none
                 focus:ring-black/30   p-2  text-xs">
-                    <FaSearch />  
+                <FaSearch />  
                 </button>
         </div>
     </form>

@@ -22,6 +22,5 @@ const NavLink = ({href ,label,active=false}) => {
   )
 }
 
-// ${active ? 'link-active' : '' }
 
 export default NavLink

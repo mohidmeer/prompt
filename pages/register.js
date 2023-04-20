@@ -3,6 +3,8 @@ import AuthLayout from "@/layout/AuthLayout";
 import InputBox from "@/components/InputBox";
 import Link from "next/link";
 import Button from "@/components/Buttons";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 
 
@@ -17,12 +19,16 @@ export default function Register() {
             <InputBox type='password'  label='Password' placeholder="•••••••••"/>
             <InputBox type='password'  label='Confirm Password' placeholder="•••••••••"/>
             <Button label="Register" width="w-full" />
+            <div className="flex flex-col gap-2 mt-4">
+                <Button label="Sign In with Google" inverted='true' width="w-full" ico={<FcGoogle className="w-6 h-6"  />} />
+                <Button label="Sign In with Github" inverted='true' width="w-full" ico={<FaGithub className="w-6 h-6"  />} />
+            </div>
             <div className="flex justify-end" >
               <Link href={'/login'} className={`mt-2  hover:underline`}  >
                 <p className="">Already Have Account</p>
               </Link>
-
             </div>
+            
               
         </div>
       </AuthLayout>

@@ -22,7 +22,7 @@ const Hero = () => {
             <Button inverted={true} label={"Sell a prompt"} onClick={() => router.push('/vendor/dashboard/')} />
           </div>
         </div>
-        <div class="hidden lg:mt-0 lg:col-span-6 lg:block">
+        <div className="hidden lg:mt-0 lg:col-span-6 lg:block">
           {/* <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup"/> */}
 
           <div className={`grid grid-cols-2 gap-8`}>
