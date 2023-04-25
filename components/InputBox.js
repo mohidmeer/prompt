@@ -1,12 +1,13 @@
-const InputBox = ({type='text' ,label,value,placeholder='',onChange}) => {
+const InputBox = ({ id,type='text' ,label,value,placeholder='',onChange}) => {
   return (
      <div className="my-4">
-        <label for="first_name" 
+        <label htmlFor="first_name" 
         className="block mb-2  text-sm font-medium 
         text-gray-900 dark:text-white">{label}</label>
+     
         <input type={type}
-               id="first_name"
                onChange={onChange}
+               id={id}
                className="
                bg-gray-50 
                 border
@@ -19,8 +20,10 @@ const InputBox = ({type='text' ,label,value,placeholder='',onChange}) => {
                w-full p-2.5 
                outline-none
                "
+               value={value}
                placeholder={placeholder} 
-               required />
+                />
+
     </div>
   )
 }

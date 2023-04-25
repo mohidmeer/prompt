@@ -7,10 +7,24 @@ import { FcGoogle} from "react-icons/fc"
 import { FaGithub } from "react-icons/fa";
 import { useSession,signIn, getSession} from "next-auth/react";
 import { useRouter } from "next/router";
-
+import { useFormik } from "formik";
 
 
 export default function Login() {
+
+
+  const formik = useFormik({
+
+    initialValues:{
+      email:'',
+      password:''
+    }
+  })
+
+
+
+
+
   const { data: session } = useSession()
   const router = useRouter();
   if(session) {
