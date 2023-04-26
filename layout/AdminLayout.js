@@ -1,0 +1,26 @@
+import SideBar from '@/components/Admin/sidebar'
+import { Nunito } from 'next/font/google'
+const nunito = Nunito({ subsets: ['latin'] })
+
+
+
+export default function ExploreLayout({children}){
+    return (
+        
+        <div className={`${nunito.className} container-fluid relative   `}>
+           <SideBar/>
+            <div class="p-4 sm:ml-64">
+                <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
+                    
+                    {children}
+            
+        
+                </div>
+            </div>
+            
+            
+
+        </div>
+      )
+}
+

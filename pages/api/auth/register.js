@@ -1,6 +1,5 @@
 import connectMongo from "@/database/conn";
 import User from "@/models/user";
-import logger from "@/middlewares/logger";
 
 export default async function handler(req, res) {
     connectMongo();
