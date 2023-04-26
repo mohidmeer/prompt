@@ -6,11 +6,14 @@ import Button from "@/components/Buttons";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { useFormik } from "formik";
-import register_validate from "@/lib/validate";
-
+import register_validate from "@/lib/registerValidationHelper";
+import axios from "axios";
+import serverErrorHandler from "@/lib/serverErrorHandler";
+import { useRouter } from "next/router";
 
 
 export default function Register() {
+  const router = useRouter();
   const formik = useFormik({
 
     initialValues:{ username:'',email:'',password:'',cpassword:''},
@@ -18,17 +21,26 @@ export default function Register() {
     validate:register_validate
   })
   async function onSubmit(values){
-
-    console.log(values)
-
+    axios.post('api/auth/register',values,{
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+    )
+    .then(function (response) {
+      toast.success('Successfully created')
+      router.push('/')
+    })
+    .catch(function (error) {
+      serverErrorHandler(error.response.status)
+      
+    });
 
   }
 
-
     return (
-      
       <AuthLayout>
-        <div className=" md:w-1/4  bg-white p-8 rounded-xl">
+        <div className=" sm:w-1/2 w-full  lg:w-1/4  bg-white p-8 rounded-xl">
             <h2 className="text-4xl font-bold text-center mb-6">Register</h2>
             <form onSubmit={formik.handleSubmit} >
             <div className="my-4">

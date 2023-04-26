@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 import bcrypt from "bcrypt";
-const userSchema = new Schema({
+  const userSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -13,20 +13,24 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  isAdmin:{
+    type:Boolean,
+    default:false,
   }
-})
-
-userSchema.pre('save', async function(next) {
-    try {
-      const salt = await bcrypt.genSalt(10)
-      const hashedPassword = await bcrypt.hash(this.password, salt)
-      this.password = hashedPassword
-      next()
-    } catch (error) {
-      next(error)
-    }
   })
 
-const User = models.user || model('user', userSchema);
+  userSchema.pre('save', async function(next) {
+      try {
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(this.password, salt)
+        this.password = hashedPassword
+        next()
+      } catch (error) {
+        next(error)
+      }
+  })
+
+  const User = models.user || model('user', userSchema);
 
 export default User;
