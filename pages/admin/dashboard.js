@@ -8,39 +8,39 @@ const dashboard = () => {
     <AdminLayout>
         <div className=" grid grid-cols-4 gap-4 ">
 
-        <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
+        <div className=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
             <SlBag className="w-10 h-10 mb-4"/>
             <div className="flex justify-between">
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Total Prompts</p>
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">320</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Total Prompts</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">320</p>
             </div>
         </div>
-        <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
+        <div className=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
             <AiOutlineShoppingCart className="w-10 h-10 mb-4"/>
             <div className="flex justify-between">
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Orders Received</p>
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">17</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Orders Received</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">17</p>
             </div>
         </div>
-        <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
+        <div className=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
             <BiDollar  className="w-10 h-10 mb-4"/>
             <div className="flex justify-between">
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Overall Sales</p>
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 flex items-center">2000 <BiDollar/> </p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Overall Sales</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 flex items-center">2000 <BiDollar/> </p>
             </div>
         </div>
-        <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
+        <div className=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
             <SlBag className="w-10 h-10 mb-4"/>
             <div className="flex justify-between">
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Personal Sales</p>
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 flex items-center">300 <BiDollar/></p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Personal Sales</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 flex items-center">300 <BiDollar/></p>
             </div>
         </div>
-        <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
+        <div className=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
             <SlBag className="w-10 h-10 mb-4"/>
             <div className="flex justify-between">
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Vendors Sales</p>
-                <p class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 flex items-center">1700 <BiDollar/> </p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Vendors Sales</p>
+                <p className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 flex items-center">1700 <BiDollar/> </p>
             </div>
         </div>
 

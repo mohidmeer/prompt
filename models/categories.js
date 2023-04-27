@@ -4,8 +4,12 @@ import { Schema, model, models } from 'mongoose';
     type: String,
     required: true
   },
-  })
+  slug:{
+    type:String,
+    required:true,
+  }
+  },{timestamps:true})
 
-  const User = models.user || model('user', userSchema);
+  const Category = models.category || model('category', categorySchema);
 
-export default User;
+export default Category;

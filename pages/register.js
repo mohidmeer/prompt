@@ -23,7 +23,8 @@ export default function Register() {
   async function onSubmit(values){
     axios.post('api/auth/register',values,{
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     }
     )
