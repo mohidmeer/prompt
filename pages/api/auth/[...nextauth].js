@@ -4,9 +4,9 @@ import CredentialsProvider  from 'next-auth/providers/credentials';
 import connectMongo from '@/database/conn';
 import User from '@/models/user';
 import { compare } from 'bcrypt';
+import { getServerSession } from "next-auth/next"
 
-
-export default NextAuth({
+export const authOptions = {
     providers : [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
@@ -24,4 +24,14 @@ export default NextAuth({
             }
         })
     ]
-})
+}
+
+
+export default NextAuth(authOptions)
+
+export const getServerAuthSession=(req,res)=>{
+
+    return  getServerSession(req,res,authOptions)
+
+
+}

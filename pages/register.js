@@ -1,15 +1,16 @@
 import Head from "next/head";
 import AuthLayout from "@/layout/AuthLayout";
-import InputBox from "@/components/InputBox";
 import Link from "next/link";
 import Button from "@/components/Buttons";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { useFormik } from "formik";
-import register_validate from "@/lib/registerValidationHelper";
+import { useFormik, useFormikContext } from "formik";
+import register_validate from "@/lib/client/registerValidationHelper";
 import axios from "axios";
-import serverErrorHandler from "@/lib/serverErrorHandler";
+import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import { useRouter } from "next/router";
+import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
+import { register } from "@/ApiRequests/register";
 
 
 export default function Register() {
@@ -21,24 +22,9 @@ export default function Register() {
     validate:register_validate
   })
   async function onSubmit(values){
-    axios.post('api/auth/register',values,{
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    }
-    )
-    .then(function (response) {
-      toast.success('Successfully created')
-      router.push('/')
-    })
-    .catch(function (error) {
-      serverErrorHandler(error.response.status)
-      
-    });
+        register(values).then(()=> {formik.resetForm();router.push('/')} )
 
   }
-
     return (
       <AuthLayout>
         <div className=" sm:w-1/2 w-full  lg:w-1/4  bg-white p-8 rounded-xl">
@@ -68,7 +54,7 @@ export default function Register() {
                   type='text' id='cpassword' placeholder="jhon Dhoe" {...formik.getFieldProps('cpassword')}    />
                   {formik.errors.cpassword && formik.touched.cpassword ? <div className='mt-2 font-bold text-sm text-rose-500'>{formik.errors.cpassword}</div> : <></>}
             </div>                  
-              <Button type='submit' label="Register" width="w-full" />
+              <button type="submit" className="btn w-full disabled:bg-gray-700" disabled={!(formik.isValid && formik.dirty)} >Register</button>
 
             </form>
 

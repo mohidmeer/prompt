@@ -1,4 +1,4 @@
-import serverErrorHandler from '@/lib/serverErrorHandler';
+import serverErrorHandler from '@/lib/server/serverErrorHandler';
 import axios from 'axios';
 import {create} from 'zustand';
 

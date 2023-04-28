@@ -1,8 +1,8 @@
 import SideBar from "@/components/Admin/sidebar";
 import Button from "@/components/Buttons";
 import AdminLayout from "@/layout/AdminLayout";
-import serverErrorHandler from "@/lib/serverErrorHandler";
-import serverSuccessHandler from "@/lib/serverSuccessHandler";
+import serverErrorHandler from "@/lib/server/serverErrorHandler";
+import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
 import { useCategory } from "@/stores/categories";
 import axios from "axios";
 import { useFormik } from "formik";

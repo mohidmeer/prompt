@@ -1,13 +1,13 @@
-import serverErrorHandler from '@/lib/serverErrorHandler';
+import serverErrorHandler from '@/lib/server/serverErrorHandler';
 import axios from 'axios';
 import {create} from 'zustand';
 
 
 export const useProducts=create((set)=>({
-    categories:[],
-    fetchCategoryData: async ()=>{
+    products:[],
+    fetchProductData: async ()=>{
         axios.get('/api/admin/products')
-         .then((res)=>{ set({categories:res.data.categories}) })
+         .then((res)=>{ set({products:res.data.products}) })
          .catch((error)=>{ serverErrorHandler(205)})
     },
 }));

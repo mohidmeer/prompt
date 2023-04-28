@@ -23,10 +23,12 @@ import { Schema, model, models } from 'mongoose';
     },
     vendorId:{
         type:Schema.Types.ObjectId,
+        required:true,
         ref:'User'
     },
     stripeId:{
         type:String,
+        required:true,
         default:'st_sd58xas4747'
 
     },
@@ -43,6 +45,16 @@ import { Schema, model, models } from 'mongoose';
             },
             message: 'At least one image is required'
           }  
-    }]
+    }],
+    isApproved:{
+        type: String,
+        enum: ['APPROVED', 'PENDING','REJECTED'],
+        default:'PENDING'
+    }
 
   },{timestamps:true})
+
+
+  const Product = models.product || model('product', productSchema);
+
+export default Product;

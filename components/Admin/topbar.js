@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import NavLink from '@/components/NavLink'
 import { MdMenu } from 'react-icons/md'
 import { signOut, useSession } from 'next-auth/react'
@@ -15,14 +15,8 @@ const Topbar = () => {
         <div className='w-10 h-10 bg-black rounded-tr-xl rounded-bl-xl '></div>
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Prompt Works</span>
     </Link>
-
-    <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 " aria-controls="navbar-default" aria-expanded="false">
-      <span className="sr-only">Open main menu</span>
-     <MdMenu className='w-6 h-6'/>
-    </button>
     {session && <UserProfile  name={session.user.name} email={session.user.email}  />}
   </div>
-  
 </nav>
 
   )
@@ -33,8 +27,8 @@ export default Topbar
 const UserProfile = ({name,email}) => {
 
   const [isOpen,setIsOpen]=useState(false)
+  const menuRef = useRef(null);
  const  openMenu = () => {
-  console.log('here')
   setIsOpen(!isOpen)
   }
 
@@ -42,10 +36,24 @@ const UserProfile = ({name,email}) => {
     let userNameInitials= name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase()
     return userNameInitials
  }
+ useEffect(() => {
+  const handleOutsideClick = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  document.addEventListener('click', handleOutsideClick);
+
+  return () => {
+    document.removeEventListener('click', handleOutsideClick);
+  };
+}, [menuRef]);
+
 
 
   return (
-    <div className='relative'>
+    <div className='relative' ref={menuRef}>
     <button type="button" 
      onClick={openMenu}
     className="flex  mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
@@ -54,7 +62,7 @@ const UserProfile = ({name,email}) => {
       </button>
       
       <div 
-      className={`${isOpen?'':'hidden'} z-50 -left-10 absolute 
+      className={`${isOpen?'':'hidden'} z-20 -left-10 absolute 
       my-4 text-base 
       list-none bg-white 
       divide-y divide-gray-100 

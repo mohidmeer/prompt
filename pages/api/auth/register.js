@@ -9,11 +9,11 @@ export default async function handler(req, res) {
       const { username, email, password } = req.body;
       const checkexisting = await User.findOne({ email });
       if (checkexisting)
-        return res.status(422).json({ message: "User Already Exists...!" });
+        return res.status(409).json({ message: "User Already Exists...!" });
 
       User.create({ name: username, email: email, password: password })
         .then((data) => {
-          return res.status(201).json({ status: true, user: data });
+          return res.status(201).json({ message: 'Account Successfully Created' });
         })
         .catch((error) => {
           return res.status(404).json({ error });

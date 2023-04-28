@@ -8,7 +8,8 @@ import { FaGithub } from "react-icons/fa";
 import { useSession,signIn} from "next-auth/react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
-import login_validate from "@/lib/loginValidationHelper";
+import login_validate from "@/lib/client/loginValidationHelper";
+import serverErrorHandler from "@/lib/server/serverErrorHandler";
 
 
 export default function Login() {
@@ -30,6 +31,7 @@ export default function Login() {
     callbackUrl:'/'
    })
    if (status.ok){router.push(status.url)}
+   if (status.error){serverErrorHandler(401,status.error)}
   }
 
   const { data: session } = useSession()
@@ -62,7 +64,7 @@ export default function Login() {
             </div>
             <div className="flex flex-col gap-2 mt-4">
                 <Button type='submit' label="Login" width="w-full"/>
-                <Button label="Sign In with Google" onClick={()=>{signIn('google')}} inverted='true' width="w-full" ico={<FcGoogle className="w-6 h-6"  />} />
+                <Button type='button' label="Sign In with Google" onClick={()=>{signIn('google')}} inverted='true' width="w-full" ico={<FcGoogle className="w-6 h-6"  />} />
                 <Button label="Sign In with Github" inverted='true' width="w-full" ico={<FaGithub className="w-6 h-6"  />} />
             </div>
             </form>
@@ -79,20 +81,3 @@ export default function Login() {
       </AuthLayout>
     )
   }
-
-
-  // export async function getServerSideProps(context) {
-  //   const session = await getSession(context);
-  //   if (session) {
-  //     return {
-  //       redirect: {
-  //         destination: '/',
-  //         permanent: false,
-  //       },
-  //     };
-  //   }
-  
-  //   return {
-  //     props: {},
-  //   };
-  // }
