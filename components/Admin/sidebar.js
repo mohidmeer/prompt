@@ -47,11 +47,11 @@ const sidebar = () => {
             </Link>
          </li>
          <li>
-            <Link href='/admin/vendors' className={`flex items-center p-2   
-             ${router.pathname=='/admin/vendors' ? 'bg-black text-white':
+            <Link href='/admin/users' className={`flex items-center p-2   
+             ${router.pathname=='/admin/users' ? 'bg-black text-white':
              'hover:bg-gray-200 text-gray-900'} `}>
               <FaUsers className='w-6 h-6'/>
-               <span className="ml-3">Vendors</span>
+               <span className="ml-3">Users</span>
             </Link>
          </li>
       </ul>

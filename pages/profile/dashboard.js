@@ -11,10 +11,7 @@ export default function Dashboard() {
       <Navbar/>
         <Container label={'Dashboard'}>
         <div className=' grid grid-cols-4  gap-4'>
-          <div className='bg-gray-400 rounded p-10'></div>
-          <div className='bg-gray-400 rounded p-10'></div>
-          <div className='bg-gray-400 rounded p-10'></div>
-          <div className='bg-gray-400 rounded p-10'></div>
+            
         </div> 
         </Container>
     </VendorLayout>

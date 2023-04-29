@@ -46,7 +46,7 @@ import { Schema, model, models } from 'mongoose';
             message: 'At least one image is required'
           }  
     }],
-    isApproved:{
+    status:{
         type: String,
         enum: ['APPROVED', 'PENDING','REJECTED'],
         default:'PENDING'

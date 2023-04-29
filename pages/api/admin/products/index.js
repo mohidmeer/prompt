@@ -1,7 +1,7 @@
 import connectMongo from "@/database/conn";
 import Product from "@/models/products";
 import { getServerAuthSession } from "../../auth/[...nextauth]";
-import Products from "@/pages/vendor/products";
+import Products from "@/pages/profile/prompts";
 
 
 
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
           model:model,
           price:price,
           vendorId:'6447f5d3de650e34dbab758a',
-          isApproved:'APPROVED'
+          status:'APPROVED'
         }).then(()=>{
          return res.status(201).json({message:'Created Successfully.....'})
         }).catch((error)=>{

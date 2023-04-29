@@ -28,7 +28,7 @@ const Navbar = () => {
         <NavLink label='Home' href='/'/>
         <NavLink label='Explore' href='/explore'/>
         {session ?
-          <NavLink label='Sell' href='/vendor/dashboard'/>:
+          <NavLink label='Sell' href='/profile/dashboard'/>:
           <NavLink label='Login' href='/login'/>
           }
         
@@ -89,11 +89,11 @@ const UserProfile = ({name,email}) => {
             dark:hover:text-white" onClick={()=>{signOut()}} >Sign out</button>
           </li>
           
-            <Link href='/vendor/dashboard' 
+            <Link href='/profile/dashboard' 
             className="block px-4 py-2 text-sm w-full text-left
             text-gray-700 hover:bg-gray-100 
             dark:hover:bg-gray-600 dark:text-gray-200
-            dark:hover:text-white">Seller Dashboard</Link>
+            dark:hover:text-white">Profile</Link>
         </ul>
       </div>
     
