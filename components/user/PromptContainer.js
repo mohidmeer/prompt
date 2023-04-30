@@ -6,13 +6,6 @@ import { useEffect, useState } from "react";
 
 const PromptContainer = ({label}) => {
 
-    // const [prompts, setPrompts] = useState([]);
-    // useEffect(() => {
-    //     fetch('http://localhost:5000/prompts?_expand=model')
-    //       .then(response => response.json())
-    //       .then(data => setPrompts(data));
-    //   }, []);
-
 
 
 
@@ -24,13 +17,7 @@ const PromptContainer = ({label}) => {
             slidesPerView={5}
             navigation={true}
             onSlideChange={() => console.log('slide change')} >
-                {/* {prompts.map(prompt=>(
-
-                <SwiperSlide key={prompt.id}>
-                    <Card src={prompt.imgurl} alt={prompt.name} model={prompt.model.name} label={prompt.name}/>    
-                </SwiperSlide>
-                    
-                ))} */}
+               
         <SwiperSlide>
             <Card src={"/images/prompt5.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
         </SwiperSlide>

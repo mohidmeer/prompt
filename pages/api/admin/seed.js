@@ -32,7 +32,7 @@ export default async function handler(req, res) {
             price:price,
             vendorId:'644a7ebc8e61567050c275b2',
             images:['sss','ssssc'],
-            category:'jeep-account'
+            category:'indiana-practical'
             }).catch((e)=>{return res.status(500).json({e}) })
      
      }
@@ -40,7 +40,6 @@ export default async function handler(req, res) {
        await createCategories()
     }
 
-    // res.status(201).json({message:'Skibidy Created'})
     }else{
         return res.status(400).json({message:'Not Valid'})
     }

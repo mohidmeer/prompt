@@ -3,13 +3,6 @@ import { NextResponse } from 'next/server'
 export function isApi(req){
      console.log('API MIDDLEWARE WORKING')
      console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-
-
-
-
-
-
-
      
      return  NextResponse.next()
 }
