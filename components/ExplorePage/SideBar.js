@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { BiMenuAltLeft } from 'react-icons/bi';
-import { useCategoryStore } from '@/stores/categoryStore';
 import CheckBox from '../CheckBox';
-const SideBar = () => {
+import { useRouter } from 'next/router';
+import { useUserStore } from '@/stores/user/user';
+const SideBar = ({pq,spq}) => {
     const [ scrollPosition, setScrollPosition ] = useState(0);
     const [ isScrolled, setIsScrolled ] = useState(false);
     const handleScroll = () => {
@@ -45,7 +46,7 @@ const SideBar = () => {
             }`}
         >
           <div class="h-full px-3 py-4 overflow-y-auto ">
-            <CategoryFilter />
+            <CategoryFilter pq={pq} spq={spq} />
           </div>
         </aside>
       </>
@@ -57,38 +58,75 @@ export default SideBar
 
 
 
-const CategoryFilter = () => {
+const CategoryFilter = ({pq,spq}) => {
 
-    const { sortBy , 
-            setSortBy,
-            setSortByDefault,
-            time,
-            setTime,
-            setTimeDefault,
-            categories,
-            setCategories,
-            setCategoriesDefault,
-           } = useCategoryStore();
+
+   const router=useRouter();
+
+    const {categories,fetchCategoryData} = useUserStore()
+   const [sortBy,setSortBy]=useState('')
+    const [category,setCategory]=useState('')
+
+    const removeQueryParam = (param) => {
+      const query = new URLSearchParams(router.query)
+      query.delete(param)
+      router.push({
+        pathname: router.pathname,
+        search: query.toString(),
+      })
+    }
+
+    useEffect(()=>{
+      if (router.query['sortBy']){
+        setSortBy(router.query['sortBy'])
+      }
+    },[router.query['sortBy']])
+    useEffect(()=>{
+      if (router.query['category']){
+        setCategory(router.query['category'])
+      }
+    },[router.query['category']])
+    useEffect(()=>{
+      fetchCategoryData();
+      if (sortBy===''){
+        removeQueryParam('sortBy')
+      }else{
+        router.query.sortBy=sortBy
+        router.push({
+          pathname: router.pathname,
+          query:router.query
+        })
+      }
+      spq(window.location.href)
+     },[sortBy])
+    useEffect(()=>{
+
+      if (category===''){
+        removeQueryParam('category')
+      }else{
+        router.query.category=category
+        router.push({
+          pathname: router.pathname,
+          query:router.query
+        })
+      }
+     },[category])
+    
   
       const handleSortChange = (event) => {
         if (event.target.value === sortBy) {
-          setSortByDefault();
+          setSortBy('')
+
         } else {
           setSortBy(event.target.value);
         }
       };
-      const handleTimeChange = (event) => {
-        if (event.target.value === time) {
-          setTimeDefault();
-        } else {
-          setTime(event.target.value);
-        }
-      };
+      
       const handleCategoriesChange = (event) => {
-        if (event.target.value === categories ) {
-          setCategoriesDefault();
+        if (event.target.value === category ) {
+          setCategory('');
         } else {
-          setCategories(event.target.value);
+          setCategory(event.target.value);
         }
       };
 
@@ -105,21 +143,13 @@ const CategoryFilter = () => {
           </div>
         </div>
         <div className="border-b-2 border-dashed  p-4">
-            <p className="font-bold text-xl mb-2">Time</p>
-            <div className="gap-1 grid">
-              <CheckBox label={'This Month'}  value={'week'}  selected={time}  handle={handleTimeChange}/>
-              <CheckBox label={'This Week'}   value={'month'} selected={time}  handle={handleTimeChange}/>           
-            </div>
-        </div>
-        <div className="border-b-2 border-dashed  p-4">
             <p className="font-bold text-xl mb-2">Category</p>
             <div className="gap-1 grid">
-              <CheckBox label={'Clothes'} value={'clothes'}  selected={categories} handle={handleCategoriesChange} />
-              <CheckBox label={'Animal'}  value={'animal'}  selected={categories} handle={handleCategoriesChange} />
-              <CheckBox label={'3D'}      value={'3d'}  selected={categories} handle={handleCategoriesChange} />
-              
+              {categories.map((c)=>(
+                  <CheckBox key={c._id} label={c.name} value={c.slug}  selected={category} handle={handleCategoriesChange} />
+              ))}
             </div>
-        </div>
+        </div> 
       </>
     );
   };

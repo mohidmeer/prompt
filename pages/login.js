@@ -31,7 +31,7 @@ export default function Login() {
     callbackUrl:'/'
    })
    if (status.ok){router.push(status.url)}
-   if (status.error){serverErrorHandler(401,status.error)}
+   if (status.error){serverErrorHandler(401,status.error);console.log(status)}
   }
 
   const { data: session } = useSession()

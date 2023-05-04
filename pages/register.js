@@ -45,13 +45,13 @@ export default function Register() {
             <div className="my-4">
               <label className="input-wrapper">Password</label>
                   <input className={`input-box  ${formik.errors.password && formik.touched.password ? 'focus:ring-rose-600 focus:border-rose-600' : ''} `} 
-                  type='text' id='password' placeholder="jhon Dhoe" {...formik.getFieldProps('password')}    />
+                  type='password' id='password' placeholder="••••••••" {...formik.getFieldProps('password')}    />
                   {formik.errors.password && formik.touched.password ? <div className='mt-2 font-bold text-sm text-rose-500'>{formik.errors.password}</div> : <></>}
             </div>
             <div className="my-4">
               <label className="input-wrapper">Confirm Password</label>
                   <input className={`input-box  ${formik.errors.cpassword && formik.touched.cpassword ? 'focus:ring-rose-600 focus:border-rose-600' : ''} `} 
-                  type='text' id='cpassword' placeholder="jhon Dhoe" {...formik.getFieldProps('cpassword')}    />
+                  type='password' id='cpassword' placeholder="••••••••" {...formik.getFieldProps('cpassword')}    />
                   {formik.errors.cpassword && formik.touched.cpassword ? <div className='mt-2 font-bold text-sm text-rose-500'>{formik.errors.cpassword}</div> : <></>}
             </div>                  
               <button type="submit" className="btn w-full disabled:bg-gray-700" disabled={!(formik.isValid && formik.dirty)} >Register</button>

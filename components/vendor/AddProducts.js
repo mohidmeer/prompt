@@ -1,6 +1,6 @@
 import { addNewProduct } from "@/ApiRequests/user";
 import product_validate from "@/lib/client/productValidationHelper";
-import { useCategory } from "@/stores/categories";
+import { useCategory } from "@/stores/explore";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
@@ -75,7 +75,7 @@ const AddProducts = ({Open}) => {
             >
               <option>Select a Category</option>
               {categories.map((category) => (
-                <option key={category._id} value={category.name}>
+                <option key={category._id} value={category.slug}>
                   {category.name}
                 </option>
               ))}

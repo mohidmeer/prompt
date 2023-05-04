@@ -1,6 +1,6 @@
 import { addNewProduct } from "@/ApiRequests/user";
 import product_validate from "@/lib/client/productValidationHelper";
-import { useCategory } from "@/stores/categories";
+import { useCategory } from "@/stores/explore";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { CldImage, CldUploadWidget } from "next-cloudinary";

@@ -8,6 +8,9 @@ import ExploreLayout from "@/layout/ExploreLayout";
 import CheckBox from "@/components/CheckBox";
 import { BiMenuAltLeft } from "react-icons/bi";
 import SideBar from "@/components/ExplorePage/SideBar";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { useExplore } from "@/stores/explore";
 
 
 
@@ -15,23 +18,70 @@ import SideBar from "@/components/ExplorePage/SideBar";
 
 
 export default function Explore() {
-  const [ plan, setPlan ] = useState("all");
+  const router= useRouter();
+  const {products,fetchProductData}= useExplore()
+  const [promptQuery,setPromptQuery]=useState()
+  const [ model, setModel ] = useState('all');
+  
+  
+  const removeQueryParam = (param) => {
+    const query = new URLSearchParams(router.query)
+    query.delete(param)
+    router.push({
+      pathname: router.pathname,
+      search: query.toString(),
+    })
+  }
+
+  useEffect(()=>{
+    if (router.query['model']){
+      setModel(router.query['model'])
+      console.log(router.query['model'])
+    }
+  },[router.query.model])
+
+  useEffect(()=>{
+    
+    if (model==='all'){
+        removeQueryParam('model')
+    }else{
+        router.query.model=model
+        router.push({ pathname: router.pathname,query:router.query})
+        
+    }
+    setPromptQuery(window.location.href)
+    
+   
+   },[model])
+
+
+   useEffect(()=>{
+      // axios.get('/api/products'+'?'+window.location.href.split('?')[1])
+      fetchProductData()
+   },[router])
+  
   return (
     <ExploreLayout>
       <Navbar />
-      <div className=" border-gray-300 border-b flex md:justify-end items-center p-2 my-6 sticky top-0 bg-white z-10 ">
-        <ModelFilter plan={plan} set={setPlan} />
+      <div className="border-gray-300 border-b flex md:justify-end items-center p-2 my-6 sticky top-0 bg-white z-10 ">
+        <ModelFilter plan={model} set={setModel} />
       </div>
-      <SideBar />
+      <SideBar pq={promptQuery} spq={setPromptQuery} />
       <div className="p-4 sm:ml-60">
-        <Loader />
+      <div className="grid w-3/4 p-2  mx-auto sm:w-full sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5 gap-6 mt-10 ">
+
+        
+      </div>
+
+
+        {/* <Loader /> */}
       </div>
     </ExploreLayout>
   );
 }
 
 const Loader = () => {
-  const numberOfTimes = 39;
+  const numberOfTimes = 20;
   const renderComponets = () => {
     const components = [];
     for (let i = 0; i < numberOfTimes; i++) {
@@ -70,7 +120,7 @@ const ModelFilter = ({ plan, set }) => {
         {({ checked }) => (
           <span
             className={`${checked ? "bg-black text-white " : ""
-              } flex p-4  font-bold items-center gap-2   `}
+              } flex p-4  font-bold items-center gap-2 `}
           >
             <MdLayers className="text-2xl" /> All
           </span>
@@ -82,7 +132,7 @@ const ModelFilter = ({ plan, set }) => {
             className={`${checked ? "bg-black text-white " : ""
               } p-4 flex font-bold items-center gap-2  `}
           >
-            <RiSailboatFill className="text-2xl" /> Midjourney
+            <RiSailboatFill className="text-2xl"/> Midjourney
           </span>
         )}
       </RadioGroup.Option>

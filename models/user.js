@@ -12,7 +12,7 @@ import bcrypt from "bcrypt";
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   isAdmin:{
     type:Boolean,

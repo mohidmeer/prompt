@@ -3,13 +3,13 @@ import Button from "@/components/Buttons";
 import AdminLayout from "@/layout/AdminLayout";
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
-import { useCategory } from "@/stores/categories";
+import { useExplore } from "@/stores/explore";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 const dashboard = () => {
-    const {fetchCategoryData}=useCategory();
+    const {fetchCategoryData}=useExplore();
     const formik =useFormik({
         initialValues:{ name:''},
     onSubmit,
@@ -49,7 +49,7 @@ const dashboard = () => {
 }
 
 const Categories = () => {
-    const {categories,fetchCategoryData}=useCategory();
+    const {categories,fetchCategoryData}=useExplore();
     useEffect(() => {fetchCategoryData();},[])
     const deleteCategory=(id)=>{
         axios.put('/api/admin/category',{id:id})

@@ -1,13 +1,13 @@
 import { addNewProduct } from "@/ApiRequests/admin";
 import product_validate from "@/lib/client/productValidationHelper";
-import { useCategory } from "@/stores/categories";
+import { useCategory, useExplore } from "@/stores/explore";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { Fragment, useEffect, useState } from "react";
 
 const AddProducts = () => {
-    const { categories, fetchCategoryData } = useCategory();
+    const { categories , fetchCategoryData } = useExplore();
     const [uploadedImages, setuploadedImages] = useState([]);
     let [isOpen, setIsOpen] = useState(false)
     function closeModal() {
@@ -75,7 +75,7 @@ const AddProducts = () => {
             >
               <option>Select a Category</option>
               {categories.map((category) => (
-                <option key={category._id} value={category.name}>
+                <option key={category._id} value={category.slug}>
                   {category.name}
                 </option>
               ))}

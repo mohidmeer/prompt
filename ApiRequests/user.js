@@ -23,20 +23,6 @@ export async function deleteProduct(id) {
      })
      .catch((e)=>{serverErrorHandler(e.response.status,e.response.data.error);}) ;
   }
-export async function approveProduct(id) {
-     await AxiosClient.post(`/prompts/approve`,{id})
-     .then((res)=>{
-        serverSuccessHandler(202,res.data.message)
-     })
-     .catch((e)=>{serverErrorHandler(e.response.status,e.response.data.error);}) ;
-  }
-export async function rejectProduct(id) {
-     await AxiosClient.post(`/prompts/reject`,{id})
-     .then((res)=>{
-        serverSuccessHandler(202,res.data.message)
-     })
-     .catch((e)=>{serverErrorHandler(e.response.status,e.response.data.error);}) ;
-  }
 
 export async function getUserProducts(){
    return await AxiosClient.get(`/prompts`)

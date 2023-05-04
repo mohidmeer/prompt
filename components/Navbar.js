@@ -49,7 +49,6 @@ const UserProfile = ({name,email}) => {
 
   const [isOpen,setIsOpen]=useState(false)
  const  openMenu = () => {
-  console.log('here')
   setIsOpen(!isOpen)
   }
 

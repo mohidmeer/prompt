@@ -8,7 +8,7 @@ export const useUserStore=create((set)=>({
     products:[],
     categories:[],
     fetchCategoryData: async()=>{
-        axios.get('/api/admin/category')
+        axios.get('/api/categories')
         .then((res)=>{set({categories:res.data.categories})})
         .catch((error)=>{serverErrorHandler(205)})
     },
