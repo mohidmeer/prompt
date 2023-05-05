@@ -14,6 +14,11 @@ export async function getProducts(){
    .then((res)=>{ return res.data.products})
    .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
   }
+export async function getProduct(slug){
+   return await AxiosClient.get(`/products/${slug}`)
+   .then((res)=>{ return res.data.products})
+   .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
+  }
 
 
 

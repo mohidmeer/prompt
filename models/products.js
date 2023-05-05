@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models  } from 'mongoose';
   const productSchema = new Schema({
     
     name:{
@@ -46,6 +46,7 @@ import { Schema, model, models } from 'mongoose';
             message: 'At least one image is required'
           }  
     }],
+    featured: { type: Boolean, default: false },
     status:{
         type: String,
         enum: ['APPROVED', 'PENDING','REJECTED'],

@@ -1,13 +1,13 @@
 import { addNewProduct } from "@/ApiRequests/user";
 import product_validate from "@/lib/client/productValidationHelper";
-import { useCategory } from "@/stores/explore";
+import {  useExplore } from "@/stores/explore";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { Fragment, useEffect, useState } from "react";
 
 const UpdateProducts = ({isOpen,setIsOpen,product}) => {
-    const { categories, fetchCategoryData } = useCategory();
+    const { categories, fetchCategoryData } = useExplore();
     const [uploadedImages, setuploadedImages] = useState(product.images);
     function closeModal() {setIsOpen(false)}
     function openModal(){setIsOpen(true)}

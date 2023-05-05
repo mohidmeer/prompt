@@ -5,11 +5,12 @@ import { RadioGroup } from "@headlessui/react";
 import { MdLayers } from "react-icons/md";
 import { RiSailboatFill } from "react-icons/ri";
 import ExploreLayout from "@/layout/ExploreLayout";
-import CheckBox from "@/components/CheckBox";
-import { BiMenuAltLeft } from "react-icons/bi";
+import { BiMenuAltLeft, BiPaint } from "react-icons/bi";
+
 import SideBar from "@/components/ExplorePage/SideBar";
 import { useRouter } from "next/router";
-import axios from "axios";
+import { CldImage } from "next-cloudinary";
+import Link from 'next/link'
 import { useExplore } from "@/stores/explore";
 
 
@@ -19,6 +20,7 @@ import { useExplore } from "@/stores/explore";
 
 export default function Explore() {
   const router= useRouter();
+  const [loading,setLoading]=useState(true)
   const {products,fetchProductData}= useExplore()
   const [promptQuery,setPromptQuery]=useState()
   const [ model, setModel ] = useState('all');
@@ -57,7 +59,8 @@ export default function Explore() {
 
    useEffect(()=>{
       // axios.get('/api/products'+'?'+window.location.href.split('?')[1])
-      fetchProductData()
+      fetchProductData().then(()=>setLoading(false))
+      // setLoading(false)
    },[router])
   
   return (
@@ -68,13 +71,9 @@ export default function Explore() {
       </div>
       <SideBar pq={promptQuery} spq={setPromptQuery} />
       <div className="p-4 sm:ml-60">
-      <div className="grid w-3/4 p-2  mx-auto sm:w-full sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5 gap-6 mt-10 ">
 
-        
-      </div>
-
-
-        {/* <Loader /> */}
+        {loading ? <Loader/>  :    
+         <Products products={products} />   }
       </div>
     </ExploreLayout>
   );
@@ -192,10 +191,62 @@ const ModelFilter = ({ plan, set }) => {
           </span>
         )}
       </RadioGroup.Option>
+      <RadioGroup.Option value="stable-diffusion">
+        {({ checked }) => (
+          <span
+            className={`${checked ? "bg-black text-white " : ""
+              } p-4 flex font-bold items-center gap-2  `}
+          >
+        <BiPaint/>
+            StableDiff
+          </span>
+        )}
+      </RadioGroup.Option>
     </RadioGroup>
   );
 };
 
+
+const Products=({products})=>{
+  return(
+    <div className="grid w-3/4 p-2  mx-auto sm:w-full sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-6 mt-10 ">
+        {products.map((p)=>(
+          <Link href={'/prompt/'+p.name}>
+          <div className="  shadow-lg shadow-black/50
+          relative 
+          cursor-pointer
+          pop-up">
+        
+          <CldImage   
+              src={p.images[0]}
+              alt={p.name}
+              width={500}
+              height={250}
+              sizes="50w"
+              crop="fill"
+              draggable='false'
+              unselectable='off' 
+              />
+          <p  className="
+              bg-black/80 
+              absolute top-2 left-2 
+              text-xs 
+              rounded p-1 
+              text-white 
+              inline">{p.model}</p>
+              <div className=" flex justify-between bg-black/50 ">
+                  <p className=" px-2 text-white font-semibold line-clamp-1  ">{p.name}</p>
+                  <p className=" px-2 text-white font-semibold">{p.price +'$'}</p>
+              </div>
+        
+      </div>
+          
+          
+          </Link>
+        ))}
+      </div>
+  );
+}
 
 
 

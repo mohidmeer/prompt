@@ -18,6 +18,12 @@ import bcrypt from "bcrypt";
     type:Boolean,
     default:false,
   },
+  favourites:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:'product'
+    }
+  ]
   
   },{timestamps:true})
 
@@ -31,6 +37,8 @@ import bcrypt from "bcrypt";
         next(error)
       }
   })
+
+
 
   const User = models.user || model('user', userSchema);
 

@@ -44,9 +44,10 @@ export const authOptions = {
             }
             return true 
           },
-        session({ session, token, user }) {
+       async session({ session, token, user }) {
             connectMongo().catch(error=>{error:'Connection Failed'})
-            const u =User.findOne({email:session.user.email})
+            const u = await  User.findOne({email:session.user.email})
+            session.user.id=u._id
              u.isAdmin ? session.user.role='ADMIN':session.user.role='USER'
           return session 
         },

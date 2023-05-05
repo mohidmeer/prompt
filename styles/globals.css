@@ -8,6 +8,8 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+ 
+
 
 
 .link-active {
@@ -64,3 +66,7 @@ img {
     text-gray-900 dark:text-white
  }
 
+ .shad{
+
+    @apply shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]
+ }

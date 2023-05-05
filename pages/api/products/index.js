@@ -18,7 +18,7 @@ export default async function handler(req, res) {
        
 
         const products= await Product.find()
-        .select('-_id name' )
+        .select('-instructions' )
         .where('category').in(category)
         .skip(page*limit)
         .limit(limit)

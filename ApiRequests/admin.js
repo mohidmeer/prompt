@@ -9,10 +9,13 @@ const AxiosClient = axios.create({
     'Content-Type': 'application/json',
   }
 });
+
+
 export async function addNewProduct(values) {
      await AxiosClient.post(`/products`,values)
      .then((res)=>{
         serverSuccessHandler(201,res.data.message)
+       
      })
      .catch((e)=>{serverErrorHandler(e.response.status,e.response.data.error)}) ;
   }

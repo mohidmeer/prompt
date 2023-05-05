@@ -1,6 +1,7 @@
 import { addNewProduct } from "@/ApiRequests/admin";
 import product_validate from "@/lib/client/productValidationHelper";
-import { useCategory, useExplore } from "@/stores/explore";
+import { useProducts } from "@/stores/admin/products";
+import {  useExplore } from "@/stores/explore";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
@@ -8,6 +9,7 @@ import { Fragment, useEffect, useState } from "react";
 
 const AddProducts = () => {
     const { categories , fetchCategoryData } = useExplore();
+    const {fetchProductData}=useProducts();
     const [uploadedImages, setuploadedImages] = useState([]);
     let [isOpen, setIsOpen] = useState(false)
     function closeModal() {
@@ -27,6 +29,7 @@ const AddProducts = () => {
     });
     async function onSubmit(values) {
         addNewProduct(values)
+        fetchProductData()
       closeModal();
     }
   
@@ -218,7 +221,7 @@ const AddProducts = () => {
         </div>
         
         <div className="flex justify-end">
-            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disabled={!(formik.isValid && formik.dirty)} >
+            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disabled={!(formik.isValid )} >
             Add
             </button>
         </div>

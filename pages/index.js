@@ -14,7 +14,7 @@ export default function Home() {
       <PromptContainer label={'Hotest Prompts'}     />
       <PromptContainer label={'Latest Prompts'}     />
 
-      <div className="my-10 flex flex-col  items-center fill-blue-500">
+      <div className="my-10 flex flex-col items-center fill-blue-500">
           <Button label={'Explore More'} width="w-1/6" onClick={() => router.push('/explore')} />
           <h2 className="text-5xl font-bold my-8 ">What is PromptWorks?</h2>
           <p className="max-w-5xl text-xl text-center">

@@ -9,7 +9,7 @@ import { MdApproval, MdDelete, MdEdit } from "react-icons/md";
 
 const Product = () => {
     const {products,fetchProductData}=useProducts();
-    useEffect(() => {fetchProductData();},[])
+    useEffect(() => {fetchProductData();},[products])
 
   const handleApprove =(id)=>{
     approveProduct(id).then(()=>{fetchProductData()})
