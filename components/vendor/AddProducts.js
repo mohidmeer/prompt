@@ -123,7 +123,7 @@ const AddProducts = ({Open}) => {
               } `}
               type="number"
               id="price"
-              placeholder="3$"
+              placeholder="3"
               {...formik.getFieldProps("price")}
             />
             {formik.errors.price && formik.touched.price ? (
@@ -218,8 +218,8 @@ const AddProducts = ({Open}) => {
         </div>
         
         <div className="flex justify-end">
-            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disabled={!(formik.dirty)} >
-            Add
+            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disabled={formik.isValid ? 'true':'false'} >
+            Add{formik.isValid ? 't':'f'}
             </button>
         </div>
       </form>

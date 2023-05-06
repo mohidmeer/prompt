@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         .where('category').in(category)
         .skip(page*limit)
         .limit(limit)
-        return res.status(200).json({products,p:products.length,category})
+         return res.status(200).json({products,p:products.length})
         // return res.status(200).json({category,catnames,limit,page})
     }
 

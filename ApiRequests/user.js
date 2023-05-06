@@ -29,6 +29,11 @@ export async function getUserProducts(){
    .then((res)=>{ return res.data.products})
    .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
   }
+export async function AddToFavourites(id){
+    await AxiosClient.post(`/prompts/favourite/${id}`)
+   .then((res)=>{ serverSuccessHandler(200,res.data.message)})
+   .catch((e)=>{ console.log(e);  })
+  }
 
 
 

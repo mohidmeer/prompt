@@ -5,7 +5,7 @@ import { RadioGroup } from "@headlessui/react";
 import { MdLayers } from "react-icons/md";
 import { RiSailboatFill } from "react-icons/ri";
 import ExploreLayout from "@/layout/ExploreLayout";
-import { BiMenuAltLeft, BiPaint } from "react-icons/bi";
+import { BiPaint } from "react-icons/bi";
 
 import SideBar from "@/components/ExplorePage/SideBar";
 import { useRouter } from "next/router";

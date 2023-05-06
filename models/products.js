@@ -37,6 +37,10 @@ import { Schema, model, models  } from 'mongoose';
         required:true,
         default:'Chat-GPT'
     },
+    favourites:{
+        type:Number,
+        default:0
+    },
     images:[{
         type:String,
         validate: {
