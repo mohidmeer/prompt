@@ -1,6 +1,5 @@
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
-import { useProducts } from "@/stores/admin/products";
 import axios from "axios";
 const AxiosClient = axios.create({
   baseURL: 'http://localhost:3000/api/user',
@@ -9,6 +8,8 @@ const AxiosClient = axios.create({
     'Content-Type': 'application/json',
   }
 });
+
+
 export async function addNewProduct(values) {
      await AxiosClient.post(`/prompts`,values)
      .then((res)=>{
@@ -29,10 +30,15 @@ export async function getUserProducts(){
    .then((res)=>{ return res.data.products})
    .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
   }
+export async function getUserFavourites(){
+   return await AxiosClient.get(`/prompts/favourite`)
+   .then((res)=>{ return res.data.favourites})
+   .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
+  }
 export async function AddToFavourites(id){
     await AxiosClient.post(`/prompts/favourite/${id}`)
    .then((res)=>{ serverSuccessHandler(200,res.data.message)})
-   .catch((e)=>{ console.log(e);  })
+   .catch((e)=>{ serverErrorHandler(404) })
   }
 
 

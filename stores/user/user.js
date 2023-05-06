@@ -1,4 +1,4 @@
-import { getUserProducts } from '@/ApiRequests/user';
+import { getUserFavourites, getUserProducts } from '@/ApiRequests/user';
 import serverErrorHandler from '@/lib/server/serverErrorHandler';
 import axios from 'axios';
 import {create} from 'zustand';
@@ -7,6 +7,7 @@ import {create} from 'zustand';
 export const useUserStore=create((set)=>({
     products:[],
     categories:[],
+    favourites:[],
     fetchCategoryData: async()=>{
         axios.get('/api/categories')
         .then((res)=>{set({categories:res.data.categories})})
@@ -15,5 +16,9 @@ export const useUserStore=create((set)=>({
     fetchProductData: async ()=>{
         let p = await getUserProducts()
         set({products:p})
+    },
+    fetchFavourites: async ()=>{
+        let p = await getUserFavourites()
+        set({favourites:p})
     },
 }));

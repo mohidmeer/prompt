@@ -9,7 +9,9 @@ export default async function handler(req, res) {
     const session = await getServerAuthSession(req, res)
     if (!session) 
     {
+        console.log('Un Authorized')
         return res.status(401).json({ error: 'You are not authorized' })
+        
     }
 
     const user= await User.findById(session.user.id)

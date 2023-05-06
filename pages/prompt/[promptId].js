@@ -9,19 +9,34 @@ import { AiFillEye, AiFillHeart } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { AddToFavourites } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
-export default  function Prompt({prompt}){
+import { getSession } from "next-auth/react"
+import { useEffect, useState } from 'react';
 
+
+export default function Prompt(){
 
   const router = useRouter();
+  const [prompt,setprompt]=useState()
+  const [loading,setLoading]=useState(true)
 
-  const  AddToFav = async (id,name)=>{
+  useEffect(()=>{
+     if(router.query.promptId===undefined){
+      return;
+     }
+      getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false); console.log(d) });
+      
+     
+  },[router.query,prompt])
+
+  const  AddToFav = async (id)=>{
       AddToFavourites(id)
-      console.log(prompt)
-      router.replace(router.asPath);
+      getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false); console.log(d) });
   }
-  
+
   return (
     <AppLayout>
+      {loading ? <Loader/> :
+      <>
       <Head>
         <title>{prompt.name }</title>
         <meta name="description" content={prompt.description} />
@@ -46,7 +61,8 @@ export default  function Prompt({prompt}){
               <p className='flex items-center gap-1'>320<AiFillEye/></p>
               <p onClick={()=>AddToFav(prompt._id)} 
               className={ `${prompt.isFav ? 'text-black ':'' } flex items-center gap-1 `}>
-                <AiFillHeart  />{prompt.favourites}</p>
+                <AiFillHeart  />{prompt.favourites}</p>{JSON.stringify(prompt.isFav
+                  )}
             </div>
             <div className='flex gap-8 text-sm font-bold text-gray-500  '>
                <p className='flex items-center gap-1 cursor-pointer'>@profilename <MdVerifiedUser/></p>
@@ -65,18 +81,45 @@ export default  function Prompt({prompt}){
             </button>
 
         </div>
+      
+      </>
+      
+      
+      }
     </AppLayout>
   )
 }
 
-export async function getServerSideProps(context) {
-  const { query } = context;
-  let prompt = await getProduct(query.promptId);
-  console.log(prompt)
-  return {
-    props: {
-      prompt
-    }
-  };
-}
 
+
+ function Loader() {
+  return (
+    <AppLayout>
+      <Navbar/>
+      <div className='mt-4 w-1/2 animate-pulse'>
+        <div className='shadow-xl  shad bg-gray-200 w-full h-[350px] card-shadow   relative'>
+          <p className='absolute top-4 left-2 px-8 p-2 bg-black/30 text-white font-bold text-sm'></p>
+        </div>
+        <div className='my-4 flex gap-8 text-lg font-bold text-gray-500 '>
+              <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
+              <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
+              <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
+             
+            </div>
+
+            <div className='mt-5 flex flex-col gap-2 '>
+              <div className='bg-gray-200   h-6'></div>
+              <div className='bg-gray-200   h-6'></div>
+              <div className='bg-gray-200   h-6'></div>
+              <div className='bg-gray-200   h-6'></div>
+            </div> 
+            <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span></h3>
+            <button className='btn !text-transparent !bg-gray-300'>
+              Get This Prompt
+            </button>
+
+      </div>
+
+    </AppLayout>
+  )
+}
