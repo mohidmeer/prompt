@@ -8,6 +8,7 @@ import { deleteProduct } from '@/ApiRequests/user';
 import AddProducts from '@/components/vendor/AddProducts';
 import UpdateProducts from '@/components/vendor/UpdateProducts';
 import { useRouter } from 'next/router';
+import { getServerAuthSession } from '../api/auth/[...nextauth]';
 
 
 export default function Products() {
@@ -100,4 +101,25 @@ export default function Products() {
         </Container>
     </VendorLayout>
   )
+}
+
+
+
+export async function getServerSideProps(context) {
+  const session = await getServerAuthSession(context.req, context.res)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      
+    },
+  };
 }

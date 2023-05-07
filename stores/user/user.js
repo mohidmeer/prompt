@@ -8,6 +8,7 @@ export const useUserStore=create((set)=>({
     products:[],
     categories:[],
     favourites:[],
+    purchases:[],
     fetchCategoryData: async()=>{
         axios.get('/api/categories')
         .then((res)=>{set({categories:res.data.categories})})
@@ -20,5 +21,9 @@ export const useUserStore=create((set)=>({
     fetchFavourites: async ()=>{
         let p = await getUserFavourites()
         set({favourites:p})
+    },
+    fetchPurchases: async ()=>{
+        let p = await getUserFavourites()
+        set({purchases:p})
     },
 }));

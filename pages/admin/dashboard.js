@@ -3,11 +3,13 @@ import AdminLayout from "@/layout/AdminLayout";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiDollar } from "react-icons/bi";
 import { SlBag } from "react-icons/sl";
+import { getServerAuthSession } from "../api/auth/[...nextauth]";
 const dashboard = () => {
+
   return (
     <AdminLayout>
         <div className=" grid grid-cols-4 gap-4 ">
-
+         
         <div className=" p-6 bg-white border border-gray-200 rounded-lg shadow ">
             <SlBag className="w-10 h-10 mb-4"/>
             <div className="flex justify-between">
@@ -54,3 +56,30 @@ const dashboard = () => {
 }
 
 export default dashboard
+
+
+
+
+export async function getServerSideProps(context) {
+    let session = await getServerAuthSession(context.req, context.res)
+  
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      }
+    }
+    if (session.user.role==='ADMIN'){
+        session =JSON.stringify(session)
+ 
+        return {
+            props: {
+              
+            },
+          }
+    }
+  
+   
+  }

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import AuthLayout from "@/layout/AuthLayout";
-import InputBox from "@/components/InputBox";
 import Link from "next/link";
 import Button from "@/components/Buttons";
 import { FcGoogle} from "react-icons/fc"

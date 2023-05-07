@@ -3,7 +3,7 @@ import Tippy from "@tippyjs/react"
 const CheckBox = ({label,selected,handle,value}) => {
 
   return (
-    <div class="flex items-center mr-4">
+    <div className="flex items-center mr-4">
           <input type="checkbox" 
           value={value}
           checked={selected===value}

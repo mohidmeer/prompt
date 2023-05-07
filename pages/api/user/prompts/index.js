@@ -1,7 +1,7 @@
 import connectMongo from "@/database/conn";
 import Product from "@/models/products";
 import { getServerAuthSession } from "../../auth/[...nextauth]";
-import Products from "@/pages/profile/prompts";
+import Products from "@/pages/account/prompts";
 
 
 

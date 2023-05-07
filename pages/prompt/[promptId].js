@@ -9,10 +9,7 @@ import { AiFillEye, AiFillHeart } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { AddToFavourites } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
-import { getSession } from "next-auth/react"
 import { useEffect, useState } from 'react';
-
-
 export default function Prompt(){
 
   const router = useRouter();
@@ -23,8 +20,9 @@ export default function Prompt(){
      if(router.query.promptId===undefined){
       return;
      }
-      getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false); console.log(d) });
-      
+      getProduct(router.query.promptId)
+      .then((d)=>{
+        setprompt(d); setLoading(false);})
      
   },[router.query,prompt])
 
@@ -35,6 +33,9 @@ export default function Prompt(){
 
   return (
     <AppLayout>
+      <Head>
+        
+      </Head>
       {loading ? <Loader/> :
       <>
       <Head>
@@ -42,7 +43,7 @@ export default function Prompt(){
         <meta name="description" content={prompt.description} />
       </Head>
         <Navbar/>
-        <div className='mt-4 w-1/2'>
+        <div className='mt-4 p-4 lg:p-0 lg:w-1/2'>
           
             <div className='relative  shadow-xl shadow-gray-500/50 w-fit shad'>
               <CldImage src={prompt.images[0]}
@@ -50,6 +51,7 @@ export default function Prompt(){
               height={300}
               sizes="50w"
               crop="fill"
+              alt={prompt.name}
               draggable='false'
               unselectable='off' 
               />
@@ -61,8 +63,7 @@ export default function Prompt(){
               <p className='flex items-center gap-1'>320<AiFillEye/></p>
               <p onClick={()=>AddToFav(prompt._id)} 
               className={ `${prompt.isFav ? 'text-black ':'' } flex items-center gap-1 `}>
-                <AiFillHeart  />{prompt.favourites}</p>{JSON.stringify(prompt.isFav
-                  )}
+                <AiFillHeart  />{prompt.favourites}</p>
             </div>
             <div className='flex gap-8 text-sm font-bold text-gray-500  '>
                <p className='flex items-center gap-1 cursor-pointer'>@profilename <MdVerifiedUser/></p>
@@ -70,7 +71,7 @@ export default function Prompt(){
             <hr className='mr-10  bg-black'/>
 
             <div className='mt-10 pr-10'>
-            <p classname='text-xl font-bold truncate'>
+            <p className=' font-bold '>
               {prompt.description}
             </p>
             </div>
@@ -122,4 +123,25 @@ export default function Prompt(){
 
     </AppLayout>
   )
+}
+
+
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const Header = await getProduct(params.promptId);
+
+  // If the data is not found, return a 404 page
+  if (!Header) {
+    return {
+      notFound: true,
+    };
+  }
+
+  // Otherwise, return the data as props
+  return {
+    props: {
+      Header,
+    },
+  };
 }

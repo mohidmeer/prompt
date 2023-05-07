@@ -4,7 +4,7 @@ import 'swiper/css';
 import { useEffect, useState } from "react";
 
 
-const PromptContainer = ({label}) => {
+const PromptContainer = ({label,prompts}) => {
 
 
 
@@ -12,46 +12,19 @@ const PromptContainer = ({label}) => {
   return (
     <div className="p-4 my-10">
         <h3 className="text-3xl font-bold">{label}</h3>
-        <Swiper
+        <Swiper 
             spaceBetween={20}
             slidesPerView={5}
             navigation={true}
-            onSlideChange={() => console.log('slide change')} >
+            onSlideChange={() =>{}} >
                
-        <SwiperSlide>
-            <Card src={"/images/prompt5.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt4.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt3.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt2.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt3.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt4.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt5.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt5.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt3.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
-        <SwiperSlide>
-            <Card src={"/images/prompt5.webp"} alt="Cartoon Images" model={"Midjourney"} label={"Cartoon Prompt"}/>    
-        </SwiperSlide>
+        {prompts.map((p)=>(
 
+        <SwiperSlide key={p._id}>
+            <Card src={p.images[0]} alt={p.name} model={p.model} label={p.name}/>    
+        </SwiperSlide>
+        ))}
+       
     </Swiper>
     </div>
   )

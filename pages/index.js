@@ -3,16 +3,22 @@ import Navbar from "@/components/Navbar";
 import PromptContainer from "@/components/user/PromptContainer";
 import Hero from "@/components/user/hero";
 import AppLayout from "@/layout/AppLayout";
+import { useExplore } from "@/stores/explore";
 import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 export default function Home() {
-  const router = useRouter();
+
+  const {featured,fetchFeatured}=useExplore();
+
+  useEffect(()=>{fetchFeatured();},[])
+
   return (
     <AppLayout>
       <Navbar/>
       <Hero/>
-      <PromptContainer label={'Featured Prompts'}   />
-      <PromptContainer label={'Hotest Prompts'}     />
-      <PromptContainer label={'Latest Prompts'}     />
+      <PromptContainer label={'Featured Prompts'} prompts={featured}   />
+      {/* <PromptContainer label={'Hotest Prompts'}     /> */}
+      {/* <PromptContainer label={'Latest Prompts'}     /> */}
 
       <div className="my-10 flex flex-col items-center fill-blue-500">
           <Button label={'Explore More'} width="w-1/6" onClick={() => router.push('/explore')} />
@@ -28,8 +34,8 @@ export default function Home() {
 
       </div>
 
-      <PromptContainer label={'Newest GPT prompts'}           />
-      <PromptContainer label={'Stable Diffusion prompts'}     />
+      {/* <PromptContainer label={'Newest GPT prompts'}           /> */}
+      {/* <PromptContainer label={'Stable Diffusion prompts'}     /> */}
       
     </AppLayout>
   )

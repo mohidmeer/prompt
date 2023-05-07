@@ -97,3 +97,34 @@ const Categories = () => {
 
 
 export default dashboard
+
+
+
+export async function getServerSideProps(context) {
+    const session = await getServerAuthSession(context.req, context.res)
+  
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      }
+    }
+    if (!session.user.role==='ADMIN'){
+
+        return {
+            redirect: {
+              destination: '/',
+              permanent: false,
+            },
+          }
+
+    }
+  
+    return {
+      props: {
+        
+      },
+    };
+  }

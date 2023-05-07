@@ -13,11 +13,6 @@ import { CldImage } from "next-cloudinary";
 import Link from 'next/link'
 import { useExplore } from "@/stores/explore";
 
-
-
-
-
-
 export default function Explore() {
   const router= useRouter();
   const [loading,setLoading]=useState(true)
@@ -211,8 +206,8 @@ const Products=({products})=>{
   return(
     <div className="grid w-3/4 p-2  mx-auto sm:w-full sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-6 mt-10 ">
         {products.map((p)=>(
-          <Link href={'/prompt/'+p.name}>
-          <div className="  shadow-lg shadow-black/50
+          <Link key={p._id} href={'/prompt/'+p.name}>
+          <div className="shadow-lg shadow-black/50
           relative 
           cursor-pointer
           pop-up">
