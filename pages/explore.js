@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { CldImage } from "next-cloudinary";
 import Link from 'next/link'
 import { useExplore } from "@/stores/explore";
+import Head from "next/head";
 
 export default function Explore() {
   const router= useRouter();
@@ -60,6 +61,10 @@ export default function Explore() {
   
   return (
     <ExploreLayout>
+      <Head>
+      <title>Explore</title>
+        <meta name="description" content='Browse All The Prompts' />
+      </Head>
       <Navbar />
       <div className="border-gray-300 border-b flex md:justify-end items-center p-2 my-6 sticky top-0 bg-white z-10 ">
         <ModelFilter plan={model} set={setModel} />

@@ -4,6 +4,7 @@ import PromptContainer from "@/components/user/PromptContainer";
 import Hero from "@/components/user/hero";
 import AppLayout from "@/layout/AppLayout";
 import { useExplore } from "@/stores/explore";
+import Head from "next/head";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 export default function Home() {
@@ -14,10 +15,14 @@ export default function Home() {
 
   return (
     <AppLayout>
+      <Head>
+        <title>PromptWorks | Marketpalace</title>
+        <meta name="description" content='' />
+      </Head>
       <Navbar/>
       <Hero/>
       <PromptContainer label={'Featured Prompts'} prompts={featured}   />
-      {/* <PromptContainer label={'Hotest Prompts'}     /> */}
+      <PromptContainer label={'Hotest Prompts'}  prompts={featured}    />
       {/* <PromptContainer label={'Latest Prompts'}     /> */}
 
       <div className="my-10 flex flex-col items-center fill-blue-500">
@@ -34,8 +39,8 @@ export default function Home() {
 
       </div>
 
-      {/* <PromptContainer label={'Newest GPT prompts'}           /> */}
-      {/* <PromptContainer label={'Stable Diffusion prompts'}     /> */}
+      <PromptContainer label={'Newest GPT prompts'}  prompts={featured}          />
+      <PromptContainer label={'Stable Diffusion prompts'} prompts={featured}     />
       
     </AppLayout>
   )

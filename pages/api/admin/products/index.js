@@ -26,6 +26,7 @@ export default async function handler(req, res) {
           category:category,
           description:description,
           instructions:instruction,
+          slug:name.toLowerCase().replace(/ +/g, "-"),
           images:images,
           model:model,
           price:price,

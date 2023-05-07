@@ -7,16 +7,18 @@ export default async function handler(req, res) {
     const session = await getServerAuthSession(req, res)
     
     connectMongo();
-    if (!session) 
+    if (req.method==='GET'){
+
+        if (!session) 
     {
-        if(req.method === "GET"){
+       
             console.log('session doesnt Exists')
             const products= await Product.findOne({name:req.query.id}).select('-instructions')
             return res.status(200).json({products})
-        }
+        
     } else{
 
-        if(req.method === "GET"){
+       
 
             let products= await Product.findOne({name:req.query.id}).select('-instructions')
             let isFav=false
@@ -25,8 +27,9 @@ export default async function handler(req, res) {
                  isFav=true
              }
             return res.status(200).json({products:{...products._doc,isFav}})
-        }
+        
 
+    }
     }
 
 

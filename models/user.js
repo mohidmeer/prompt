@@ -1,5 +1,8 @@
 import { Schema, model, models } from 'mongoose';
 import bcrypt from "bcrypt";
+import Profile from './profile';
+
+
   const userSchema = new Schema({
   name: {
     type: String,
@@ -23,6 +26,12 @@ import bcrypt from "bcrypt";
       type:Schema.Types.ObjectId,
       ref:'product'
     }
+  ],
+  following:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:'user'
+    }
   ]
   
   },{timestamps:true})
@@ -36,7 +45,16 @@ import bcrypt from "bcrypt";
       } catch (error) {
         next(error)
       }
-  })
+  });
+
+  userSchema.post('save',async function(doc,next){
+    const name=doc.name
+    const id=doc._id
+    await Profile.create({
+           userId:id,
+           name:name.toLowerCase().replace(/ +/g, ""),
+        }).then(()=>next()).catch((error)=>next(error))
+  });
 
 
 

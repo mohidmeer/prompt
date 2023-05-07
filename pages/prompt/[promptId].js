@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { AddToFavourites } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-export default function Prompt(){
+export default function Prompt({Header}){
 
   const router = useRouter();
   const [prompt,setprompt]=useState()
@@ -28,20 +28,18 @@ export default function Prompt(){
 
   const  AddToFav = async (id)=>{
       AddToFavourites(id)
-      getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false); console.log(d) });
+      getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false);});
   }
 
   return (
     <AppLayout>
       <Head>
-        
+      <title>{Header.name}</title>
+        <meta name="description" content={Header.description} />
       </Head>
       {loading ? <Loader/> :
       <>
-      <Head>
-        <title>{prompt.name }</title>
-        <meta name="description" content={prompt.description} />
-      </Head>
+      
         <Navbar/>
         <div className='mt-4 p-4 lg:p-0 lg:w-1/2'>
           

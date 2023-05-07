@@ -28,7 +28,7 @@ const Navbar = () => {
         <NavLink label='Home' href='/'/>
         <NavLink label='Explore' href='/explore'/>
         {session ?
-          <NavLink label='Sell' href='/profile/prompts?create=true'/>:
+          <NavLink label='Sell' href='/account/prompts?create=true'/>:
           <NavLink label='Login' href='/login'/>
           }
         

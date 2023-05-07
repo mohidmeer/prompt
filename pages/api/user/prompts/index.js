@@ -23,6 +23,7 @@ export default async function handler(req, res) {
           description:description,
           instructions:instruction,
           images:images,
+          slug:name.toLowerCase().replace(/ +/g, "-"),
           model:model,
           price:price,
           vendorId:session.user.id,

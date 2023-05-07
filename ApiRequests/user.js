@@ -40,6 +40,11 @@ export async function AddToFavourites(id){
    .then((res)=>{ serverSuccessHandler(200,res.data.message)})
    .catch((e)=>{ serverErrorHandler(404) })
   }
+export async function getUserProfile(){
+    await AxiosClient.get(`/profile`)
+   .then((res)=>{ console.log(res);  return res.data.profile })
+   .catch((e)=>{ serverErrorHandler(404)})
+  }
 
 
 
