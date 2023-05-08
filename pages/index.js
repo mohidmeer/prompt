@@ -11,7 +11,7 @@ export default function Home() {
 
   const {featured,fetchFeatured}=useExplore();
 
-  useEffect(()=>{fetchFeatured();},[])
+  useEffect(()=>{fetchFeatured();})
 
   return (
     <AppLayout>
@@ -31,8 +31,8 @@ export default function Home() {
           <p className="max-w-5xl text-xl text-center">
               Prompts are becoming a powerful new way of programming AI models like DALL·E, Midjourney & GPT.
               <br/>
-              However, it's hard to find good quality prompts online.<br/>
-              If you're good at prompt engineering, there's also no clear way to make a living from your skills.
+              However, its hard to find good quality prompts online.<br/>
+              If you good at prompt engineering, theres also no clear way to make a living from your skills.
               PromptBase is a marketplace for buying and selling quality prompts that produce the best results, 
               and save you money on API costs.
           </p>

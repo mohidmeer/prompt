@@ -17,7 +17,7 @@ import { getServerAuthSession } from '../api/auth/[...nextauth]';
 export default function Dashboard() {
 
       const { favourites,fetchFavourites,purchases,fetchPurchases}  = useUserStore();
-      useEffect(()=>{fetchFavourites();fetchPurchases()},[])
+      useEffect(()=>{fetchFavourites();fetchPurchases()})
   return (
     <VendorLayout>
       <Navbar/>

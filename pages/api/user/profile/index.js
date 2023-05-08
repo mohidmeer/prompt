@@ -11,9 +11,10 @@ export default async function handler(req, res) {
     {
         return res.status(401).json({ error: 'You are not authorized' })
     }
-    if (req.method==='GET'){  
+    if (req.method==='GET'){
+          console.log('USER PROFILE END POINT HIT')
       const profile= await Profile.findOne({userId:session.user.id}).select('-follwerslist');
       return res.status(200).json({profile})
     }
-    
+
 }

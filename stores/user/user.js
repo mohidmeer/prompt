@@ -1,4 +1,4 @@
-import { getUserFavourites, getUserProducts } from '@/ApiRequests/user';
+import { getUserFavourites, getUserProducts, getUserProfile } from '@/ApiRequests/user';
 import serverErrorHandler from '@/lib/server/serverErrorHandler';
 import axios from 'axios';
 import {create} from 'zustand';
@@ -9,6 +9,7 @@ export const useUserStore=create((set)=>({
     categories:[],
     favourites:[],
     purchases:[],
+    profile:[],
     fetchCategoryData: async()=>{
         axios.get('/api/categories')
         .then((res)=>{set({categories:res.data.categories})})
@@ -26,4 +27,10 @@ export const useUserStore=create((set)=>({
         let p = await getUserFavourites()
         set({purchases:p})
     },
+    fetchProfile: async ()=>{
+        let profile = await getUserProfile()
+        console.log('PROFILE FRONTEND HIT')
+        console.log(profile,'STORE')
+        set({profile:profile})
+    }
 }));

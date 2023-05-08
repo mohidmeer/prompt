@@ -8,7 +8,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
-const dashboard = () => {
+export default function  Cata(){
     const {fetchCategoryData}=useExplore();
     const formik =useFormik({
         initialValues:{ name:''},
@@ -96,7 +96,6 @@ const Categories = () => {
 }
 
 
-export default dashboard
 
 
 

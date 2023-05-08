@@ -20,7 +20,7 @@ export default function Products() {
       const [editProduct,setEditProduct]=useState();
       let [isOpen, setIsOpen] = useState(false)
       
-      useEffect(()=>{fetchProductData();},[])
+      useEffect(()=>{fetchProductData();})
 
       const handleDelete =(id)=>{
         deleteProduct(id).then(()=>{fetchProductData()})

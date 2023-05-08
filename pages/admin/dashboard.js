@@ -4,7 +4,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiDollar } from "react-icons/bi";
 import { SlBag } from "react-icons/sl";
 import { getServerAuthSession } from "../api/auth/[...nextauth]";
-const dashboard = () => {
+const Dashboard = () => {
 
   return (
     <AdminLayout>
@@ -55,7 +55,7 @@ const dashboard = () => {
   )
 }
 
-export default dashboard
+export default Dashboard
 
 
 

@@ -3,10 +3,11 @@ import VendorLayout from "@/layout/VendorLayout";
 import { useSession } from "next-auth/react";
 import { getServerAuthSession } from "../api/auth/[...nextauth]";
 import { AiFillEye, AiFillHeart } from "react-icons/ai";
-import { MdHdrPlus, MdPlusOne } from "react-icons/md";
+import EditProfile from "@/components/Profile/EditProfile";
+import { useState } from "react";
 
 export default  function index({session}) {
-  
+  let [isOpen, setIsOpen] = useState(false)
   return (
     <VendorLayout>
       <Navbar/>
@@ -15,7 +16,8 @@ export default  function index({session}) {
             <div style={{backgroundImage:`url(${session.user.image})`}} className="bg-no-repeat bg-cover w-40 h-40 bg-gray-500 border-white border-4 rounded-full mt-40 ml-10  " ></div>
         </div>
         <div className="flex justify-end p-2 mt-4 gap-4">
-          <button className="btn">Edit Profile</button>
+          {/* <button className="btn">Edit Profile</button> */}
+          <EditProfile isOpen={isOpen} setIsOpen={setIsOpen}/>
           {/* <button className="btn">Follow <MdPlusOne/></button> */}
           
         </div>
@@ -27,12 +29,12 @@ export default  function index({session}) {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold">Popular Prompts By @{session.user.name}</h2>
+            <h2 className="text-2xl font-semibold">Popular Prompts</h2>
             <hr/>
               <Loader/>
           </div>
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold">Latest Prompts By @{session.user.name}</h2>
+            <h2 className="text-2xl font-semibold">Latest Prompts </h2>
             <hr/>
               <Loader/>
           </div>
