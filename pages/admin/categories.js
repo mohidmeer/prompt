@@ -2,12 +2,12 @@ import SideBar from "@/components/Admin/sidebar";
 import Button from "@/components/Buttons";
 import AdminLayout from "@/layout/AdminLayout";
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
-import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
 import { useExplore } from "@/stores/explore";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { getServerAuthSession } from "../api/auth/[...nextauth]";
 export default function  Cata(){
     const {fetchCategoryData}=useExplore();
     const formik =useFormik({
@@ -110,20 +110,20 @@ export async function getServerSideProps(context) {
         },
       }
     }
-    if (!session.user.role==='ADMIN'){
+    if (session.user.role==='ADMIN'){
 
-        return {
-            redirect: {
-              destination: '/',
-              permanent: false,
-            },
-          }
+      return {
+        props: {
+          
+        },
+      }
 
     }
   
     return {
-      props: {
-        
+      redirect: {
+        destination: '/login',
+        permanent: false,
       },
-    };
+    }
   }

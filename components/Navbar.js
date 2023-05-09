@@ -28,9 +28,13 @@ const Navbar = () => {
         <NavLink label='Home' href='/'/>
         <NavLink label='Explore' href='/explore'/>
         {session ?
-          <NavLink label='Sell' href='/account/prompts?create=true'/>:
+        <>
+          <NavLink label='Sell' href='/account/prompts?create=true'/>
+          {session.user.role==='ADMIN' ? <NavLink label='Admin' href='/admin'/>:<></>}</>
+          :
           <NavLink label='Login' href='/login'/>
           }
+          
         
       </ul>
      

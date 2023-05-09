@@ -24,6 +24,12 @@ export async function getFeaturedProduct(){
    .then((res)=>{ return res.data.products})
    .catch((e)=>{serverErrorHandler('Genaral Server Error')})
   }
+export async function getUserProfile(){
+   return await AxiosClient.get(`/user/profile`)
+   .then((res)=>{ return res.data.profile})
+   .catch((e)=>{serverErrorHandler('Genaral Server Error')})
+  }
+
 
 
 

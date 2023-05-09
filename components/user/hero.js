@@ -27,25 +27,25 @@ const Hero = () => {
 
           <div className={`grid grid-cols-2 gap-8`}>
             <Card
-              src={"/images/prompt.webp"}
+              src={"Prompts/vsrakh5f2a4cydnbswmi"}
               alt="Cartoon Images"
               model={"Midjourney"}
               label={"Cartoon Prompt"}
             />
             <Card
-              src={"/images/prompt2.webp"}
+              src={"Prompts/vsrakh5f2a4cydnbswmi"}
               alt="Rpg Games Set"
               model={"Midjourney"}
               label={"RPG Game Assets"}
             />
             <Card
-              src={"/images/prompt3.webp"}
+              src={"Prompts/vsrakh5f2a4cydnbswmi"}
               alt="Cartoon Images"
               model={"Midjourney"}
               label={"Cartoon Prompt"}
             />
             <Card
-              src={"/images/prompt5.webp"}
+              src={"Prompts/vsrakh5f2a4cydnbswmi"}
               alt="Cartoon Images"
               model={"Midjourney"}
               label={"Cartoon Prompt"}

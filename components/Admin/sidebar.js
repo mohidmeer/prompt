@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { BiCategory } from 'react-icons/bi'
 import { FaUsers } from 'react-icons/fa'
 
-const sidebar = () => {
+const SideBar = () => {
     const router =useRouter();
   return (
     <>
@@ -23,8 +23,8 @@ const sidebar = () => {
 
       <ul className="space-y-2 font-medium">
          <li>
-            <Link href='/admin/dashboard' className={`flex items-center p-2   
-             ${router.pathname=='/admin/dashboard' ? 'bg-black text-white':
+            <Link href='/admin' className={`flex items-center p-2   
+             ${router.pathname=='/admin' ? 'bg-black text-white':
              'hover:bg-gray-200 text-gray-900'} `}>
               <RxDashboard className='w-6 h-6'/>
                <span className="ml-3">Dashboard</span>
@@ -63,4 +63,4 @@ const sidebar = () => {
   )
 }
 
-export default sidebar
+export default SideBar

@@ -13,8 +13,16 @@ export default async function handler(req, res) {
     }
     if (req.method==='GET'){
           console.log('USER PROFILE END POINT HIT')
-      const profile= await Profile.findOne({userId:session.user.id}).select('-follwerslist');
+      const profile= await Profile.findOne({userId:session.user.id}).select('-followerlist');
       return res.status(200).json({profile})
+    }
+    if (req.method==='POST'){
+       console.log('USER UPDATE ENDPOINT HIT')
+       console.log(req.body) 
+       return; 
+
+       const profile= await Profile.findOneAndUpdate({userId:session.user.id},{})
+       return res.status(200).json({profile})
     }
 
 }

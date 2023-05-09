@@ -5,6 +5,7 @@ import { useProducts } from "@/stores/admin/products";
 import { useEffect } from "react";
 import { FcCancel } from "react-icons/fc";
 import { MdApproval, MdDelete, MdEdit } from "react-icons/md";
+import { getServerAuthSession } from "../api/auth/[...nextauth]";
 
 
 const Product = () => {
@@ -86,3 +87,35 @@ const Product = () => {
   
 
 export default Product;
+
+
+export async function getServerSideProps(context) {
+  let session = await getServerAuthSession(context.req, context.res)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+  if (session.user.role==='ADMIN'){
+      session =JSON.stringify(session)
+
+      return {
+          props: {
+            
+          },
+        }
+  }
+
+  return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+
+ 
+}

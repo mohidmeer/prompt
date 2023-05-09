@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import login_validate from "@/lib/client/loginValidationHelper";
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
+import { getServerAuthSession } from "./api/auth/[...nextauth]";
 
 
 export default function Login() {
@@ -70,7 +71,7 @@ export default function Login() {
             
 
             <div className="flex  justify-center mt-4 items-center gap-2" >
-              <p className="text-gray-400 text-sm">Don't have an account yet</p>
+              <p className="text-gray-400 text-sm">{"Don't have an account yet"}</p>
               <Link href={'/register'} className={` hover:underline`}  >
                 Signup Here
               </Link>
@@ -79,4 +80,26 @@ export default function Login() {
         </div>
       </AuthLayout>
     )
+  }
+
+
+
+  export async function getServerSideProps(context) {
+    let session = await getServerAuthSession(context.req, context.res)
+  
+    if (session) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      }
+    }
+    session=JSON.parse(JSON.stringify(session))
+  
+    return {
+      props: {
+         session
+      },
+    };
   }
