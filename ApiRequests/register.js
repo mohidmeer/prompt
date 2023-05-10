@@ -1,7 +1,7 @@
 import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
 import axios from "axios";
 const AxiosClient = axios.create({
-  baseURL: 'http://localhost:3000/api/auth',
+  baseURL: `${process.env.API_URL}/auth`,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
