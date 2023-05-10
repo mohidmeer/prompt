@@ -23,7 +23,7 @@ export default function Home() {
       <Hero/>
       <PromptContainer label={'Featured Prompts'} prompts={featured}   />
       <PromptContainer label={'Hotest Prompts'}  prompts={featured}    />
-      <PromptContainer label={'Latest Prompts'}     />
+      <PromptContainer label={'Latest Prompts'}  prompts={featured}   />
 
        <p>{process.env.NEXT_PUBLIC_API_URL}</p>
 
