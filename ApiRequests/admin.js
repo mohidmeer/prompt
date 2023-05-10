@@ -3,7 +3,7 @@ import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
 import { useProducts } from "@/stores/admin/products";
 import axios from "axios";
 const AxiosClient = axios.create({
-  baseURL: `${process.env.API_URL}/admin`,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/admin`,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

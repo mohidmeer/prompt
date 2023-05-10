@@ -2,7 +2,7 @@ import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
 import axios from "axios";
 const AxiosClient = axios.create({
-  baseURL: `${process.env.API_URL}/user`,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/user`,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

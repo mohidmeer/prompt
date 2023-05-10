@@ -11,7 +11,7 @@ export default function Home() {
 
   const {featured,fetchFeatured}=useExplore();
 
-  useEffect(()=>{fetchFeatured();})
+  useEffect(()=>{fetchFeatured();},[])
 
   return (
     <AppLayout>

@@ -18,6 +18,7 @@ export const useExplore=create((set)=>({
     },
     fetchFeatured: async (v) =>{
        const p =await getFeaturedProduct();
+       console.log(p)
        set({featured:p})
        
     },
