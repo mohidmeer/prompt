@@ -11,7 +11,7 @@ export default function Home() {
 
   const {featured,fetchFeatured}=useExplore();
 
-  // useEffect(()=>{fetchFeatured();},[])
+  useEffect(()=>{fetchFeatured();},[])
 
   return (
     <AppLayout>
@@ -21,11 +21,11 @@ export default function Home() {
       </Head>
       <Navbar/>
       <Hero/>
-      {/* <PromptContainer label={'Featured Prompts'} prompts={featured}   /> */}
-      {/* <PromptContainer label={'Hotest Prompts'}  prompts={featured}    /> */}
-      {/* <PromptContainer label={'Latest Prompts'}     /> */}
+      <PromptContainer label={'Featured Prompts'} prompts={featured}   />
+      <PromptContainer label={'Hotest Prompts'}  prompts={featured}    />
+      <PromptContainer label={'Latest Prompts'}     />
 
-       <p>{process.env.NEXT_PUBLIC_API_URL}</p>
+       {/* <p>{process.env.NEXT_PUBLIC_API_URL}</p> */}
 
       <div className="my-10 flex flex-col items-center fill-blue-500">
           <Button label={'Explore More'} width="w-1/6" onClick={() => router.push('/explore')} />
