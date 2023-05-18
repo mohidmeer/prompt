@@ -21,12 +21,9 @@ export default function Home() {
       </Head>
       <Navbar/>
       <Hero/>
-      <PromptContainer label={'Featured Prompts'} prompts={featured}   />
-      <PromptContainer label={'Hotest Prompts'}  prompts={featured}    />
+      <PromptContainer label={'Featured Prompts'} prompts={featured}  />
+      <PromptContainer label={'Hotest Prompts'}  prompts={featured}   />
       <PromptContainer label={'Latest Prompts'}  prompts={featured}   />
-
-       <p>{process.env.NEXT_PUBLIC_API_URL}</p>
-
       <div className="my-10 flex flex-col items-center fill-blue-500">
           <Button label={'Explore More'} width="w-1/6" onClick={() => router.push('/explore')} />
           <h2 className="text-5xl font-bold my-8 ">What is PromptWorks?</h2>

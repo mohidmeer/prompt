@@ -218,8 +218,8 @@ const AddProducts = ({Open}) => {
         </div>
         
         <div className="flex justify-end">
-            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disabled={formik.isValid ? 'true':'false'} >
-            Add{formik.isValid ? 't':'f'}
+            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid} >
+            Add
             </button>
         </div>
       </form>

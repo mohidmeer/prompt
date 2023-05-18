@@ -7,9 +7,10 @@ import { BiDollar } from 'react-icons/bi';
 import { MdVerified, MdVerifiedUser } from 'react-icons/md';
 import { AiFillEye, AiFillHeart } from 'react-icons/ai';
 import { toast } from 'react-toastify';
-import { AddToFavourites } from '@/ApiRequests/user';
+import { AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
 export default function Prompt({Header}){
 
   const router = useRouter();
@@ -29,6 +30,11 @@ export default function Prompt({Header}){
   const  AddToFav = async (id)=>{
       AddToFavourites(id)
       getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false);});
+  }
+  const Buy = async (id)=>{
+   const st=  await buyThePrompt({id:id})
+   window.location.href=st
+   
   }
 
   return (
@@ -75,21 +81,16 @@ export default function Prompt({Header}){
             </div>
             <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span> {prompt.price }</h3>
 
-            <button className='btn' onClick={()=>{toast.success('Waiting For Stripe integration')}}>
+            <button className='btn' onClick={()=>{Buy(prompt.stripePriceId)}}>
               Get This Prompt
             </button>
 
         </div>
-      
       </>
-      
-      
       }
     </AppLayout>
   )
 }
-
-
 
  function Loader() {
   return (

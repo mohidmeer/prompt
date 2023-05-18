@@ -30,11 +30,9 @@ import { Schema, model, models  } from 'mongoose';
         required:true,
         ref:'User'
     },
-    stripeId:{
+    stripePriceId:{
         type:String,
         required:true,
-        default:'st_sd58xas4747'
-
     },
     model:{
         type:String,

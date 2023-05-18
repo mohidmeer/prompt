@@ -19,7 +19,7 @@ const Hero = () => {
           </p>
           <div className="flex gap-4 ">
             <Button label={"Find a Prompt"} onClick={() => router.push('/explore')} />
-            <Button inverted={true} label={"Sell a prompt"} onClick={() => router.push('/vendor/dashboard/')} />
+            <Button inverted={true} label={"Sell a prompt"} onClick={() => router.push('/account/prompts?create=true')} />
           </div>
         </div>
         <div className="hidden lg:mt-0 lg:col-span-6 lg:block">

@@ -40,6 +40,14 @@ export async function AddToFavourites(id){
    .then((res)=>{ serverSuccessHandler(200,res.data.message)})
    .catch((e)=>{ serverErrorHandler(404) })
   }
+export async function buyThePrompt(id){
+  try {
+    const response = await AxiosClient.post(`/prompts/buy`, id);
+    return response.data.url;
+  } catch (error) {
+    serverErrorHandler(404);
+  }
+  }
 
   
 
