@@ -24,7 +24,6 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'You are not authorized' })
     }
 
-
     if (req.method==='POST'){
         if (!req.body){
         return res.status(404).json({ error: "Please provide the data...!" });}
@@ -33,10 +32,15 @@ export default async function handler(req, res) {
         const imagesArray = images.map(i => {
           return  cloudinary.url(i) ;
         });
+          const metadata= {
+            vendor_id:session.user.id.toString()
+          }
           const stripeProduct = await stripe.products.create({
               name:name,
               description:description,
-              images:imagesArray})
+              images:imagesArray,
+              metadata:metadata,
+            })
               .catch((error)=>{stripeErrorHandler(error)})  
 
           const stripePrice = await stripe.prices.create({

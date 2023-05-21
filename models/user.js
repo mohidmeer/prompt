@@ -27,12 +27,23 @@ import Profile from './profile';
       ref:'product'
     }
   ],
+  purchases:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:'product'
+    }
+  ],
   following:[
     {
       type:Schema.Types.ObjectId,
       ref:'user'
     }
-  ]
+  ],
+  stripeConnectId:{
+    type:String,
+    required:true,
+    default:''
+  }
   
   },{timestamps:true})
 

@@ -31,7 +31,7 @@ const createCheckoutSession = async (productId,customer_email) => {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: productId, // Pass the ID of the price you created for the product
+          price: productId,
           quantity: 1,
         },
       ],
