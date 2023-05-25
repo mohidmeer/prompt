@@ -33,8 +33,7 @@ export default function Prompt({Header}){
   }
   const Buy = async (id)=>{
    const st=  await buyThePrompt({id:id})
-   console.log(st)
-  //  window.location.href=st
+   window.location.href=st
    
   }
 
