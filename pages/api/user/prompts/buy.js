@@ -19,13 +19,22 @@ export default async function handler(req, res) {
         if (!req.body){
         return res.status(404).json({ error: "Please provide the data...!" });}
         const {id} = req.body;
-        const s = await createCheckoutSession(id,session.user.email)
-        return res.status(200).json({url:s.url})
+        const product = await Product.findById(id)
+        
+        const metadata={
+          buyerId:session.user.id.toString(),
+          sellerId:product.vendorId.toString(),
+          productId:product._id.toString(),
+          productName:product.name
+        }
+        
+        const s = await createCheckoutSession(product.stripePriceId,session.user.email,metadata)
+        return res.status(200).json({url:s})
     }
 }
 
 
-const createCheckoutSession = async (productId,customer_email) => {
+const createCheckoutSession = async (productId,customer_email,metadata) => {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -35,13 +44,14 @@ const createCheckoutSession = async (productId,customer_email) => {
           quantity: 1,
         },
       ],
+      metadata:metadata,
       mode: 'payment',
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
       customer_email: customer_email, 
     });
 
-    return session;
+    return session.url;
   } catch (error) {
     stripeErrorHandler(error);
   }

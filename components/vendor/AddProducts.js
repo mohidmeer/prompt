@@ -4,10 +4,13 @@ import { useExplore } from "@/stores/explore";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
+import { BsStripe } from "react-icons/bs";
 
-const AddProducts = ({Open}) => {
+const AddProducts = ({Open,paymentEnabled}) => {
     const { categories, fetchCategoryData } = useExplore();
+    const router = useRouter();
     const [uploadedImages, setuploadedImages] = useState([]);
     let [isOpen, setIsOpen] = useState(Open)
     function closeModal() {
@@ -34,6 +37,15 @@ const AddProducts = ({Open}) => {
       fetchCategoryData();
        formik.values.images=uploadedImages
     }, [uploadedImages]);
+
+
+   useEffect(()=>{
+
+    if (!paymentEnabled){
+      router.push('/stripe')
+  }
+   })
+
   
     return (
         <ModelProducts isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -223,7 +235,7 @@ const AddProducts = ({Open}) => {
             </button>
         </div>
       </form>
-      </ModelProducts>
+        </ModelProducts>
     );
   };
   
@@ -301,7 +313,7 @@ const AddProducts = ({Open}) => {
   }
   
 
-
+  
 
 
 

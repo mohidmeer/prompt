@@ -43,6 +43,11 @@ import Profile from './profile';
     type:String,
     required:true,
     default:''
+  },
+  stripePayments:{
+    type:Boolean,
+    required:true,
+    default:false
   }
   
   },{timestamps:true})

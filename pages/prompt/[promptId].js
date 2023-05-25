@@ -67,7 +67,7 @@ export default function Prompt({Header}){
               <p className='flex items-center gap-1'>320<AiFillEye/></p>
               <p onClick={()=>AddToFav(prompt._id)} 
               className={ `${prompt.isFav ? 'text-black ':'' } flex items-center gap-1 `}>
-                <AiFillHeart  />{prompt.favourites}</p>
+                <AiFillHeart className=' cursor-pointer'  />{prompt.favourites}</p>
             </div>
             <div className='flex gap-8 text-sm font-bold text-gray-500  '>
                <p className='flex items-center gap-1 cursor-pointer'>@profilename <MdVerifiedUser/></p>
@@ -75,15 +75,33 @@ export default function Prompt({Header}){
             <hr className='mr-10  bg-black'/>
 
             <div className='mt-10 pr-10'>
-            <p className=' font-bold '>
+              <h3 className='font-bold text-2xl'>Description</h3>
+            <p className=' font-bold text-gray-600 '>
               {prompt.description}
             </p>
+              {
+                prompt.isPurchased ?
+                <>
+                <h3 className='font-bold text-2xl mt-4'>Instructions</h3>
+                <p className=' font-bold text-gray-600 '>
+                 {prompt.instructions}
+                </p>
+                </>:
+               <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span> {prompt.price }</h3>
+              }
             </div>
-            <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span> {prompt.price }</h3>
+            
 
-            <button className='btn' onClick={()=>{Buy(prompt.stripePriceId)}}>
+            {
+              prompt.isPurchased ?  
+              <button className='btn my-4' >
+                Purchased
+             </button>:
+              <button className='btn' onClick={()=>{Buy(prompt._id)}}>
               Get This Prompt
-            </button>
+             </button>
+
+            }
 
         </div>
       </>

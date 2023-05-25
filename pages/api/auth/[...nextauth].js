@@ -5,8 +5,6 @@ import connectMongo from '@/database/conn';
 import User from '@/models/user';
 import { compare } from 'bcrypt';
 import { getServerSession } from "next-auth/next"
-// import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-// import clientDatabasePromise from '@/database/clientDatabase';
 import { signIn } from 'next-auth/react';
 export const authOptions = {
     // adapter: MongoDBAdapter(clientDatabasePromise,{ collections:{ Users:'users' }}),
@@ -48,6 +46,7 @@ export const authOptions = {
             connectMongo().catch(error=>{error:'Connection Failed'})
             const u = await  User.findOne({email:session.user.email})
             session.user.id=u._id
+             u.stripePayments? session.user.payment=true:session.user.payment=false  
              u.isAdmin ? session.user.role='ADMIN':session.user.role='USER'
           return session 
         },
@@ -64,3 +63,15 @@ export const getServerAuthSession=(req,res)=>{
 
 
 }
+
+
+const reteriveVendor =async (id)=>{
+    try {
+        const account = await stripe.accounts.retrieve(id);
+        return account;
+    } catch (error) {
+        stripeErrorHandler(error);
+    }
+
+
+  }

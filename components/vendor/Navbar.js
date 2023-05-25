@@ -20,8 +20,9 @@ const Navbar = () => {
       <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <NavLink label='Account' href='/account' active={true} />
         <NavLink label='Prompts' href='/account/prompts'/>
-        <NavLink label='Sales' href='/account/sales'/>
-        <NavLink label='Settings' href='/account/settings'/>
+        <NavLink label='Payments' href='/stripe'  />
+        {/* <NavLink label='Settings' href='/account/settings'/> */}
+         <NavLink label='Sales' href='/account/sales'/>
       </ul>
     </div>
   </div>

@@ -31,8 +31,8 @@ export default async function handler(req, res) {
         }
      }
 
-     if (req.method==='GET'){
-         const favs=await user.populate('favourites')
-         return res.status(200).json({favs})
-     }
+    //  if (req.method==='GET'){
+    //      const favs=await user.populate('favourites')
+    //      return res.status(200).json({favs})
+    //  }
 }

@@ -28,7 +28,7 @@ import { Schema, model, models  } from 'mongoose';
     vendorId:{
         type:Schema.Types.ObjectId,
         required:true,
-        ref:'User'
+        ref:'user'
     },
     stripePriceId:{
         type:String,

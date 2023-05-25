@@ -78,7 +78,7 @@ const Products=({products,label})=>{
 
       <div className="grid w-3/4 p-2  mx-auto sm:w-full sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 ">
         {products.map((p)=>(
-          <Link key={p._id} href={'/prompt/'+p.name}>
+          <Link key={p._id} href={'/prompt/'+p.slug}>
           <div className="  shadow-lg shadow-black/50
           relative 
           cursor-pointer

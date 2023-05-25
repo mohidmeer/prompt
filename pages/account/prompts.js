@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { getServerAuthSession } from '../api/auth/[...nextauth]';
 
 
-export default function Products() {
+export default function Products({session}) {
   
       const { products,fetchProductData } = useUserStore();
       const router = useRouter();
@@ -33,13 +33,12 @@ export default function Products() {
 
       
 
-
   
   return (
     <VendorLayout>
       <Navbar/>
         <Container label={'Prompts'}>
-          <AddProducts Open={create==='true'?true:false} />
+          <AddProducts Open={create==='true'?true:false} paymentEnabled={session.user.payment} />
 
           {isOpen &&  <UpdateProducts isOpen={isOpen} setIsOpen={setIsOpen} product={editProduct}   /> }
         <div className="relative overflow-x-auto">
@@ -106,7 +105,7 @@ export default function Products() {
 
 
 export async function getServerSideProps(context) {
-  const session = await getServerAuthSession(context.req, context.res)
+  let session = await getServerAuthSession(context.req, context.res)
 
   if (!session) {
     return {
@@ -116,10 +115,10 @@ export async function getServerSideProps(context) {
       },
     }
   }
-
+  session=JSON.parse(JSON.stringify(session))
   return {
     props: {
-      
+      session
     },
   };
 }

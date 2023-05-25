@@ -4,6 +4,7 @@ import { getServerAuthSession } from "../../auth/[...nextauth]";
 import Products from "@/pages/account/prompts";
 import stripeErrorHandler from "@/lib/server/stripeErrorHandler";
 import cloudinary from 'cloudinary';
+import User from "@/models/user";
 const Stripe = require('stripe');
 
 cloudinary.config({
@@ -23,8 +24,10 @@ export default async function handler(req, res) {
     {
         return res.status(401).json({ error: 'You are not authorized' })
     }
+    
 
     if (req.method==='POST'){
+      if (session.user.payment==false){return res.status(401).json({error:'You must complete stripe onboarding for submitting prompts'})}
         if (!req.body){
         return res.status(404).json({ error: "Please provide the data...!" });}
         const {name,category,model,price,description,instruction,images} = req.body;
@@ -75,7 +78,6 @@ export default async function handler(req, res) {
       return res.status(200).json({products})
     }
 }
-
 
 
 
