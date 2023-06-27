@@ -11,7 +11,8 @@ import { AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
-export default function Prompt({Header}){
+import { getServerAuthSession } from '../api/auth/[...nextauth]';
+export default function Prompt({Header,session}){
 
   const router = useRouter();
   const [prompt,setprompt]=useState()
@@ -32,6 +33,9 @@ export default function Prompt({Header}){
       getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false);});
   }
   const Buy = async (id)=>{
+    if (session===null){
+      router.push('/login')
+    }
    const st=  await buyThePrompt({id:id})
    window.location.href=st
    
@@ -147,6 +151,7 @@ export default function Prompt({Header}){
 export async function getServerSideProps(context) {
   const { params } = context;
   const Header = await getProduct(params.promptId);
+  let session = await getServerAuthSession(context.req, context.res)
 
   // If the data is not found, return a 404 page
   if (!Header) {
@@ -154,11 +159,11 @@ export async function getServerSideProps(context) {
       notFound: true,
     };
   }
-
+  session=JSON.parse(JSON.stringify(session))
   // Otherwise, return the data as props
   return {
     props: {
-      Header,
+      Header,session
     },
   };
 }
