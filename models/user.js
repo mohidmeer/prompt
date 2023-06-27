@@ -41,7 +41,6 @@ import Profile from './profile';
   ],
   stripeConnectId:{
     type:String,
-    required:true,
     default:''
   },
   stripePayments:{
