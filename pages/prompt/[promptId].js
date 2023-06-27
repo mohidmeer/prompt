@@ -34,10 +34,12 @@ export default function Prompt({Header,session}){
   }
   const Buy = async (id)=>{
     if (session===null){
-      router.push('/login')
+      toast.warn('You must login to purchase')
+       return router.push('/login')
     }
    const st=  await buyThePrompt({id:id})
    window.location.href=st
+  console.log(session)
    
   }
 
