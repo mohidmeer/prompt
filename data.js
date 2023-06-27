@@ -6,5 +6,5 @@ mongoose.connect('mongodb://127.0.0.1:27017/mvendor', { useNewUrlParser: true, u
     })
     .catch((err) => {
         console.log(`OH NO! MONGO CONNECTION ERROR!`);
-        console.log(err);
+        console.log(err); 
     })
