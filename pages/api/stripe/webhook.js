@@ -46,7 +46,7 @@ const webhookHandler = async (req, res) => {
       buyer.purchases.push(metadata.productId)
       buyer.save();
       const seller =await User.findById(metadata.sellerId)
-      if (seller.isAdmin){
+      if (!(seller.isAdmin)){
           await payoutVendor(amount_total*0.7,seller.stripeConnectId,metadata)
         
       }
