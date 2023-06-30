@@ -136,7 +136,7 @@ const ModelFilter = ({ plan, set }) => {
           </span>
         )}
       </RadioGroup.Option>
-      <RadioGroup.Option value="chatGpt">
+      <RadioGroup.Option value="chat-gpt">
         {({ checked }) => (
           <span
             className={`${checked ? "bg-black text-white " : ""
