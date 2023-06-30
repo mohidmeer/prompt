@@ -3,9 +3,11 @@ import { faker } from '@faker-js/faker';
 import Category from "@/models/categories";
 import Product from "@/models/products";
 import { getServerAuthSession } from "../auth/[...nextauth]";
+import { prods } from "@/database/DummyData";
 export default async function handler(req, res) {
 
     const session = await getServerAuthSession(req, res)
+    
     if (!session) 
     {
         return res.status(401).json({ error: 'You are not authorized' })
@@ -15,11 +17,13 @@ export default async function handler(req, res) {
     }
     
     if (req.method === 'GET') {
-     return res.status(200).json({s:session.user.role})
+    //  return res.status(200).json({s:session.user.role})
+    
+     return res.status(200).json(prods)
+     connectMongo();
 
     }
-
-
+    
 
     // if (req.method==='GET'){
     // connectMongo();
@@ -62,6 +66,5 @@ export default async function handler(req, res) {
     //     return res.status(400).json({message:'Not Valid'})
     // }
 }
-
 
 
