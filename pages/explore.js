@@ -55,7 +55,7 @@ export default function Explore() {
 
    useEffect(()=>{
       // axios.get('/api/products'+'?'+window.location.href.split('?')[1])
-      fetchProductData().then(()=>setLoading(false))
+      fetchProductData(window.location.href.split('?')[1]).then(()=>setLoading(false))
       console.log('EXECUTED FETCH PRODUCTS')
       // setLoading(false)
    },[router])

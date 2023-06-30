@@ -9,8 +9,8 @@ const AxiosClient = axios.create({
     'Content-Type': 'application/json',
   }
 });
-export async function getProducts(){
-   return await AxiosClient.get(`/products`)
+export async function getProducts(v){
+   return await AxiosClient.get(`/products?`+v)
    .then((res)=>{ return res.data.products})
    .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
   }

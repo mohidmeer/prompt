@@ -12,7 +12,7 @@ export const useExplore=create((set)=>({
     latest:[],
 
     fetchProductData: async (v) =>{
-       const p =await getProducts();
+       const p =await getProducts(v);
        set({products:p})
        
     },
