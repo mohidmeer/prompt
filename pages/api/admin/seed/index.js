@@ -2,7 +2,7 @@ import connectMongo from "@/database/conn";
 import { faker } from '@faker-js/faker';
 import Category from "@/models/categories";
 import Product from "@/models/products";
-import { getServerAuthSession } from "../auth/[...nextauth]";
+import { getServerAuthSession } from "../../auth/[...nextauth]";
 import { prods } from "@/database/DummyData";
 export default async function handler(req, res) {
 
