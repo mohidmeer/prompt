@@ -44,6 +44,11 @@ import { Schema, model, models  } from 'mongoose';
         default:0,
         min: 0
     },
+    sales:{
+        type:Number,
+        default:0,
+        min:0
+    },
     images:[{
         type:String,
         validate: {
