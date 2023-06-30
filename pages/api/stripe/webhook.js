@@ -3,6 +3,7 @@ import Sale from '@/models/sales';
 import User from '@/models/user';
 import stripeErrorHandler from '@/lib/server/stripeErrorHandler';
 import Payout from '@/models/payouts';
+import Product from '@/models/products';
 // Initialize Stripe with your API key
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SCERET_KEY);
@@ -45,6 +46,7 @@ const webhookHandler = async (req, res) => {
       const buyer = await User.findById(metadata.buyerId)
       buyer.purchases.push(metadata.productId)
       buyer.save();
+      await Product.findByIdAndUpdate(metadata.productId,{ $inc: { sales: 1 }})
       const seller =await User.findById(metadata.sellerId)
       if (!(seller.isAdmin)){
           await payoutVendor(amount_total*0.7,seller.stripeConnectId,metadata)
