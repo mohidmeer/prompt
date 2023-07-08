@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 
 const Item = ({description,image}) => {
@@ -14,14 +15,11 @@ const Item = ({description,image}) => {
                     Prompts are becoming a powerful new way of programming AI models like DALL·E, Midjourney & GPT.
                     However, its hard to find good quality prompts online
                   </p>
-                  <a  className=' flex justify-center'>
-                    <button
-                      type="button"
-                      className=" mt-10 py-4 w-1/3  rounded-md font-bold text-white px-4  bg-green"
-                    > 
-                      View
-                    </button>
-                  </a>
+                  <div  className=' flex justify-center'>
+                    <Link className="mt-10 py-4 w-1/3  text-center rounded-md font-bold text-white px-4  bg-green" href='http://localhost:5900/'>
+                      Hire
+                    </Link>
+                  </div>
               </div>
              </div>
             <div className=" col-span-2  ">

@@ -1,5 +1,7 @@
 import Button from "@/components/Buttons";
+import Prompts from "@/components/Landing/prompts/Prompts";
 import Navbar from "@/components/Navbar";
+import Socialmint from "@/components/SocialmediaApi/Socialmint";
 import PromptContainer from "@/components/user/PromptContainer";
 import Hero from "@/components/user/hero";
 import AppLayout from "@/layout/AppLayout";
@@ -19,11 +21,27 @@ export default function Home() {
         <title>PromptWorks | Marketpalace</title>
         <meta name="description" content='' />
       </Head>
-      {/* <Navbar/> */}
       <Hero/>
-      <PromptContainer label={'Featured Prompts'} prompts={featured}  />
+      <div className='lg:px-24 px-0 rounded-xl p-4 lg:pb-8  border-2 border-white  mt-8'>  <Socialmint/></div>
+      <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts /> </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* <PromptContainer label={'Featured Prompts'} prompts={featured}  />
       <PromptContainer label={'Hotest Prompts'}  prompts={featured}   />
-      <PromptContainer label={'Latest Prompts'}  prompts={featured}   />
+      <PromptContainer label={'Latest Prompts'}  prompts={featured}   /> */}
       <div className="my-10 flex flex-col items-center fill-blue-500">
           <Button label={'Explore More'} width="w-1/6" onClick={() => router.push('/explore')} />
           <h2 className="text-5xl font-bold my-8 ">What is PromptWorks?</h2>
