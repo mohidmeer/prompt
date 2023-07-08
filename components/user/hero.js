@@ -20,13 +20,13 @@ const Hero = () => {
     modules={[Pagination]}
  className="max-w-6xl justify-center border-2 border-dark rounded-xl   max-h-96  ">
      <SwiperSlide className=" mb-4">
-        <Item description={'Prompt of the Day'} image={'/images/prompt.webp'}/>
+        <Item description={'Hire a Prompt Engineer'} image={'/images/prompt.webp'}/>
      </SwiperSlide>
      <SwiperSlide className=" mb-4">
-        <Item description={'Prompt of the Week'} image={'/images/prompt2.webp'}/>
+        <Item description={'Hire a Prompt Engineer'} image={'/images/prompt2.webp'}/>
      </SwiperSlide>
      <SwiperSlide className="mb-4">
-        <Item description={'Prompt of the Month'} image={'/images/prompt3.webp'}/>
+        <Item description={'Hire a Prompt Engineer'} image={'/images/prompt3.webp'}/>
      </SwiperSlide>
     
    </Swiper>

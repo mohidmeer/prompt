@@ -2,14 +2,16 @@ import { RadioGroup } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
-
-const Prompts = () => {
+const Prompts = ({title}) => {
     const [section, setSection] = useState('featured')
     return (
       <div>
         <div className="flex justify-start gap-x-5 lg:flex-row flex-col ">
-          <h2 className="lg:text-3xl md:text-2xl text-lg font-bold">Prompts</h2>
+          <h2 className="lg:text-3xl md:text-2xl text-lg font-bold">{title}</h2>
           
           <RadioGroup as='div' className={'flex justify-between p-1 border border-dark  justify-items-center mt-1 rounded-full  '}  value={section} onChange={setSection}> 
         
@@ -52,43 +54,117 @@ export default Prompts
 
 const Featured = () => {
     return (
-      <div className='grid mt-4 grid-cols-1 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-7 gap-2'>
+      <Swiper
+      slidesPerView={6}
+      spaceBetween={20}
+      className="mt-4">
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+         <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
+       </SwiperSlide>
+
+      </Swiper>
       
-          <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
-          <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
-          <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
-          <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
-          <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
-          <Item src='/images/prompt.webp' name='Tiny Models' type={'Featured'} />
-         
-      </div>
     )
   }
 
 const Hotest = () => {
     return (
-      <div className='grid mt-4 grid-cols-1 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-7 gap-2'>
-          <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} />
-          <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} />
-          <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} />
-          <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} />
-          <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} />
-          <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} />
-      </div>
+      <Swiper
+      slidesPerView={6}
+      spaceBetween={20}
+      className="mt-4">
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt2.webp' name='RPG Game Assets' type={'Hotest'} /> 
+       </SwiperSlide>
+
+      </Swiper>
+     
     )
   }
 
 const Latest = () => {
     return (
-      <div className='grid mt-4 grid-cols-1 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-7 gap-2'>
-      
-      <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
-          <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
-          <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
-          <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
-          <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
-          <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
-      </div>
+      <Swiper
+      slidesPerView={6}
+      spaceBetween={20}
+      className="mt-4">
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+       <SwiperSlide className=" mb-4">
+            <Item src='/images/prompt3.webp' name='Spooky Game Assets' type={'Latest'} />
+       </SwiperSlide>
+
+      </Swiper>
     )
   }
 
