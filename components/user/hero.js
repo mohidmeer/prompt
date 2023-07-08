@@ -2,13 +2,57 @@ import Button from "../Buttons";
 import Image from "next/image";
 import Card from "./card";
 import { useRouter } from 'next/navigation';
-
-
+import Item from "../Hero/Item";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from "swiper";
 const Hero = () => {
   const router = useRouter();
-  return (
+  return (<>
+
+    <section className=" p-8 my-4 ">
+ 
+ <Swiper
+    pagination={{
+      clickable: true,
+    }}
+    modules={[Pagination]}
+ className="max-w-6xl justify-center border-2 border-dark rounded-xl   max-h-96  ">
+     <SwiperSlide className=" mb-4">
+        <Item description={'Prompt of the Day'} image={'/images/prompt.webp'}/>
+     </SwiperSlide>
+     <SwiperSlide className=" mb-4">
+        <Item description={'Prompt of the Week'} image={'/images/prompt2.webp'}/>
+     </SwiperSlide>
+     <SwiperSlide className="mb-4">
+        <Item description={'Prompt of the Month'} image={'/images/prompt3.webp'}/>
+     </SwiperSlide>
+    
+   </Swiper>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <section >
-      <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+       <p className="text-3xl  font-extrabold text-red-700 -rotate-45 ml-32 mt-20 ">SECTION REMOVED ONLY FOR VIEWING PURPOSE</p>
+      <div className="opacity-20  grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div className="mr-auto place-self-center lg:col-span-6">
           <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
             DALL·E, GPT, Midjourney, Stable Diffusion, ChatGPT
@@ -53,7 +97,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section></>
   );
 };
 

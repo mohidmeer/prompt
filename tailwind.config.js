@@ -8,6 +8,29 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'app': '#EAEAE9',
+        'dark': '#FFFFFF',
+        'dark-2': '#FFFFFF',
+        'green': '#55b947',
+        'facebook': '#4267B2',
+        'twitter': '#1DA1F2',
+        'instagram': '#833AB4',
+        'discord': '#7289da',
+        'pintrest': '#E60023',
+        'telegram': ' #229ED9',
+        'reddit': '#FF5700',
+        
+      },
+
+      spacing: {
+        '8xl': '96rem',
+        '9xl': '128rem',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '3rem',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -15,5 +38,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@headlessui/tailwindcss')
+  ],
 }

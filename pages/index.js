@@ -19,7 +19,7 @@ export default function Home() {
         <title>PromptWorks | Marketpalace</title>
         <meta name="description" content='' />
       </Head>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Hero/>
       <PromptContainer label={'Featured Prompts'} prompts={featured}  />
       <PromptContainer label={'Hotest Prompts'}  prompts={featured}   />
