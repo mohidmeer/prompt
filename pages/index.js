@@ -22,13 +22,14 @@ export default function Home() {
         <title>PromptWorks | Marketpalace</title>
         <meta name="description" content='' />
       </Head>
-      <Hero/>
-      <div className='lg:px-24 px-0 rounded-xl p-4 lg:pb-8  border-2 border-white  mt-8'>  <Socialmint/></div>
+      {/* <Hero/> */}
 
+      <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Enginers/> </div>
+      <div className='lg:px-24 px-0 rounded-xl p-4 lg:pb-8  border-2 border-white  mt-8'>  <Socialmint/></div>
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Midjourney'} /> </div>
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Stable Diffusion'} /> </div>
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Dalle'} /> </div>
-      <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Enginers/> </div>
+      {/* <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Enginers/> </div> */}
 
 
 

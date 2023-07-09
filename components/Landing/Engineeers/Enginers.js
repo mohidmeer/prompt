@@ -9,12 +9,28 @@ import { MdStar } from 'react-icons/md';
 const Enginers = () => {
   return (
     <div>
-        <h2 className="lg:text-3xl md:text-2xl text-lg font-bold">Discover More</h2>
+        {/* <h2 className="lg:text-3xl md:text-2xl text-lg font-bold">Discover More</h2> */}
 
            <Swiper
           slidesPerView={4}
           spaceBetween={10}
-          className="mt-4">
+          className="mt-8">
+           <SwiperSlide className=" mb-4">
+               <div className=' '>
+                    <h2 class="text-4xl  lg:text-4xl font-extrabold text-center ">
+                         Hire A Prompt Engineer
+                    </h2>
+                    <p class="mt-3 text-lg text-gray-600">
+                         Prompts are becoming a powerful new way of programming AI models like DALL·E, Midjourney & GPT.
+                         However, its hard to find good quality prompts online
+                    </p>
+                    <div  className=' flex justify-center'>
+                         <Link className="mt-10 py-4 w-1/3  text-center rounded-md font-bold text-white px-4  bg-green" href='http://localhost:5900/'>
+                         Hire
+                         </Link>
+                    </div>
+               </div>
+           </SwiperSlide>
            <SwiperSlide className=" mb-4">
                 <Item src='/images/gig.webp'  /> 
            </SwiperSlide>
@@ -64,7 +80,7 @@ const Item = ({src}) => {
             draggable="false"
             loading="lazy"
             class="  rounded-xl"
-            src={src} width={300}  height={200}  />
+            src={src} width={500}  height={300}  />
 
             <div className='p-4'>
                 <div className='flex justify-between '>
