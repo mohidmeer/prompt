@@ -28,6 +28,7 @@ export default function Home() {
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Midjourney'} /> </div>
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Stable Diffusion'} /> </div>
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Dalle'} /> </div>
+      <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Prompts title={'Chat Gpt'} /> </div>
       <div className='mt-8 border-2 rounded-xl  p-4 lg:pb-8 border-white '> <Enginers/> </div>
 
 
