@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'You are not authorized' })
     }
     if (req.method==='GET'){
-          console.log('USER PROFILE END POINT HIT')
+          // console.log('USER PROFILE END POINT HIT')
       const profile= await Profile.findOne({userId:session.user.id}).select('-followerlist');
       return res.status(200).json({profile})
     }
@@ -21,8 +21,8 @@ export default async function handler(req, res) {
        console.log(req.body) 
        return; 
 
-       const profile= await Profile.findOneAndUpdate({userId:session.user.id},{})
-       return res.status(200).json({profile})
+      //  const profile= await Profile.findOneAndUpdate({userId:session.user.id},{})
+      //  return res.status(200).json({profile})
     }
 
 }

@@ -1,3 +1,4 @@
+import TopBar from '@/components/Citvai/TopBar'
 import { Nunito } from 'next/font/google'
 
 
@@ -7,9 +8,15 @@ export default function VendorLayout({children}){
     
   
     return (
-        <div className={`${nunito.className}  container mx-auto `}>
+       <div className=''>
+        <TopBar/>
+            <div className={`${nunito.className}  container mx-auto `}>
 
             {children}
-        </div>
+            </div>
+
+
+
+       </div>
       )
 }

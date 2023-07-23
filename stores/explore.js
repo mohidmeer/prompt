@@ -13,6 +13,7 @@ export const useExplore=create((set)=>({
 
     fetchProductData: async (v) =>{
        const p =await getProducts();
+       console.log(p)
        set({products:p})
        
     },
