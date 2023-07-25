@@ -1,6 +1,5 @@
 
 import VendorLayout from '@/layout/VendorLayout'
-import Navbar from '@/components/vendor/Navbar'
 import { getUserFavourites } from '@/ApiRequests/user';
 import { Fragment, useEffect, useState } from 'react';
 import { useUserStore } from '@/stores/user/user';
@@ -8,19 +7,15 @@ import { CldImage } from 'next-cloudinary';
 import Link from 'next/link';
 import { Tab } from '@headlessui/react';
 import { getServerAuthSession } from '../api/auth/[...nextauth]';
-
-
-
-
-
-
 export default function Dashboard() {
-
       const { favourites,fetchFavourites,purchases,fetchPurchases}  = useUserStore();
-      useEffect(()=>{fetchFavourites();fetchPurchases()})
+      useEffect(()=>{
+        fetchFavourites();
+        fetchPurchases();
+      },[])
+
   return (
     <VendorLayout>
-      <Navbar/>
       <div className='flex justify-end p-8'>
           <Link  className='btn-inverted' href={'/profile'} >Public Profile</Link>
       </div>
@@ -77,7 +72,7 @@ const Products=({products,label})=>{
         <hr className='mt-4'/>
 
       <div className="grid w-3/4 p-2  mx-auto sm:w-full sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 ">
-        {products.map((p)=>(
+        {products && products.map((p)=>(
           <Link key={p._id} href={'/prompt/'+p.slug}>
           <div className="  shadow-lg shadow-black/50
           relative 

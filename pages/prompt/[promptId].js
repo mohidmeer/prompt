@@ -1,7 +1,6 @@
 import { getProduct } from '@/ApiRequests/explore';
 import Head from 'next/head';
-import Navbar from '@/components/Navbar'
-import AppLayout from '@/layout/AppLayout'
+import PromptLayout from '@/layout/PromptLayout'
 import { CldImage } from 'next-cloudinary';
 import { BiDollar } from 'react-icons/bi';
 import { MdVerified, MdVerifiedUser } from 'react-icons/md';
@@ -10,7 +9,6 @@ import { toast } from 'react-toastify';
 import { AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { redirect } from 'next/navigation';
 import { getServerAuthSession } from '../api/auth/[...nextauth]';
 export default function Prompt({Header,session}){
 
@@ -44,38 +42,37 @@ export default function Prompt({Header,session}){
   }
 
   return (
-    <AppLayout>
+    <PromptLayout>
       <Head>
       <title>{Header.name}</title>
         <meta name="description" content={Header.description} />
       </Head>
       {loading ? <Loader/> :
       <>
-      
-        <Navbar/>
-        <div className='mt-4 p-4 lg:p-0 lg:w-1/2'>
+        <Sidebar/>
+        <div className='mt-4 p-4 lg:p-0 lg:w-1/2 mx-auto'>
           
-            <div className='relative  shadow-xl shadow-gray-500/50 w-fit shad'>
+            <div className='relative w-fit'>
               <CldImage src={prompt.images[0]}
-              width={700}
-              height={300}
+              width={800}
+              height={1000}
               sizes="50w"
-              crop="fill"
+              crop='fit'
               alt={prompt.name}
-              draggable='false'
+       
               unselectable='off' 
               />
-              <p className='absolute top-4 left-2 p-1 bg-black/70 text-white font-bold text-sm'>{prompt.model}</p>
+              {/* <p className='absolute top-4 left-2 p-1 bg-black/70 text-white font-bold text-sm'>{prompt.model}</p> */}
             </div>
-            <div className='my-4 flex gap-8 text-lg font-bold text-gray-500 '>
+            {/* <div className='my-4 flex gap-8 text-lg font-bold  '>
               <p>{prompt.description.length} words </p>
               <p className='flex items-center gap-1'>Tested <MdVerified/></p>
               <p className='flex items-center gap-1'>320<AiFillEye/></p>
               <p onClick={()=>AddToFav(prompt._id)} 
               className={ `${prompt.isFav ? 'text-black ':'' } flex items-center gap-1 `}>
                 <AiFillHeart className=' cursor-pointer'  />{prompt.favourites}</p>
-            </div>
-            <div className='flex gap-8 text-sm font-bold text-gray-500  '>
+            </div> */}
+            {/* <div className='flex gap-8 text-sm font-bold   '>
                <p className='flex items-center gap-1 cursor-pointer'>@profilename <MdVerifiedUser/></p>
             </div>
             <hr className='mr-10  bg-black'/>
@@ -95,10 +92,10 @@ export default function Prompt({Header,session}){
                 </>:
                <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span> {prompt.price }</h3>
               }
-            </div>
+            </div> */}
             
 
-            {
+            {/* {
               prompt.isPurchased ?  
               <button className='btn my-4' >
                 Purchased
@@ -107,24 +104,23 @@ export default function Prompt({Header,session}){
               Get This Prompt
              </button>
 
-            }
+            } */}
 
         </div>
       </>
       }
-    </AppLayout>
+    </PromptLayout>
   )
 }
 
  function Loader() {
   return (
-    <AppLayout>
-      <Navbar/>
+    <PromptLayout>
       <div className='mt-4 w-1/2 animate-pulse'>
         <div className='shadow-xl  shad bg-gray-200 w-full h-[350px] card-shadow   relative'>
           <p className='absolute top-4 left-2 px-8 p-2 bg-black/30 text-white font-bold text-sm'></p>
         </div>
-        <div className='my-4 flex gap-8 text-lg font-bold text-gray-500 '>
+        <div className='my-4 flex gap-8 text-lg font-bold  '>
               <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
               <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
               <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
@@ -144,9 +140,44 @@ export default function Prompt({Header,session}){
 
       </div>
 
-    </AppLayout>
+    </PromptLayout>
   )
 }
+
+
+
+
+const Sidebar  = () => {
+  return (
+    <div className=' fixed right-0 h-full w-1/5  bg-dark-light '>
+     
+
+    </div>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

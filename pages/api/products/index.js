@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         const catnames = cat.map(c => c.slug);
 
         const page =  parseInt(req.query.page)-1||0
-        const limit =  parseInt(req.query.limit)||10
+        const limit =  parseInt(req.query.limit)||100
         let category =  [req.query.category] || ''
         if (category==''){  category=catnames;}
         const sortBy =  parseInt(req.query.sortBy)|| 'created_at'

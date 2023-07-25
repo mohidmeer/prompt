@@ -5,17 +5,12 @@ import { Nunito } from 'next/font/google'
 const nunito = Nunito({ subsets: ['latin'] })
 
 
-export default function AppLayout({children}){
+export default function promptLayout({children}){
 
     return (
-        <div className={`${nunito.className} bg-dark-background text-white    `}>
+        <div className={`${nunito.className} bg-dark-background text-white`}>
           <TopBar/>
-          
-          <div className='container mx-auto'>
-            <NavBar/>
-            <TagBar/>
             {children}
-          </div>
         </div>
       )
 }

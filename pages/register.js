@@ -27,7 +27,7 @@ export default function Register() {
   }
     return (
       <AuthLayout>
-        <div className=" sm:w-1/2 w-full  lg:w-1/4  bg-white p-8 rounded-xl">
+        <div className=" sm:w-1/2 w-full  lg:w-1/4  bg-dark-light text-gray-400  p-8 rounded-xl">
             <h2 className="text-4xl font-bold text-center mb-6">Register</h2>
             <form onSubmit={formik.handleSubmit} >
             <div className="my-4">

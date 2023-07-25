@@ -9,7 +9,9 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
  
-
+body{
+  @apply bg-dark-background text-gray-300
+}
 
 
 .link-active {
@@ -20,13 +22,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .btn-inverted {
 
-    @apply p-2 bg-white text-black font-bold focus:ring-2 focus:ring-gray-300 border-2 focus:border-gray-300
+    @apply p-2 bg-dark-button text-white font-bold  focus:ring-2 focus:ring-dark-border border border-dark-border 
     flex justify-center items-center gap-2
 }
 
 .btn {
 
-    @apply p-2 bg-black text-white font-bold focus:ring-4 focus:ring-gray-300 
+    @apply p-2 bg-dark-button  text-white font-bold focus:ring-2 focus:ring-dark-border border border-dark-border 
     flex justify-center items-center gap-2
 }
 
@@ -48,22 +50,20 @@ img {
  }
 
  .input-box{
-    @apply  bg-gray-50 
+    @apply  bg-dark-light
+    text-white
     border
-   /* border-gray-300  */
-   text-gray-900 text-sm 
-   focus:ring-black  
-   focus:ring-1
-   focus:border-black
-   block 
-   w-full p-2.5 
+    border-dark-border
+    block 
+    w-full p-2.5 
    outline-none
+   placeholder:text-dark-muted
  }
 
  .input-wrapper{
 
-    @apply  block mb-2  text-sm font-medium 
-    text-gray-900 dark:text-white
+    @apply  block mb-2  text-sm font-medium text-gray-300 
+  
  }
 
  .shad{

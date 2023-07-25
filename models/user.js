@@ -17,6 +17,9 @@ import Profile from './profile';
     type: String,
     required: true,
   },
+  avatar:{
+    type:String,
+  },
   isAdmin:{
     type:Boolean,
     default:false,
