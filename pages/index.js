@@ -83,7 +83,7 @@ const Details = ({p,i,row}) => {
             <p >{p.favourites}</p>
           </span>
           <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
-            <AiFillLike   className="text-yellow-500 " />
+            <AiFillLike   className="text-yellow-500" />
             <p >{p.favourites}</p>
           </span>
           <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
