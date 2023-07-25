@@ -10,7 +10,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
  
 body{
-  @apply bg-dark-background text-gray-300
+  @apply bg-dark-background text-dark-text
 }
 
 

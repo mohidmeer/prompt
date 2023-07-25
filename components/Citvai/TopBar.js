@@ -82,12 +82,6 @@ function RightMenu({session}){
         </div>
     )
 }
-
-
-
-
-
-
   
 function Profile({session}) {
     return (

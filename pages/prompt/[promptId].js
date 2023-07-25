@@ -4,12 +4,16 @@ import PromptLayout from '@/layout/PromptLayout'
 import { CldImage } from 'next-cloudinary';
 import { BiDollar } from 'react-icons/bi';
 import { MdVerified, MdVerifiedUser } from 'react-icons/md';
-import { AiFillEye, AiFillHeart } from 'react-icons/ai';
+import { AiFillCopy, AiFillEye, AiFillHeart } from 'react-icons/ai';
+import { IoIosShareAlt } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getServerAuthSession } from '../api/auth/[...nextauth]';
+import Image from 'next/image';
+import { Menu, Transition } from '@headlessui/react';
+import { BsCash, BsFlag, BsPlus } from 'react-icons/bs';
 export default function Prompt({Header,session}){
 
   const router = useRouter();
@@ -37,8 +41,7 @@ export default function Prompt({Header,session}){
     }
    const st=  await buyThePrompt({id:id})
    window.location.href=st
-  console.log(session)
-   
+
   }
 
   return (
@@ -50,10 +53,11 @@ export default function Prompt({Header,session}){
       {loading ? <Loader/> :
       <>
         <Sidebar/>
-        <div className='mt-4 p-4 lg:p-0 lg:w-1/2 mx-auto'>
+        <div className='mt-8 p-4 lg:p-0 lg:w-1/2 mx-auto'>
           
-            <div className='relative w-fit'>
+            <div className='relative w-fit '>
               <CldImage src={prompt.images[0]}
+              className='border border-dark-border rounded-md'
               width={800}
               height={1000}
               sizes="50w"
@@ -150,9 +154,119 @@ export default function Prompt({Header,session}){
 const Sidebar  = () => {
   return (
     <div className=' fixed right-0 h-full w-1/5  bg-dark-light '>
-     
+
+      <div className='flex justify-between p-4 border-b border-dark-border '>
+        <div className='flex items-center gap-2'>
+          <Image className=" rounded-full" alt='UserProfile' src='https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' width={32} height={32}/>
+          <div className='text-dark-text'>
+            <p className='text-sm'>Mohid Meer</p>
+            <p className='text-xs'>2 days ago</p>
+          </div>
+        </div>
+
+        <div className='flex gap-4 items-center'>
+          <Share />
+          <Report/>
+        </div>
+      </div>
+
 
     </div>
+  )
+}
+
+
+
+
+const Share = () => {
+  return (
+    <Menu as="div" className="relative inline-block text-left">
+          <div>
+            <Menu.Button >    
+                <IoIosShareAlt className=" text-white rounded-full text-3xl"/>
+            </Menu.Button>
+          </div>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="
+            absolute right-0  z-10
+            mt-2 w-32  
+            divide-y divide-dark-border
+            text-gray-300   
+            rounded-md 
+            bg-dark-light  shadow-lg 
+            ring-1 ring-black 
+            ring-opacity-5 ">
+              <div className="px-1 py-1 ">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button  onClick={()=>{navigator.clipboard.writeText(window.location.href);toast.info('Copied')}}
+                      className={`${
+                        active ? 'bg-dark-hover ' : ''
+                      } group flex flex-col w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+                     >
+                       <AiFillCopy className="text-2xl"/> 
+                      <span>Copy</span>
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>             
+            </Menu.Items>
+          </Transition>
+        </Menu>
+  )
+}
+
+const Report =()=>{
+  return(
+    <Menu as="div" className="relative inline-block text-left">
+    <div>
+      <Menu.Button >    
+          <BsFlag className=" text-white  text-2xl"/>
+      </Menu.Button>
+    </div>
+    <Transition
+      as={Fragment}
+      enter="transition ease-out duration-100"
+      enterFrom="transform opacity-0 scale-95"
+      enterTo="transform opacity-100 scale-100"
+      leave="transition ease-in duration-75"
+      leaveFrom="transform opacity-100 scale-100"
+      leaveTo="transform opacity-0 scale-95"
+    >
+      <Menu.Items className="
+      absolute right-0  z-10
+      mt-2 w-32  
+      divide-y divide-dark-border
+      text-gray-300   
+      rounded-md 
+      bg-dark-light  shadow-lg 
+      ring-1 ring-black 
+      ring-opacity-5 ">
+        <div className="px-1 py-1 ">
+          <Menu.Item>
+            {({ active }) => (
+              <button  onClick={()=>{navigator.clipboard.writeText(window.location.href);toast.info('Copied')}}
+                className={`${
+                  active ? 'bg-dark-hover ' : ''
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+               >
+                 <AiFillCopy className="text-2xl"/> 
+                <span>Copy</span>
+              </button>
+            )}
+          </Menu.Item>
+        </div>             
+      </Menu.Items>
+    </Transition>
+  </Menu>
   )
 }
 

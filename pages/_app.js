@@ -8,7 +8,11 @@ import 'tippy.js/dist/tippy.css'
 export default function App({ Component, pageProps }) {
   return (
    <SessionProvider session={pageProps.session}>
-    <ToastContainer/>
+    <ToastContainer
+      position="bottom-left"
+      theme='dark'
+      autoClose={1000}
+    />
     <NextNProgress />
       <Component {...pageProps} />
     </SessionProvider>

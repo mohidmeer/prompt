@@ -12,6 +12,7 @@ module.exports = {
         dark:{
            'background':'#1a1b1e',
            'border':'#373a40',
+           'text':'#c1c2c5',     
            'light':'#25262b',
            'muted':'#495057',
            'hover':'#383a3f',
