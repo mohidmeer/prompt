@@ -1,19 +1,22 @@
 import { getProduct } from '@/ApiRequests/explore';
+import { getServerAuthSession } from '../api/auth/[...nextauth]';
 import Head from 'next/head';
 import PromptLayout from '@/layout/PromptLayout'
 import { CldImage } from 'next-cloudinary';
 import { BiDollar } from 'react-icons/bi';
-import { MdVerified, MdVerifiedUser } from 'react-icons/md';
-import { AiFillCopy, AiFillEye, AiFillHeart } from 'react-icons/ai';
+import { MdOutlineCancel, MdVerified, MdVerifiedUser } from 'react-icons/md';
+import { AiFillCopy, AiFillEye, AiFillHeart, AiFillLike } from 'react-icons/ai';
 import { IoIosShareAlt } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
-import { getServerAuthSession } from '../api/auth/[...nextauth]';
+
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
-import { BsCash, BsFlag, BsPlus } from 'react-icons/bs';
+import {  BsFillHeartFill, BsFlag, BsPlus } from 'react-icons/bs';
+import { ImCancelCircle } from 'react-icons/im';
+import InputBox from '@/components/InputBox';
 export default function Prompt({Header,session}){
 
   const router = useRouter();
@@ -53,7 +56,7 @@ export default function Prompt({Header,session}){
       {loading ? <Loader/> :
       <>
         <Sidebar/>
-        <div className='mt-8 p-4 lg:p-0 lg:w-1/2 mx-auto'>
+        <div className='mt-8 p-4 mx-auto sm:w-1/2      '>
           
             <div className='relative w-fit '>
               <CldImage src={prompt.images[0]}
@@ -152,22 +155,23 @@ export default function Prompt({Header,session}){
 
 
 const Sidebar  = () => {
+  const router = useRouter();
   return (
-    <div className=' fixed right-0 h-full w-1/5  bg-dark-light '>
+    <div className=' fixed right-0 h-full z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm     '>
 
       <div className='flex justify-between p-4 border-b border-dark-border '>
-        <div className='flex items-center gap-2'>
-          <Image className=" rounded-full" alt='UserProfile' src='https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' width={32} height={32}/>
-          <div className='text-dark-text'>
-            <p className='text-sm'>Mohid Meer</p>
-            <p className='text-xs'>2 days ago</p>
-          </div>
-        </div>
-
+        <Avatar time={'2 days ago'} name={'Mohid Meer'}/>
         <div className='flex gap-4 items-center'>
           <Share />
           <Report/>
+          <MdOutlineCancel onClick={()=>{router.back()}} className='text-2xl cursor-pointer'/>
         </div>
+      </div>
+
+      <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8'>
+         <Emotions/>
+          <AddComment/>
+          <CommentsContainer />
       </div>
 
 
@@ -183,7 +187,7 @@ const Share = () => {
     <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button >    
-                <IoIosShareAlt className=" text-white rounded-full text-3xl"/>
+                <IoIosShareAlt className=" text-white rounded-full text-2xl"/>
             </Menu.Button>
           </div>
           <Transition
@@ -229,7 +233,7 @@ const Report =()=>{
     <Menu as="div" className="relative inline-block text-left">
     <div>
       <Menu.Button >    
-          <BsFlag className=" text-white  text-2xl"/>
+          <BsFlag className=" text-white  text-xl"/>
       </Menu.Button>
     </div>
     <Transition
@@ -258,8 +262,18 @@ const Report =()=>{
                   active ? 'bg-dark-hover ' : ''
                 } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
                >
-                 <AiFillCopy className="text-2xl"/> 
-                <span>Copy</span>
+                <span>Mature Content</span>
+              </button>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }) => (
+              <button  onClick={()=>{navigator.clipboard.writeText(window.location.href);toast.info('Copied')}}
+                className={`${
+                  active ? 'bg-dark-hover ' : ''
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}
+               >
+                <span>TOS Violation</span>
               </button>
             )}
           </Menu.Item>
@@ -270,6 +284,68 @@ const Report =()=>{
   )
 }
 
+const Avatar = ({time,name})=>{
+
+  return (
+
+    <div className='flex items-center gap-2'>
+    <Image className=" rounded-full" alt='UserProfile' src='https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' width={32} height={32}/>
+    <div className='text-dark-text'>
+      <p className='text-sm'>{name}</p>
+      <p className='text-xs'>{time}</p>
+    </div>
+  </div>
+  )
+
+
+}
+
+const AddComment = ()=>{
+  return (
+    <>
+      <div className='flex items-start gap-2'>
+        <Avatar/>
+        <textarea  className='input-box rounded-md resize-y border focus:outline-none focus:ring-2 focus:ring-blue-500' 
+         style={{  overflowY: 'hidden' }}
+         placeholder='Type your comment' />
+      </div>    
+    </>
+  )
+}
+
+const CommentsContainer=()=>{
+ return(
+  <div className='relative'>
+    <Avatar name={'Mr candy'} time={'2 Minutes ago'}/>
+      <p className='text-sm ml-10 mt-2 text-dark-text        '>Curious about how I created this image?
+      If you're an art enthusiast and love exploring the creative process, I extend a warm invitation to join my Discord community. 
+      Together, we'll delve into the world of art, share our creations, discover new trends, and support each other in our artistic journeys.
+      </p>
+  </div>
+ )
+
+}
+
+
+const Emotions=()=>{
+
+  return(
+
+    <div className=" relative flex gap-1  text-sm  border-b border-dark-border p-2 ">
+          <span className="flex items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <BsFillHeartFill className="text-red-500" />
+            <p >0</p>
+          </span>
+          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <AiFillLike   className="text-yellow-500" />
+            <p >0</p>
+          </span>
+        </div>
+
+  )
+
+
+}
 
 
 
