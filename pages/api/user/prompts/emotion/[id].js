@@ -11,11 +11,26 @@ export default async function handler(req, res) {
     const {EmotionType}=req.body
 
     const user= await User.findById('64bc2d8d17f47dcb5669eedf')
-    const product = await Product.findById(id)
-    const emotion = await Emotion.findById(id)
-    return res.json({product})
-    const like = async (user,product,emotion)=>{
-        return res.status(201).json({emotion})
+    const product = await Product.findByIdAndUpdate(id)
+    const emotion = await Emotion.findOneAndUpdate({productId:id})
+
+    
+
+    const like = async (u,p,e)=>{
+         const index = e.likes.indexOf(u._id)
+         if (index===-1){
+            e.likes.push(u._id)
+            await e.save();
+            return res.status(201).json({'message':'Like Added Successfully'})
+         }else{
+            e.likes.splice(index,1)
+            await e.save();
+            return res.status(201).json({'message':'Like Removed Successfully'})
+         }
+        
+         
+
+        return res.status(201).json({e})
         // return res.status(201).json('I Like It')
     } 
     const dislike = async ()=>{
@@ -35,7 +50,7 @@ export default async function handler(req, res) {
 
     switch (EmotionType) {
         case 'Like':
-            return await like();
+            return await like(user,product,emotion);
             break;
         case 'Dislike':
             return await dislike();
