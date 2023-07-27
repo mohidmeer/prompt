@@ -70,3 +70,32 @@ img {
 
     @apply shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]
  }
+
+
+ .hr-text {
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  text-align: center;
+  height: 1.5em;
+  opacity: 0.5;
+}
+  .hr-text:before {
+    content: "";
+    background: linear-gradient(to right, transparent, #767e8b, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+  }
+  .hr-text:after {
+    content: attr(data-content);
+    line-height: 1.5em;
+    position:relative;
+     @apply bg-dark-background
+  
+  }
+
+

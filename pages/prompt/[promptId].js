@@ -37,15 +37,7 @@ export default function Prompt({Header,session}){
       AddToFavourites(id)
       getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false);});
   }
-  const Buy = async (id)=>{
-    if (session===null){
-      toast.warn('You must login to purchase')
-       return router.push('/login')
-    }
-   const st=  await buyThePrompt({id:id})
-   window.location.href=st
-
-  }
+  
 
   return (
     <PromptLayout>
@@ -55,7 +47,7 @@ export default function Prompt({Header,session}){
       </Head>
       {loading ? <Loader/> :
       <>
-        <Sidebar/>
+        <Sidebar prompt={prompt} session={session}/>
         <div className='mt-8 p-4 mx-auto sm:w-1/2      '>
           
             <div className='relative w-fit '>
@@ -100,18 +92,6 @@ export default function Prompt({Header,session}){
                <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span> {prompt.price }</h3>
               }
             </div> */}
-            
-
-            {/* {
-              prompt.isPurchased ?  
-              <button className='btn my-4' >
-                Purchased
-             </button>:
-              <button className='btn' onClick={()=>{Buy(prompt._id)}}>
-              Get This Prompt
-             </button>
-
-            } */}
 
         </div>
       </>
@@ -154,10 +134,10 @@ export default function Prompt({Header,session}){
 
 
 
-const Sidebar  = () => {
+const Sidebar  = ({prompt,session}) => {
   const router = useRouter();
   return (
-    <div className=' fixed right-0 h-full z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm     '>
+    <div className=' fixed right-0 h-full  z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm '>
 
       <div className='flex justify-between p-4 border-b border-dark-border '>
         <Avatar time={'2 days ago'} name={'Mohid Meer'}/>
@@ -167,17 +147,27 @@ const Sidebar  = () => {
           <MdOutlineCancel onClick={()=>{router.back()}} className='text-2xl cursor-pointer'/>
         </div>
       </div>
-
-      <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8'>
-         <Emotions/>
-          <AddComment/>
-          <CommentsContainer />
+      
+      <div className=' h-full overflow-y-auto '>
+          <Emotions/>
+          <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8'>
+            <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
+              <AddComment/>
+              <CommentsContainer />
+          </div>
+          <hr className=" relative  text-center hr-text mt-4  -mx-4" data-content="Genaration Data"/>
+          <div className='p-4 '>
+            <PromptDescription description={prompt.description} />
+            <PromptInstructions session={session} id={prompt._id}  purchased={prompt.isPurchased} instructions={prompt.instructions} />
+          </div>
       </div>
 
 
     </div>
   )
 }
+
+
 
 
 
@@ -316,7 +306,7 @@ const AddComment = ()=>{
 const CommentsContainer=()=>{
  return(
   <div className='relative'>
-    <Avatar name={'Mr candy'} time={'2 Minutes ago'}/>
+    <Avatar name={'Mr candy'} time={'2 minutes ago'}/>
       <p className='text-sm ml-10 mt-2 text-dark-text        '>Curious about how I created this image?
       If you're an art enthusiast and love exploring the creative process, I extend a warm invitation to join my Discord community. 
       Together, we'll delve into the world of art, share our creations, discover new trends, and support each other in our artistic journeys.
@@ -326,45 +316,72 @@ const CommentsContainer=()=>{
 
 }
 
-
 const Emotions=()=>{
-
   return(
-
-    <div className=" relative flex gap-1  text-sm  border-b border-dark-border p-2 ">
-          <span className="flex items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
-            <BsFillHeartFill className="text-red-500" />
-            <p >0</p>
+    <div className=" relative flex gap-7  text-sm p-4 border-b border-dark-border">
+          <span className="flex flex-col items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <p className='text-red-500 text-2xl'>❤</p>
+            <p >1.6k</p>
           </span>
-          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
-            <AiFillLike   className="text-yellow-500" />
-            <p >0</p>
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <p className='text-2xl'>👍</p>
+            <p>1.2k</p>
+          </span>
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <p className='text-2xl'>👎</p>
+            <p>2.1k</p>
+          </span>
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <p className='text-2xl'>😂</p>
+            <p>300</p>
+          </span>
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+            <p className='text-2xl'>😥</p>
+            <p>20</p>
           </span>
         </div>
+)}
 
-  )
+const PromptDescription=({description})=>{
+  return(
+  <div className=''>
+    <p className='text-dark-text '>Description</p>
+     <div className='bg-dark-border rounded-md text-sm  font-mono  max-h-[400px] overflow-y-auto p-2 mt-2 '>
+         {description}
+     </div>
+  </div>
+)}
 
+const PromptInstructions=({session,id,purchased,instructions})=>{
 
+  const Buy = async ()=>{
+    if (session===null){
+      toast.warn('You must login to purchase')
+       return router.push('/login')
+    }
+   const st=  await buyThePrompt({id:id})
+   window.location.href=st
+  }
+ return(
+  <div className='mt-4 relative'>
+    <div className='flex justify-between items-center'>
+    <p className='text-dark-text '>Instructions</p>
+      {purchased && <AiFillCopy className='cursor-pointer ' onClick={()=>{navigator.clipboard.writeText(instructions);toast.info('Copied')}}/> }
+    </div>
+    {purchased ? <div className='bg-dark-border rounded-md text-sm  font-mono  max-h-[300px] overflow-y-auto p-2 mt-2 mb-4   select-none '>{instructions}</div> :
+        <>
+            <div className='bg-dark-border rounded-md text-sm  font-mono  max-h-[300px] overflow-y-auto p-2 mt-2 mb-4 blur-sm  select-none '>
+            Lorem Ipsum is sd typesetting industry. Ls own  and scrsponic typuLorem Ipsum is sd typesetting industry. Ls own  and scrsponic typuLorem Ipsum is sd typesetting industry. Ls own  and scrsponic typuLorem Ipsum is sd typesetting industry. Ls own  and scrsponic typuLorem Ipsum is sd typesetting industry. Ls own  and scrsponic typuLorem Ipsum is sd typesetting industry. Ls own  and scrsponic typuLorem Ipsum i and scrsponic typuLorem Ipsum is sd typesetting industry. Ls own  and scrsponic typunchain the 1ntaining Loremgre recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+            <button className='btn  rounded-md  absolute top-[30%] left-[25%] mx-auto  z-10' onClick={()=>{Buy()}}>
+                      Get This Prompt
+            </button>
+        </>
+    }
+    <div className='h-[150px]'></div>
+</div>
+ )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
