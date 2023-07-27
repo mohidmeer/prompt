@@ -1,4 +1,5 @@
 import { Schema, model, models  } from 'mongoose';
+import Emotion from './emotions';
   const productSchema = new Schema({
     
     name:{
@@ -58,9 +59,48 @@ import { Schema, model, models  } from 'mongoose';
         type: String,
         enum: ['APPROVED', 'PENDING','REJECTED'],
         default:'PENDING'
-    }
+    },
+    EmotionNumbers:{
+        likes: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          favorites: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          dislikes: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          happy: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          Sad: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+    },
+    
+ },{timestamps:true})
 
-  },{timestamps:true})
+
+
+ productSchema.post('save',async function(doc,next){
+    const id=doc._id
+    await Emotion.create({
+           productId:id,
+        }).then(()=>next()).catch((error)=>next(error))
+  });
+
+
+
 
 
   const Product = models.product || model('product', productSchema);

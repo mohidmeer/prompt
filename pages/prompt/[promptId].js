@@ -53,12 +53,11 @@ export default function Prompt({Header,session}){
             <div className='relative w-fit '>
               <CldImage src={prompt.images[0]}
               className='border border-dark-border rounded-md'
-              width={800}
-              height={1000}
+              width={700}
+              height={900}
               sizes="50w"
-              crop='fit'
+              crop='fill_pad'
               alt={prompt.name}
-       
               unselectable='off' 
               />
               {/* <p className='absolute top-4 left-2 p-1 bg-black/70 text-white font-bold text-sm'>{prompt.model}</p> */}
