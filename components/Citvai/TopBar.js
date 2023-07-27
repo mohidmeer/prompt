@@ -82,12 +82,6 @@ function RightMenu({session}){
         </div>
     )
 }
-
-
-
-
-
-
   
 function Profile({session}) {
     return (
@@ -225,6 +219,7 @@ function Profile({session}) {
       </div>
     )
   }
+  
 function Create() {
     return (
       <div className="">
