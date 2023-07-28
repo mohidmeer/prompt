@@ -54,7 +54,10 @@ import Emotion from './emotions';
             message: 'At least one image is required'
           }  
     }],
-    featured: { type: Boolean, default: false },
+    featured: { 
+      type: Boolean, 
+      default: false 
+    },
     status:{
         type: String,
         enum: ['APPROVED', 'PENDING','REJECTED'],
@@ -81,22 +84,35 @@ import Emotion from './emotions';
             default: 0,
             min: 0
           },
-          Sad: {
+          sad: {
             type: Number,
             default: 0,
             min: 0
           },
     },
+    EmotionId:{
+      type:Schema.Types.ObjectId,
+      ref: 'emotion'
+    }
     
  },{timestamps:true})
 
+  productSchema.post('save',async function(doc,next){
+    
+      const existingEmotion = await Emotion.findOne({ productId: doc._id });
+
+      if (!existingEmotion) {
+        // If Emotion doesn't exist, create a new one
+        const emotion = await Emotion.create({
+          productId: doc._id,
+        });
+        doc.EmotionId = emotion._id;
+        await doc.save();
+      }
+
+      next();
 
 
- productSchema.post('save',async function(doc,next){
-    const id=doc._id
-    await Emotion.create({
-           productId:id,
-        }).then(()=>next()).catch((error)=>next(error))
   });
 
 

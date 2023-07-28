@@ -24,7 +24,7 @@ import { Schema, model, models  } from 'mongoose';
           ref:'user'
         }
     ],
-    Sad:[
+    sad:[
         { type:Schema.Types.ObjectId,
           ref:'user'
         }

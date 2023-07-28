@@ -5,96 +5,127 @@ import User from "@/models/user";
 import { getServerAuthSession } from "@/pages/api/auth/[...nextauth]";
 
 export default async function handler(req, res) {
-
     connectMongo();
+    const session = await getServerAuthSession(req, res)
+    if (!session) 
+    {
+        return res.status(401).json({ error: 'You are not authorized' })   
+    }
+
     const { id } = req.query
     const {EmotionType}=req.body
 
-    const user= await User.findById('64bc2d8d17f47dcb5669eedf')
-    const product = await Product.findByIdAndUpdate(id)
-    const emotion = await Emotion.findOneAndUpdate({productId:id})
+    const u = await User.findByIdAndUpdate(session.user.id)
+    const p = await Product.findByIdAndUpdate(id)
+    const e = await Emotion.findByIdAndUpdate(p.EmotionId)
 
-    
 
     const like = async (u,p,e)=>{
          const index = e.likes.indexOf(u._id)
          if (index===-1){
             e.likes.push(u._id)
             await e.save();
-            return res.status(201).json({'message':'Like Added Successfully'})
+            p.EmotionNumbers.likes += 1;
+            p.save();
+            return res.status(201).json({'message':'👍 Added'})
          }else{
             e.likes.splice(index,1)
             await e.save();
-            return res.status(201).json({'message':'Like Removed Successfully'})
+            p.EmotionNumbers.likes -= 1;
+            p.save();
+            return res.status(201).json({'message':'👍 Removed'})
          }
         
-         
-
-        return res.status(201).json({e})
-        // return res.status(201).json('I Like It')
     } 
-    const dislike = async ()=>{
-        return res.status(201).json('Dont Like It')
+    const dislike = async (u,p,e)=>{
+        const index = e.dislikes.indexOf(u._id)
+        if (index===-1){
+           e.dislikes.push(u._id)
+           await e.save();
+           p.EmotionNumbers.dislikes += 1;
+           await p.save();
+           return res.status(201).json({'message':'👎 Added'})
+        }else{
+           e.dislikes.splice(index,1)
+           await e.save();
+           p.EmotionNumbers.dislikes -= 1;
+           await p.save();
+           return res.status(201).json({'message':'👎 Removed'})
+        }
     } 
-    const happy = async ()=>{
-        return res.status(201).json('Happy to see')
+    const happy = async (u,p,e)=>{
+        const index = e.happy.indexOf(u._id)
+        if (index===-1){
+           e.happy.push(u._id)
+           await e.save();
+           p.EmotionNumbers.happy += 1;
+           await p.save();
+           return res.status(201).json({'message':'😂 Added'})
+        }else{
+           e.happy.splice(index,1)
+           await e.save();
+           p.EmotionNumbers.happy -= 1;
+           await p.save();
+           return res.status(201).json({'message':'😂 Removed '})
+        }
     } 
-    const sad = async ()=>{
-        return res.status(201).json('Sad To see')
+    const sad = async (u,p,e)=>{
+        const index = e.sad.indexOf(u._id)
+        if (index===-1){
+           e.sad.push(u._id)
+           await e.save();
+           p.EmotionNumbers.sad += 1;
+           await p.save();
+           return res.status(201).json({'message':'😥 Added'})
+        }else{
+           e.sad.splice(index,1)
+           await e.save();
+           p.EmotionNumbers.sad -= 1;
+            await p.save();
+           return res.status(201).json({'message':'😥 Removed'})
+        }
     } 
-    const favourite = async ()=>{
-        return res.status(201).json('This is my favourite')
+    const favourite = async (u,p,e)=>{
+        const index = e.favorites.indexOf(u._id)
+        if (index===-1){
+           e.favorites.push(u._id)
+           await e.save();
+           u.favorites.push(id)
+           await u.save();
+           p.EmotionNumbers.favorites += 1;
+           await p.save();
+           return res.status(201).json({'message':'Added to Favorites'})
+        }else{
+           e.favorites.splice(index,1)
+           await e.save();
+           p.EmotionNumbers.favourites -= 1;
+           p.save();
+           const i = u.favorites.indexOf(p._id);
+           u.favorites.splice(i, 1);
+           u.save();
+           return res.status(201).json({'message':'Removed Successfully'})
+        }
     } 
-
-
 
     switch (EmotionType) {
         case 'Like':
-            return await like(user,product,emotion);
+            return await like(u,p,e);
             break;
         case 'Dislike':
-            return await dislike();
+            return await dislike(u,p,e);
             break;
-        case 'Favourite':
-            return await favourite();
+        case 'Favorite':
+            return await favourite(u,p,e);
             break;
         case 'Happy':
-            return await happy();
+            return await happy(u,p,e);
             break;
         case 'Sad':
-            return await sad();
+            return await sad(u,p,e);
             break;
         default:
             res.status(500).json({'error':'Invalid Emotion Type'})
             break;
     }
-
-    // return res.json({EmotionType:EmotionType,id:id});
-    const session = await getServerAuthSession(req, res)
-
-    if (!session) 
-    {
-        console.log('Un Authorized')
-        return res.status(401).json({ error: 'You are not authorized' })
-        
-    }
-
-    // const user= await User.findById(session.user.id)
-
-    if (req.method==='POST'){
-        const index = user.favourites.indexOf(id);
-        if(index===-1){
-            await Product.findByIdAndUpdate({_id:id},{$inc:{favourites:1}})
-            user.favourites.push(id)
-            await user.save()
-            return res.status(200).json({message:"Added To Favourites"})
-        }else{
-            await  Product.findByIdAndUpdate(id,{$inc:{favourites:-1}})
-            user.favourites.splice(index, 1);
-            await user.save()
-            return res.status(200).json({message:"Remove from favourites"})
-        }
-     }
-
     
 }
