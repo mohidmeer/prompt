@@ -1,4 +1,5 @@
 import { Schema, model, models  } from 'mongoose';
+import Emotion from './emotions';
   const productSchema = new Schema({
     
     name:{
@@ -53,14 +54,69 @@ import { Schema, model, models  } from 'mongoose';
             message: 'At least one image is required'
           }  
     }],
-    featured: { type: Boolean, default: false },
+    featured: { 
+      type: Boolean, 
+      default: false 
+    },
     status:{
         type: String,
         enum: ['APPROVED', 'PENDING','REJECTED'],
         default:'PENDING'
+    },
+    EmotionNumbers:{
+        likes: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          favorites: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          dislikes: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          happy: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+          sad: {
+            type: Number,
+            default: 0,
+            min: 0
+          },
+    },
+    EmotionId:{
+      type:Schema.Types.ObjectId,
+      ref: 'emotion'
     }
+    
+ },{timestamps:true})
 
-  },{timestamps:true})
+  productSchema.post('save',async function(doc,next){
+    
+      const existingEmotion = await Emotion.findOne({ productId: doc._id });
+
+      if (!existingEmotion) {
+        // If Emotion doesn't exist, create a new one
+        const emotion = await Emotion.create({
+          productId: doc._id,
+        });
+        doc.EmotionId = emotion._id;
+        await doc.save();
+      }
+
+      next();
+
+
+  });
+
+
+
 
 
   const Product = models.product || model('product', productSchema);

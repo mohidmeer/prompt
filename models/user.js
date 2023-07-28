@@ -24,7 +24,7 @@ import Profile from './profile';
     type:Boolean,
     default:false,
   },
-  favourites:[
+  favorites:[
     {
       type:Schema.Types.ObjectId,
       ref:'product'
