@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     {
        
             console.log('session doesnt Exists')
-            const products= await Product.findOne({slug:req.query.id}).select('-instructions')
+            const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId')
             return res.status(200).json({products})
         
     } else{

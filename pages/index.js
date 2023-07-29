@@ -25,14 +25,14 @@ export default function Home({session}) {
   }
 
   useEffect(()=>{ fetchProductData().then(()=>{setLoading(false);})},[])
-  // useEffect(()=>{},[loading])
+  
 
 
 
 
 
 
-
+  
 
   return (
     <AppLayout>
@@ -47,7 +47,7 @@ export default function Home({session}) {
             <div key={rowIndex} className='flex flex-col gap-4'>
               {products.slice(rowIndex * 5, rowIndex * 5 + 5).map((p, i) => (
                 <div key={i} className="rounded border border-dark-border relative ">
-                  <Details p={p} product_id={p._id}   emotionsArray={p.EmotionId} user_id={session.user.id || '123'} />
+                  <Details p={p} product_id={p._id}   emotionsArray={p.EmotionId} user_id={session ? session.user.id :'123' } />
                 <Link href={'/prompt/'+p.slug}  >
                   <CldImage src={p.images[0]}
                       width={300}
@@ -71,7 +71,8 @@ export default function Home({session}) {
 }
 
 
-const Details = ({p,user_id,emotionsArray,product_id}) => {
+const Details = ({p,user_id,emotionsArray,product_id,session}) => {
+  const router =useRouter()
 
   const [like,setLike]=useState(p.EmotionNumbers.likes)
   const [dislike,setDislikes]=useState(p.EmotionNumbers.dislikes)
@@ -86,6 +87,7 @@ const Details = ({p,user_id,emotionsArray,product_id}) => {
   const [isSad,setIsSad]=useState(emotionsArray.sad.includes(user_id))
 
   const AddEmotionsToPrompt = async(e)=>{
+    if (!session){ return router.push('/login')}
     await AddEmotions(product_id,e).then((res)=>{
       console.log(res.data)
       switch(res.data.action){

@@ -81,7 +81,7 @@ const Sidebar  = ({prompt,session}) => {
       </div>
       
       <div className=' h-full overflow-y-auto '>
-          <Emotions  user_id={session.user.id} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
+          <Emotions  user_id={session ? session.user.id :'123'} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
           <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8'>
             <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
               <AddComment/>
@@ -369,7 +369,7 @@ const PromptDescription=({description})=>{
 )}
 
 const PromptInstructions=({session,id,purchased,instructions})=>{
-
+  const router = useRouter();
   const Buy = async ()=>{
     if (session===null){
       toast.warn('You must login to purchase')
