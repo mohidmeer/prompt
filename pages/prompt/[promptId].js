@@ -29,7 +29,9 @@ export default function Prompt({Header,session}){
      }
       getProduct(router.query.promptId)
       .then((d)=>{
-        setprompt(d); setLoading(false);})
+        setprompt(d); 
+        console.log(d)
+        setLoading(false);})
      
   },[router.query])
   return (
@@ -79,7 +81,7 @@ const Sidebar  = ({prompt,session}) => {
       </div>
       
       <div className=' h-full overflow-y-auto '>
-          <Emotions p={prompt.EmotionNumbers} id={prompt._id}  />
+          <Emotions  user_id={session.user.id} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
           <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8'>
             <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
               <AddComment/>
@@ -246,7 +248,7 @@ const CommentsContainer=()=>{
 
 }
 
-const Emotions=({p,id})=>{
+const Emotions=({p,id,emotionsArray,user_id})=>{
 
   const [like,setLike]=useState(p.likes)
   const [dislike,setDislikes]=useState(p.dislikes)
@@ -254,9 +256,11 @@ const Emotions=({p,id})=>{
   const [sad,setSad]=useState(p.sad)
   const [favorite,setFavorite]=useState(p.favorites)
 
-
-  
-
+  const [isLiked,setIsLiked]=useState(emotionsArray.likes.includes(user_id))
+  const [isDisliked,setIsDisliked]=useState(emotionsArray.dislikes.includes(user_id))
+  const [isFav,setIsFav]=useState(emotionsArray.favorites.includes(user_id))
+  const [isHappy,setIsHappy]=useState(emotionsArray.happy.includes(user_id))
+  const [isSad,setIsSad]=useState(emotionsArray.sad.includes(user_id))
 
 
   const AddEmotionsToPrompt = async(e)=>{
@@ -266,36 +270,46 @@ const Emotions=({p,id})=>{
         case 'LIKE' :
           if (res.status===201){
             setLike(like+1)
+            setIsLiked(true)
           }else if(res.status===202){
             setLike(like-1)
+            setIsLiked(false)
           }
         break;
         case 'DISLIKE' :
           if (res.status===201){
             setDislikes(dislike+1)
+            setIsDisliked(true)
           }else if(res.status===202){
             setDislikes(dislike-1)
+            setIsDisliked(false)
           }
         break;
         case 'FAVORITE' :
           if (res.status===201){
             setFavorite(favorite+1)
+            setIsFav(true)
           }else if(res.status===202){
             setFavorite(favorite-1)
+            setIsFav(false)
           }
         break;
         case 'HAPPY' :
           if (res.status===201){
             setHappy(happy+1)
+            setIsHappy(true)
           }else if(res.status===202){
+            setIsHappy(false)
             setHappy(happy-1)
           }
         break;
         case 'SAD' :
           if (res.status===201){
             setSad(sad+1)
+            setIsSad(true)
           }else if(res.status===202){
             setSad(sad-1)
+            setIsSad(false)
           }
         break;
         default:
@@ -308,28 +322,36 @@ const Emotions=({p,id})=>{
 
 
 
-
-
   
   return(
     <div className=" relative flex gap-7  text-sm p-4 border-b border-dark-border">
-          <span className="flex flex-col items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer "   onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}   >
+          <span className={`flex flex-col items-center gap-1 
+          ${isFav ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }     px-2 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}>
             <p className='text-red-500 text-2xl'>❤</p>
             <p>{favorite} </p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}>
+          <span className={`flex flex-col items-center gap-1 
+           ${isLiked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }     px-2 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}>
             <p className='text-2xl'>👍</p>
             <p>{like}</p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}>
+          <span className={`flex flex-col items-center gap-1 
+          ${isDisliked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }     px-2 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}>
             <p className='text-2xl'>👎</p>
             <p>{dislike}</p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}}>
+          <span className={`flex flex-col items-center gap-1  
+          ${isHappy ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }     px-2 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}}>
             <p className='text-2xl'>😂</p>
             <p>{happy}</p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}>
+          <span className={`flex flex-col items-center gap-1 
+           ${isSad ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }     px-2 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}>
             <p className='text-2xl'>😥</p>
             <p>{sad}</p>
           </span>

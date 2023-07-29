@@ -13,6 +13,7 @@ export default async function handler(req, res) {
     }
 
     const { id } = req.query
+    // return console.log(id)
     const {emotionType}=req.body
 
     const u = await User.findByIdAndUpdate(session.user.id)

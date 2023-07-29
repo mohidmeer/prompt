@@ -21,7 +21,7 @@ export default async function handler(req, res) {
            let isFav=false
            let isPurchased=false
            const u = await User.findById(session.user.id)
-           let products= await Product.findOne({slug:req.query.id}).select('-instructions')
+           let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId')
 
              if (u.favorites.includes(products.id)){
                  isFav=true
