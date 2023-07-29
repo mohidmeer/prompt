@@ -93,6 +93,10 @@ import Emotion from './emotions';
     EmotionId:{
       type:Schema.Types.ObjectId,
       ref: 'emotion'
+    },
+    commentId:{
+      type:Schema.Types.ObjectId,
+      ref: 'comment'
     }
     
  },{timestamps:true})

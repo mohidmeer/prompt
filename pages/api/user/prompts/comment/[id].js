@@ -15,18 +15,19 @@ export default async function handler(req, res) {
     if(req.method==='POST'){
 
         try {
-            // Find the existing comment document for the given product ID
             let existingComment = await Comment.findOne({ productId :id});
         
             if (existingComment) {
-              // If the comment document exists, update it by pushing the new comment
               existingComment.comment.push({
                 content:comment,
                 userId:session.user.id
               });
               await existingComment.save();
-              res.status(201).json({'message':'Comment Added Successfully'})
-            } else {
+              await Product.findByIdAndUpdate(id,{commentId:existingComment._id})
+             return res.status(201).json({'message':'Comment Added Successfully'})
+            } 
+            else 
+            {
               
               existingComment = await Comment.create({
                 productId:id,
@@ -35,13 +36,14 @@ export default async function handler(req, res) {
                     userId:session.user.id
                   }],
               });
-        
+              await Product.findByIdAndUpdate(id,{commentId:existingComment._id})
               await existingComment.save();
              return res.status(201).json({'message':'Comment Added Successfully'})
             }
         
             return existingComment;
           } catch (error) {
+            console.log(error)
             res.status(500).json({'error':'Server Error'})
           }
 
