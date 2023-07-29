@@ -244,20 +244,6 @@ const Avatar = ({time,name,flex,src='https://lh3.googleusercontent.com/a/AAcHTtf
 
 const AddComments = ({session,product_id,commentValue,setCommentValue,setComments,CommentsNumber}) => {
 
-  if (!session){
-    return(
-      <Link href='/login' 
-      className='inline-flex w-full  
-      justify-center rounded-md    
-      bg-dark-border bg-opacity-20 px-4 py-2    
-      text-sm font-medium    
-      hover:bg-opacity-30   
-      border border-dark-border'>
-        Sign In
-      </Link>
-    )
-  }
-  
   const [loading,setLoading] = useState(false);
   const handleChange = (e) => {
     setCommentValue(e.target.value);
@@ -276,6 +262,22 @@ const AddComments = ({session,product_id,commentValue,setCommentValue,setComment
     setLoading(false);
     setCommentValue('')
   }
+
+  if (!session){
+    return(
+      <Link href='/login' 
+      className='inline-flex w-full  
+      justify-center rounded-md    
+      bg-dark-border bg-opacity-20 px-4 py-2    
+      text-sm font-medium    
+      hover:bg-opacity-30   
+      border border-dark-border'>
+        Sign In
+      </Link>
+    )
+  }
+  
+  
 
   return (
     <>

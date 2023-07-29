@@ -1,5 +1,4 @@
 import VendorLayout from '@/layout/VendorLayout'
-import Navbar from '@/components/vendor/Navbar'
 import Container from '@/components/vendor/Container'
 import { getServerAuthSession } from '../api/auth/[...nextauth]'
 
