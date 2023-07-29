@@ -12,6 +12,8 @@ export default async function handler(req, res) {
     }
     const { id } = req.query
     const {comment}=req.body
+    const {messageId}= req.body
+    const {newContent} = req.body
     if(req.method==='POST'){
         try {
             let existingComment = await Comment.findOne({ productId :id});
@@ -49,9 +51,34 @@ export default async function handler(req, res) {
           
     }
     if (req.method==='GET'){
-      const comments = await Comment.find({productId:id});
+      const comments = await Comment.find({productId:id}).populate({
+        path:'comment.userId',
+        model:'user',
+        select:'name avatar'
+      });
       res.status(200).json({comments})
 
+    }
+    if (req.method==='PUT'){
+      
+      const comments = await Comment.findByIdAndUpdate(id,{ $pull: { comment: { _id: messageId } } },{ new: true }).populate({
+        path:'comment.userId',
+        model:'user',
+        select:'name avatar'
+      });
+      res.status(200).json({comments})
+    }
+    if (req.method==='PATCH'){
+      const comments = await Comment.findOneAndUpdate(
+        { 'comment._id': id, 'comment._id': messageId}, // Find the specific comment and content within the comment
+        { $set: { 'comment.$.content': newContent } }, // Update the content field of the matched comment
+        { new: true }
+      ).populate({
+        path:'comment.userId',
+        model:'user',
+        select:'name avatar'
+      });
+      res.status(200).json({comments})
     }
 
 

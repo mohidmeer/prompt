@@ -80,6 +80,24 @@ export async function GetComments(id,content){
      toast.info('General Server Error')
   }
 }
+export async function DeleteComments(id,comment_id){
+  try {
+    const response = await AxiosClient.put(`/prompts/comment/${id}`,comment_id)
+    toast.info('Deleted Comment Successfully')
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
+export async function UpdateComments(id,comment_id){
+  try {
+    const response = await AxiosClient.patch(`/prompts/comment/${id}`,comment_id)
+    toast.info('Updated Comment Successfully')
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
 
 
 
