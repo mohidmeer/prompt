@@ -9,7 +9,9 @@ export default function promptLayout({children}){
 
     return (
         <div className={`${nunito.className} bg-dark-background text-white`}>
+          <div className=' '>
           <TopBar/>
+          </div>
             {children}
         </div>
       )

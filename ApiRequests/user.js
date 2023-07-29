@@ -50,9 +50,23 @@ export async function getUserSales(){
 
 export async function AddToFavourites(id){
     await AxiosClient.post(`/prompts/favourite/${id}`)
-   .then((res)=>{ toast.error('Server Error')})
+   .then((res)=>{ toast.info('Server Error')})
    .catch((e)=>{ serverErrorHandler(404) })
   }
+
+export async function AddEmotions(id,emotionType){
+  try {
+    const response = await AxiosClient.post(`/prompts/emotion/${id}`,emotionType)
+    toast.info(response.data.message)
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
+
+
+
+
 export async function buyThePrompt(id){
   try {
     const response = await AxiosClient.post(`/prompts/buy`, id);

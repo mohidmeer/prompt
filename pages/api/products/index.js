@@ -1,5 +1,6 @@
 import connectMongo from "@/database/conn";
 import Category from "@/models/categories";
+import Emotion from "@/models/emotions";
 import Product from "@/models/products";
 
 export default async function handler(req, res) {
@@ -15,10 +16,9 @@ export default async function handler(req, res) {
         let category =  [req.query.category] || ''
         if (category==''){  category=catnames;}
         const sortBy =  parseInt(req.query.sortBy)|| 'created_at'
-       
-
         const products= await Product.find()
         .select('-instructions' )
+        .populate('EmotionId')
         .where('category').in(category)
         .skip(page*limit)
         .limit(limit)

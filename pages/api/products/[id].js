@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     {
        
             console.log('session doesnt Exists')
-            const products= await Product.findOne({slug:req.query.id}).select('-instructions')
+            const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId')
             return res.status(200).json({products})
         
     } else{
@@ -21,9 +21,9 @@ export default async function handler(req, res) {
            let isFav=false
            let isPurchased=false
            const u = await User.findById(session.user.id)
-           let products= await Product.findOne({slug:req.query.id}).select('-instructions')
+           let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId')
 
-             if (u.favourites.includes(products.id)){
+             if (u.favorites.includes(products.id)){
                  isFav=true
              }
              if (u.purchases.includes(products.id)){
@@ -39,11 +39,5 @@ export default async function handler(req, res) {
 
 
     return res.status(404).json({message:'Method Not Allowed'})
-
-
-
-
-
-    
 
 }
