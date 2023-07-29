@@ -111,7 +111,7 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
               setComments={setComments}
               CommentsNumber={comments?.length}
               />
-              <CommentsContainer  setComments={setComments} comments={comments} threadId={threadId} />
+              <CommentsContainer session={session}  setComments={setComments} comments={comments} threadId={threadId} />
           </div>
           <hr className=" relative  text-center hr-text mt-4  -mx-4" data-content="Genaration Data"/>
           <div className='p-4 '>
@@ -361,14 +361,14 @@ const UpdateComment = ({ commentId, content,setIsEdit,setComments,threadId }) =>
   );
 }
 
-const CommentsContainer=({comments,threadId,setComments})=>{
+const CommentsContainer=({comments,threadId,setComments,session})=>{
 
  return(
   <div className='flex flex-col gap-3'>
     {
       comments &&
       comments.slice().reverse().map((c, i) => (
-        <SingleComment key={i} c={c} threadId={threadId} setComments={setComments}  />
+        <SingleComment key={i} c={c} threadId={threadId} setComments={setComments} session={session}  />
       ))
     }
 
@@ -378,7 +378,7 @@ const CommentsContainer=({comments,threadId,setComments})=>{
 }
 
 
-const SingleComment=({c,threadId,setComments})=>{
+const SingleComment=({c,threadId,setComments,session})=>{
   const [edit,setIsEdit]=useState('');
   return(
     <div className='relative px-2'>
@@ -389,7 +389,9 @@ const SingleComment=({c,threadId,setComments})=>{
                 {c.content}
               </p>     
               <div className='absolute right-0 top-2'>
-              <EditCommentMenu setIsEdit={setIsEdit} commentId={c._id} threadId={threadId} setComments={setComments} />
+              {
+                c.userId._id ===session?.user.id && <EditCommentMenu setIsEdit={setIsEdit} commentId={c._id} threadId={threadId} setComments={setComments} />
+              }
 
               </div>
               </> :
