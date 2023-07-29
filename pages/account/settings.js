@@ -3,7 +3,7 @@ import Container from '@/components/vendor/Container'
 import { getServerAuthSession } from '../api/auth/[...nextauth]'
 
 
-export default function Settings() { 
+export default function Settings() {
   return (
     <VendorLayout>
         <Container label={'Settings'}>
