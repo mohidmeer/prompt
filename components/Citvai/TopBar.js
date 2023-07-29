@@ -15,7 +15,7 @@ const TopBar = () => {
 
 
     return (
-        <div className="flex justify-between items-center px-10 py-4  gap-10 border-b border-dark-border bg-dark-background text-white">
+        <div className="flex justify-between items-center px-10 py-4  gap-10 border-b border-dark-border bg-dark-background text-white ">
             <Logo  />
             <Search/>
             <RightMenu session={session}/>

@@ -50,6 +50,11 @@ import Profile from './profile';
     type:Boolean,
     required:true,
     default:false
+  },
+  profileId:{
+
+    type:Schema.Types.ObjectId,
+      ref:'profile'
   }
   
   },{timestamps:true})
@@ -66,12 +71,19 @@ import Profile from './profile';
   });
 
   userSchema.post('save',async function(doc,next){
-    const name=doc.name
-    const id=doc._id
-    await Profile.create({
-           userId:id,
-           name:name.toLowerCase().replace(/ +/g, ""),
-        }).then(()=>next()).catch((error)=>next(error))
+
+     const profile = await Profile.findOne({userId:doc._id})
+
+     if (!profile){
+        const profile = await Profile.create({
+          userId:doc._id,
+          name:doc.name.toLocaleLowerCase().replace(/ +/g, "")
+        })
+        doc.profileId=profile._id
+        await doc.save();
+     }
+     next();
+  
   });
 
 

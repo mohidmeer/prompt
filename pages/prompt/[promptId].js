@@ -8,12 +8,12 @@ import { MdOutlineCancel, MdVerified, MdVerifiedUser } from 'react-icons/md';
 import { AiFillCopy, AiFillEye, AiFillHeart, AiFillLike } from 'react-icons/ai';
 import { IoIosShareAlt } from 'react-icons/io';
 import { toast } from 'react-toastify';
-import { AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
+import { AddEmotions, AddToFavourites, buyThePrompt } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import { Menu, Transition } from '@headlessui/react';
+import { Menu, Switch, Transition } from '@headlessui/react';
 import {  BsFillHeartFill, BsFlag, BsPlus } from 'react-icons/bs';
 import { ImCancelCircle } from 'react-icons/im';
 import InputBox from '@/components/InputBox';
@@ -31,14 +31,7 @@ export default function Prompt({Header,session}){
       .then((d)=>{
         setprompt(d); setLoading(false);})
      
-  },[router.query,prompt])
-
-  const  AddToFav = async (id)=>{
-      AddToFavourites(id)
-      getProduct(router.query.promptId).then((d)=>{setprompt(d) ;setLoading(false);});
-  }
-  
-
+  },[router.query])
   return (
     <PromptLayout>
       <Head>
@@ -48,8 +41,7 @@ export default function Prompt({Header,session}){
       {loading ? <Loader/> :
       <>
         <Sidebar prompt={prompt} session={session}/>
-        <div className='mt-8 p-4 mx-auto sm:w-1/2      '>
-          
+        <div className='mt-8 p-4 mx-auto sm:w-1/2'>
             <div className='relative w-fit '>
               <CldImage src={prompt.images[0]}
               className='border border-dark-border rounded-md'
@@ -60,38 +52,7 @@ export default function Prompt({Header,session}){
               alt={prompt.name}
               unselectable='off' 
               />
-              {/* <p className='absolute top-4 left-2 p-1 bg-black/70 text-white font-bold text-sm'>{prompt.model}</p> */}
             </div>
-            {/* <div className='my-4 flex gap-8 text-lg font-bold  '>
-              <p>{prompt.description.length} words </p>
-              <p className='flex items-center gap-1'>Tested <MdVerified/></p>
-              <p className='flex items-center gap-1'>320<AiFillEye/></p>
-              <p onClick={()=>AddToFav(prompt._id)} 
-              className={ `${prompt.isFav ? 'text-black ':'' } flex items-center gap-1 `}>
-                <AiFillHeart className=' cursor-pointer'  />{prompt.favourites}</p>
-            </div> */}
-            {/* <div className='flex gap-8 text-sm font-bold   '>
-               <p className='flex items-center gap-1 cursor-pointer'>@profilename <MdVerifiedUser/></p>
-            </div>
-            <hr className='mr-10  bg-black'/>
-
-            <div className='mt-10 pr-10'>
-              <h3 className='font-bold text-2xl'>Description</h3>
-            <p className=' font-bold text-gray-600 '>
-              {prompt.description}
-            </p>
-              {
-                prompt.isPurchased ?
-                <>
-                <h3 className='font-bold text-2xl mt-4'>Instructions</h3>
-                <p className=' font-bold text-gray-600 '>
-                 {prompt.instructions}
-                </p>
-                </>:
-               <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span> {prompt.price }</h3>
-              }
-            </div> */}
-
         </div>
       </>
       }
@@ -99,36 +60,6 @@ export default function Prompt({Header,session}){
   )
 }
 
- function Loader() {
-  return (
-    <PromptLayout>
-      <div className='mt-4 w-1/2 animate-pulse'>
-        <div className='shadow-xl  shad bg-gray-200 w-full h-[350px] card-shadow   relative'>
-          <p className='absolute top-4 left-2 px-8 p-2 bg-black/30 text-white font-bold text-sm'></p>
-        </div>
-        <div className='my-4 flex gap-8 text-lg font-bold  '>
-              <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
-              <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
-              <p className='flex items-center gap-1 bg-gray-300 w-8 h-2'></p>
-             
-            </div>
-
-            <div className='mt-5 flex flex-col gap-2 '>
-              <div className='bg-gray-200   h-6'></div>
-              <div className='bg-gray-200   h-6'></div>
-              <div className='bg-gray-200   h-6'></div>
-              <div className='bg-gray-200   h-6'></div>
-            </div> 
-            <h3 className='text-4xl font-bold my-4 text-gray-600 flex items-center '><span className='text-xl'><BiDollar/> </span></h3>
-            <button className='btn !text-transparent !bg-gray-300'>
-              Get This Prompt
-            </button>
-
-      </div>
-
-    </PromptLayout>
-  )
-}
 
 
 
@@ -148,7 +79,7 @@ const Sidebar  = ({prompt,session}) => {
       </div>
       
       <div className=' h-full overflow-y-auto '>
-          <Emotions/>
+          <Emotions p={prompt.EmotionNumbers} id={prompt._id}  />
           <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8'>
             <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
               <AddComment/>
@@ -315,28 +246,92 @@ const CommentsContainer=()=>{
 
 }
 
-const Emotions=()=>{
+const Emotions=({p,id})=>{
+
+  const [like,setLike]=useState(p.likes)
+  const [dislike,setDislikes]=useState(p.dislikes)
+  const [happy,setHappy]=useState(p.happy)
+  const [sad,setSad]=useState(p.sad)
+  const [favorite,setFavorite]=useState(p.favorites)
+
+
+  
+
+
+
+  const AddEmotionsToPrompt = async(e)=>{
+    await AddEmotions(id,e).then((res)=>{
+      console.log(res.data)
+      switch(res.data.action){
+        case 'LIKE' :
+          if (res.status===201){
+            setLike(like+1)
+          }else if(res.status===202){
+            setLike(like-1)
+          }
+        break;
+        case 'DISLIKE' :
+          if (res.status===201){
+            setDislikes(dislike+1)
+          }else if(res.status===202){
+            setDislikes(dislike-1)
+          }
+        break;
+        case 'FAVORITE' :
+          if (res.status===201){
+            setFavorite(favorite+1)
+          }else if(res.status===202){
+            setFavorite(favorite-1)
+          }
+        break;
+        case 'HAPPY' :
+          if (res.status===201){
+            setHappy(happy+1)
+          }else if(res.status===202){
+            setHappy(happy-1)
+          }
+        break;
+        case 'SAD' :
+          if (res.status===201){
+            setSad(sad+1)
+          }else if(res.status===202){
+            setSad(sad-1)
+          }
+        break;
+        default:
+          toast.error('Client Error')
+        }
+    
+    })
+  }
+
+
+
+
+
+
+  
   return(
     <div className=" relative flex gap-7  text-sm p-4 border-b border-dark-border">
-          <span className="flex flex-col items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex flex-col items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer "   onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}   >
             <p className='text-red-500 text-2xl'>❤</p>
-            <p >1.6k</p>
+            <p>{favorite} </p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}>
             <p className='text-2xl'>👍</p>
-            <p>1.2k</p>
+            <p>{like}</p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}>
             <p className='text-2xl'>👎</p>
-            <p>2.1k</p>
+            <p>{dislike}</p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}}>
             <p className='text-2xl'>😂</p>
-            <p>300</p>
+            <p>{happy}</p>
           </span>
-          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex flex-col items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer " onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}>
             <p className='text-2xl'>😥</p>
-            <p>20</p>
+            <p>{sad}</p>
           </span>
         </div>
 )}
@@ -382,6 +377,17 @@ const PromptInstructions=({session,id,purchased,instructions})=>{
  )
 }
 
+
+
+function Loader() {
+  return (
+    <PromptLayout>
+      <>
+      </>
+
+    </PromptLayout>
+  )
+}
 
 
 

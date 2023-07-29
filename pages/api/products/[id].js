@@ -23,7 +23,7 @@ export default async function handler(req, res) {
            const u = await User.findById(session.user.id)
            let products= await Product.findOne({slug:req.query.id}).select('-instructions')
 
-             if (u.favourites.includes(products.id)){
+             if (u.favorites.includes(products.id)){
                  isFav=true
              }
              if (u.purchases.includes(products.id)){
@@ -39,11 +39,5 @@ export default async function handler(req, res) {
 
 
     return res.status(404).json({message:'Method Not Allowed'})
-
-
-
-
-
-    
 
 }

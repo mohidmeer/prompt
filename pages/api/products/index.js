@@ -15,8 +15,6 @@ export default async function handler(req, res) {
         let category =  [req.query.category] || ''
         if (category==''){  category=catnames;}
         const sortBy =  parseInt(req.query.sortBy)|| 'created_at'
-       
-
         const products= await Product.find()
         .select('-instructions' )
         .where('category').in(category)

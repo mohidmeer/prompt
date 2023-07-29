@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     }
 
     const { id } = req.query
-    const {EmotionType}=req.body
+    const {emotionType}=req.body
 
     const u = await User.findByIdAndUpdate(session.user.id)
     const p = await Product.findByIdAndUpdate(id)
@@ -27,13 +27,13 @@ export default async function handler(req, res) {
             await e.save();
             p.EmotionNumbers.likes += 1;
             p.save();
-            return res.status(201).json({'message':'👍 Added'})
+            return res.status(201).json({'message':'👍 Added',action:'LIKE'})
          }else{
             e.likes.splice(index,1)
             await e.save();
             p.EmotionNumbers.likes -= 1;
             p.save();
-            return res.status(201).json({'message':'👍 Removed'})
+            return res.status(202).json({'message':'👍 Removed',action:'LIKE'})
          }
         
     } 
@@ -44,13 +44,13 @@ export default async function handler(req, res) {
            await e.save();
            p.EmotionNumbers.dislikes += 1;
            await p.save();
-           return res.status(201).json({'message':'👎 Added'})
+           return res.status(201).json({'message':'👎 Added',action:'DISLIKE'})
         }else{
            e.dislikes.splice(index,1)
            await e.save();
            p.EmotionNumbers.dislikes -= 1;
            await p.save();
-           return res.status(201).json({'message':'👎 Removed'})
+           return res.status(202).json({'message':'👎 Removed',action:'DISLIKE'})
         }
     } 
     const happy = async (u,p,e)=>{
@@ -60,13 +60,13 @@ export default async function handler(req, res) {
            await e.save();
            p.EmotionNumbers.happy += 1;
            await p.save();
-           return res.status(201).json({'message':'😂 Added'})
+           return res.status(201).json({'message':'😂 Added',action:'HAPPY'})
         }else{
            e.happy.splice(index,1)
            await e.save();
            p.EmotionNumbers.happy -= 1;
            await p.save();
-           return res.status(201).json({'message':'😂 Removed '})
+           return res.status(202).json({'message':'😂 Removed',action:'HAPPY' })
         }
     } 
     const sad = async (u,p,e)=>{
@@ -76,13 +76,13 @@ export default async function handler(req, res) {
            await e.save();
            p.EmotionNumbers.sad += 1;
            await p.save();
-           return res.status(201).json({'message':'😥 Added'})
+           return res.status(201).json({'message':'😥 Added',action:'SAD'})
         }else{
            e.sad.splice(index,1)
            await e.save();
            p.EmotionNumbers.sad -= 1;
             await p.save();
-           return res.status(201).json({'message':'😥 Removed'})
+           return res.status(202).json({'message':'😥 Removed',action:'SAD'})
         }
     } 
     const favourite = async (u,p,e)=>{
@@ -94,20 +94,20 @@ export default async function handler(req, res) {
            await u.save();
            p.EmotionNumbers.favorites += 1;
            await p.save();
-           return res.status(201).json({'message':'Added to Favorites'})
+           return res.status(201).json({'message':'Added to Favorites',action:'FAVORITE'})
         }else{
            e.favorites.splice(index,1)
            await e.save();
-           p.EmotionNumbers.favourites -= 1;
+           p.EmotionNumbers.favorites -= 1;
            p.save();
            const i = u.favorites.indexOf(p._id);
            u.favorites.splice(i, 1);
            u.save();
-           return res.status(201).json({'message':'Removed Successfully'})
+           return res.status(202).json({'message':'Removed Successfully',action:'FAVORITE'})
         }
     } 
 
-    switch (EmotionType) {
+    switch (emotionType) {
         case 'Like':
             return await like(u,p,e);
             break;

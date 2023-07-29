@@ -1,3 +1,4 @@
+import { AddEmotions } from "@/ApiRequests/user";
 import Button from "@/components/Buttons";
 import PromptContainer from "@/components/user/PromptContainer";
 import Hero from "@/components/user/hero";
@@ -16,18 +17,21 @@ export default function Home() {
   const {products,fetchProductData}=useExplore();
   const [loading,setLoading]=useState();  
 
-  const Heights=[280,350,420,380]
+  const Heights=[480,450,520,420]
   function getRandomHeight() {
     const randomIndex = Math.floor(Math.random() * Heights.length);
     return Heights[randomIndex];
   }
 
   useEffect(()=>{ fetchProductData().then(()=>{setLoading(false);})},[])
+  // useEffect(()=>{},[loading])
 
 
-  useEffect(()=>{
-    console.log(products.length)
-  },[loading])
+
+
+
+
+
 
   return (
     <AppLayout>
@@ -41,8 +45,9 @@ export default function Home() {
           {Array.from({ length: Math.ceil(products.length / 5) }).map((_, rowIndex) => (
             <div key={rowIndex} className='flex flex-col gap-4'>
               {products.slice(rowIndex * 5, rowIndex * 5 + 5).map((p, i) => (
-                <Link href={'/prompt/'+p.slug} key={i} className='rounded border border-dark-border relative '>
+                <div key={i} className="rounded border border-dark-border relative ">
                   <Details p={p} i={i} row={rowIndex}/>
+                <Link href={'/prompt/'+p.slug}  >
                   <CldImage src={p.images[0]}
                       width={300}
                       height={getRandomHeight()}
@@ -52,6 +57,7 @@ export default function Home() {
                       unselectable='off' 
                       />
                 </Link> 
+                </div>
               ))}
             </div>
           ))}
@@ -65,6 +71,15 @@ export default function Home() {
 
 
 const Details = ({p,i,row}) => {
+
+  const [like,setLike]=useState(p.EmotionNumbers.likes)
+  const [dislike,setDislikes]=useState(p.EmotionNumbers.dislikes)
+  const [happy,setHappy]=useState(p.EmotionNumbers.happy)
+  const [sad,setSad]=useState(p.EmotionNumbers.sad)
+  const [favorite,setFavorite]=useState(p.EmotionNumbers.favorites)
+
+ 
+
   return (
     <>
       <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
@@ -78,25 +93,25 @@ const Details = ({p,i,row}) => {
       <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
       <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
       <div className=" relative flex gap-2  text-sm p-2">
-      <span className="flex items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+      <span className="flex items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer" onClick={()=>{AddEmotions(p._id,{emotionType:'Favorite'})}}>
             <p className='text-red-500'>❤</p>
-            <p>0</p>
+            <p>{favorite}</p>
           </span>
-          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex items-center gap-1 hover:bg-dark-muted px-2 rounded-md cursor-pointer"     onClick={()=>{AddEmotions(p._id,{emotionType:'Like'})}}>
             <p>👍</p>
-            <p >0</p>
+            <p >{like}</p>
           </span>
-          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer"   onClick={()=>{AddEmotions(p._id,{emotionType:'Dislike'})}}>
             <p>👎</p>
-            <p >0</p>
+            <p >{dislike}</p>
           </span>
-          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer"   onClick={()=>{AddEmotions(p._id,{emotionType:'Happy'})}}>
             <p>😂</p>
-            <p >0</p>
+            <p >{happy}</p>
           </span>
-          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer ">
+          <span className="flex items-center gap-1   hover:bg-dark-muted px-2 rounded-md cursor-pointer"    onClick={()=>{AddEmotions(p._id,{emotionType:'Sad'})}}>
             <p>😥</p>
-            <p></p>
+            <p>{sad}</p>
           </span>
         </div>
 
