@@ -69,9 +69,7 @@ function RightMenu({session}){
             bg-dark-border bg-opacity-20 px-4 py-2 
             text-sm font-medium 
             hover:bg-opacity-30 
-            focus-visible:ring-2
-          focus-visible:ring-white 
-            focus-visible:ring-opacity-75">
+            border border-dark-border">
                 Sign in
             </Link>
             

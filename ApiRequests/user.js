@@ -63,6 +63,15 @@ export async function AddEmotions(id,emotionType){
      toast.info('General Server Error')
   }
 }
+export async function AddComment(id,content){
+  try {
+    const response = await AxiosClient.post(`/prompts/comment/${id}`,content)
+    toast.info(response.data.message)
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
 
 
 

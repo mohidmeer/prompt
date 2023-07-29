@@ -1,7 +1,4 @@
 import { AddEmotions } from "@/ApiRequests/user";
-import Button from "@/components/Buttons";
-import PromptContainer from "@/components/user/PromptContainer";
-import Hero from "@/components/user/hero";
 import AppLayout from "@/layout/AppLayout";
 import { useExplore } from "@/stores/explore";
 import { CldImage } from "next-cloudinary";
