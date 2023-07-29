@@ -11,27 +11,37 @@ export default async function handler(req, res) {
 
         if (!session) 
     {
-       
             console.log('session doesnt Exists')
-            const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId')
+            const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
+                path: 'commentId',
+                populate: {
+                  path: 'comment.userId',
+                  model: 'user',
+                  select: 'name avatar',
+                },
+              })
             return res.status(200).json({products})
         
     } else{
             
-           let isFav=false
            let isPurchased=false
            const u = await User.findById(session.user.id)
-           let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId')
+           let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
+            path: 'commentId',
+            populate: {
+              path: 'comment.userId',
+              model: 'user',
+              select: 'name avatar',
+            },
+          })
 
-             if (u.favorites.includes(products.id)){
-                 isFav=true
-             }
+            
              if (u.purchases.includes(products.id)){
                 isPurchased=true
                 products= await Product.findOne({slug:req.query.id})
              }
 
-            return res.status(200).json({products:{...products._doc,isFav,isPurchased}})
+            return res.status(200).json({products:{...products._doc,isPurchased}})
         
 
     }

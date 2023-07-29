@@ -69,9 +69,7 @@ function RightMenu({session}){
             bg-dark-border bg-opacity-20 px-4 py-2 
             text-sm font-medium 
             hover:bg-opacity-30 
-            focus-visible:ring-2
-          focus-visible:ring-white 
-            focus-visible:ring-opacity-75">
+            border border-dark-border">
                 Sign in
             </Link>
             
@@ -102,7 +100,7 @@ function Profile({session}) {
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="
-            absolute right-0  z-10
+            absolute right-0  z-20
             mt-2 w-56 origin-top-right 
             divide-y divide-dark-border
             text-gray-300   

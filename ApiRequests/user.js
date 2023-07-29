@@ -63,6 +63,41 @@ export async function AddEmotions(id,emotionType){
      toast.info('General Server Error')
   }
 }
+export async function AddComment(id,content){
+  try {
+    const response = await AxiosClient.post(`/prompts/comment/${id}`,content)
+    toast.info(response.data.message)
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
+export async function GetComments(id,content){
+  try {
+    const response = await AxiosClient.get(`/prompts/comment/${id}`)
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
+export async function DeleteComments(id,comment_id){
+  try {
+    const response = await AxiosClient.put(`/prompts/comment/${id}`,comment_id)
+    toast.info('Deleted Comment Successfully')
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
+export async function UpdateComments(id,comment_id){
+  try {
+    const response = await AxiosClient.patch(`/prompts/comment/${id}`,comment_id)
+    toast.info('Updated Comment Successfully')
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
 
 
 
