@@ -72,6 +72,14 @@ export async function AddComment(id,content){
      toast.info('General Server Error')
   }
 }
+export async function GetComments(id,content){
+  try {
+    const response = await AxiosClient.get(`/prompts/comment/${id}`)
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
 
 
 

@@ -13,7 +13,6 @@ export default async function handler(req, res) {
     const { id } = req.query
     const {comment}=req.body
     if(req.method==='POST'){
-
         try {
             let existingComment = await Comment.findOne({ productId :id});
         
@@ -48,6 +47,11 @@ export default async function handler(req, res) {
           }
 
           
+    }
+    if (req.method==='GET'){
+      const comments = await Comment.find({productId:id});
+      res.status(200).json({comments})
+
     }
 
 
