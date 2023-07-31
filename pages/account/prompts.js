@@ -110,7 +110,7 @@ export async function getServerSideProps(context) {
       },
     }
   }
-  if (session.user.paymentEnabled) {
+  if (session.user.payment) {
     return {
       redirect: {
         destination: '/stripe',
