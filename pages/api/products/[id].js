@@ -33,6 +33,15 @@ export default async function handler(req, res) {
               model: 'user',
               select: 'name avatar',
             },
+
+          }).populate({
+            path:'vendorId',
+            select:'profileId',
+            populate:{
+              path:'profileId',
+              model:'profile',
+              select:'name'
+            }
           })
 
             

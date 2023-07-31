@@ -41,6 +41,7 @@ export default function Prompt({Header,session}){
           setprompt(d);
           console.log(d);
           setComments(d.commentId.comment)
+          setThreadId(d.commentId._id)
           setLoading(false);
         })
         .catch((error) => {
@@ -93,7 +94,9 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
     <div className=' fixed right-0 h-full  z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm '>
 
       <div className='flex justify-between p-4 border-b border-dark-border '>
-        <Avatar time={'2 days ago'} name={'Mohid Meer'}/>
+        <Link href={'/profile/'+prompt.vendorId.profileId.name}>
+            <Avatar time={moment(prompt.createdAt).fromNow()} name={'Mohid Meer'}/>
+        </Link>
         <div className='flex gap-4 items-center'>
           <Share />
           <Report/>
@@ -490,7 +493,6 @@ const Emotions=({p,id,emotionsArray,user_id})=>{
 
   const AddEmotionsToPrompt = async(e)=>{
     await AddEmotions(id,e).then((res)=>{
-      console.log(res.data)
       switch(res.data.action){
         case 'LIKE' :
           if (res.status===201){

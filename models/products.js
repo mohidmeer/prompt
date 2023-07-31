@@ -1,5 +1,6 @@
 import { Schema, model, models  } from 'mongoose';
 import Emotion from './emotions';
+import Comment from './comments';
   const productSchema = new Schema({
     
     name:{
@@ -102,27 +103,16 @@ import Emotion from './emotions';
  },{timestamps:true})
 
   productSchema.post('save',async function(doc,next){
-    
+
       const existingEmotion = await Emotion.findOne({ productId: doc._id });
-      const comment = await Comment.findOne({productId: doc._id});
-
-      if (!comment){
-        const c = await Comment.create({productId:doc._id})
-        doc.commentId =c._id
-        await doc.save();
-      }
-
       if (!existingEmotion) {
-        // If Emotion doesn't exist, create a new one
         const emotion = await Emotion.create({
           productId: doc._id,
         });
         doc.EmotionId = emotion._id;
         await doc.save();
       }
-
       next();
-
 
   });
 
