@@ -1,5 +1,4 @@
-import { getUserFavourites, getUserProducts, getUserPurchases, getUserSales, } from '@/ApiRequests/user';
-import {  getUserProfile } from '@/ApiRequests/explore';
+import { getUserFavourites, getUserProducts, getUserPurchases, getUserSales,getUserProfile } from '@/ApiRequests/user';
 import serverErrorHandler from '@/lib/server/serverErrorHandler';
 import axios from 'axios';
 import {create} from 'zustand';
@@ -29,8 +28,8 @@ export const useUserStore=create((set)=>({
         let p = await getUserPurchases()
         set({purchases:p})
     },
-    fetchProfile: async ()=>{
-        let profile = await getUserProfile()
+    fetchProfile: async (v)=>{
+        let profile = await getUserProfile(v)
         set({profile:profile})
     },
     fetchSales: async ()=>{

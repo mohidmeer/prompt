@@ -59,6 +59,7 @@ export async function AddEmotions(id,emotionType){
      toast.info('General Server Error')
   }
 }
+
 export async function AddComment(id,content){
   try {
     const response = await AxiosClient.post(`/prompts/comment/${id}`,content)
@@ -130,6 +131,22 @@ export async function getOnboardingUrl(){
   }
 }
 
+export async function getUserProfile(v=''){
+  return await AxiosClient.get(`/profile/`+v)
+  .then((res)=>{ return res.data.profile})
+  .catch((e)=>{serverErrorHandler('Genaral Server Error')})
+ }
+
+
+ export async function AddEmotionsToProfile(id,emotionType){
+  try {
+    const response = await AxiosClient.post(`/profile/emotion/${id}`,emotionType)
+    toast.info(response.data.message)
+    return response;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
 
 
   

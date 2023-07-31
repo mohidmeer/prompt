@@ -24,13 +24,6 @@ export default function Home({session}) {
   useEffect(()=>{ fetchProductData().then(()=>{setLoading(false);})},[])
   
 
-
-
-
-
-
-  
-
   return (
     <AppLayout>
       <Head>
@@ -85,7 +78,6 @@ const Details = ({p,user_id,emotionsArray,product_id,session}) => {
   const AddEmotionsToPrompt = async(e)=>{
     if (!session){ return router.push('/login')}
     await AddEmotions(product_id,e).then((res)=>{
-      console.log(res.data)
       switch(res.data.action){
         case 'LIKE' :
           if (res.status===201){
