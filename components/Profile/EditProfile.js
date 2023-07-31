@@ -1,59 +1,43 @@
-import { getUserProfile } from "@/ApiRequests/explore";
+import { Updateprofile } from "@/ApiRequests/user";
 import profile_validate from "@/lib/client/profileValidate";
-import { useUserStore } from "@/stores/user/user"
 import { Dialog, Transition } from "@headlessui/react"
 import { useFormik } from "formik";
 import { Fragment, useEffect, useState } from "react"
-import { AiFillFacebook, AiFillInstagram, AiFillYoutube, AiOutlineTwitter, } from "react-icons/ai";
+import { AiFillInstagram, AiFillYoutube, AiOutlineTwitter, } from "react-icons/ai";
 import { BiGlobe } from "react-icons/bi";
-import { FaFacebookF } from "react-icons/fa";
+import { BsDiscord } from "react-icons/bs";
+import { FaFacebookF, FaUser } from "react-icons/fa";
 
 const EditProfile = ({isOpen,setIsOpen,p}) => {
-    // const {profile,fetchProfile } = useUserStore();
-    const [profile,setProfile]=useState()
-    const [loading,setLoading]=useState(true)
+    const [change,setChange]=useState(false)
+
+    
     const formik = useFormik({
       initialValues: {
-        name: '',
-        bio:'',
-        facebook:'',
-        twitter:'',
-        youtube:'',
-        instagram:'', 
-        website:'',         
+        name: p.name,
+        facebook:p.facebook,
+        twitter:p.twitter,
+        youtube:p.youtube,
+        discord:p.discord,
+        instagram:p.instagram, 
+        website:p.website,         
       },onSubmit,
       validate: profile_validate,
     });
     async function onSubmit(values) {
-        addNewProduct(values)
+        Updateprofile(values)
       closeModal();
     }
-    useEffect(()=>{
-      getUserProfile().then((d)=>{
-        setProfile(d);
-        setLoading(false)
-        formik.values.name=d.name
-        formik.values.bio=d.bio
-        formik.values.facebook=d.facebook
-        formik.values.twitter=d.twitter
-        formik.values.youtube=d.youtube 
-        formik.values.instagram=d.instagram  
-        formik.values.website=d.website  
-      })
-    },[loading])
-
-    if (loading){return}
-
-
-    // useEffect(()=>{fetchProfile()},[])
-
-    
+   
+  
   return (
     <div>
         <EditProfileModel isOpen={isOpen} setIsOpen={setIsOpen}  >
           <form className="p-4" onSubmit={formik.handleSubmit} >
             <div className="my-4">
             <label className="input-wrapper">Name</label>
+            <div className="flex items-center gap-1">
+              <FaUser size={32} />
             <input
               className={`input-box  ${
                 formik.errors.name && formik.touched.name
@@ -65,40 +49,14 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
               placeholder='Jhon Doe'
               {...formik.getFieldProps("name")}
             />
-            {formik.errors.name && formik.touched.name ? (
-              <div className="mt-2 font-bold text-sm text-rose-500">
-                {formik.errors.name}
-              </div>
-            ) : (
-              <></>
-            )}
             </div>
-            <div className="my-4">
-            <label className="input-wrapper">Bio</label>
-            <textarea
-              className={`input-box  ${
-                formik.errors.bio && formik.touched.bio
-                  ? "focus:ring-rose-600 focus:border-rose-600"
-                  : ""
-              } `}
-              type="text"
-              id="bio"
-              rows={5}
-              placeholder={'About yourself and interests'}
-              {...formik.getFieldProps("bio")}
-            />
-            {formik.errors.bio && formik.touched.bio ? (
-              <div className="mt-2 font-bold text-sm text-rose-500">
-                {formik.errors.bio}
-              </div>
-            ) : (
-              <></>
-            )}
+            {formik.errors.name && formik.touched.name ? (<div className="mt-2 font-bold text-sm text-rose-500">{formik.errors.name}</div>) : (<></>)}
             </div>
+            
             <div className="my-4">
             <label className="input-wrapper">Facebook</label>
             <div className="flex items-center gap-1">
-              <FaFacebookF size={32} />
+              <FaFacebookF className="text-facebook" size={32} />
             <input
               className={`input-box  ${
                 formik.errors.facebook && formik.touched.facebook
@@ -123,7 +81,7 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
 
             <label className="input-wrapper">Twitter</label>
             <div className="flex items-center gap-1">
-              <AiOutlineTwitter size={32} />
+              <AiOutlineTwitter className="text-twitter" size={32} />
             <input
               className={`input-box  ${
                 formik.errors.twitter && formik.touched.twitter
@@ -145,32 +103,9 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
             )}
             </div>
             <div className="my-4">
-            <label className="input-wrapper">Youtube</label>
-            <div className="flex items-center gap-1">
-              <AiFillYoutube size={32} />
-            <input
-              className={`input-box  ${
-                formik.errors.youtube && formik.touched.youtube
-                  ? "focus:ring-rose-600 focus:border-rose-600"
-                  : ""
-              } `}
-              type="text"
-              id="youtube"
-              placeholder='https://www.youtube.com/@youtubecreators'
-              {...formik.getFieldProps("youtube")}
-            /></div>
-            {formik.errors.youtube && formik.touched.youtube ? (
-              <div className="mt-2 font-bold text-sm text-rose-500">
-                {formik.errors.youtube}
-              </div>
-            ) : (
-              <></>
-            )}
-            </div>
-            <div className="my-4">
             <label className="input-wrapper">Instagram</label>
             <div className="flex items-center gap-1">
-              <AiFillInstagram size={32} />
+              <AiFillInstagram size={32} className="text-instagram " />
             <input
               className={`input-box  ${
                 formik.errors.instagram && formik.touched.instagram
@@ -190,6 +125,53 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
               <></>
             )}
             </div>
+            <div className="my-4">
+            <label className="input-wrapper">Discord </label>
+            <div className="flex items-center gap-1">
+              <BsDiscord size={32} className="text-discord " />
+            <input
+              className={`input-box  ${
+                formik.errors.discord && formik.touched.discord
+                  ? "focus:ring-rose-600 focus:border-rose-600"
+                  : ""
+              } `}
+              type="text"
+              id="discord"
+              placeholder='https://www.discord.com/username_here'
+              {...formik.getFieldProps("discord")}
+            /></div>
+            {formik.errors.discord && formik.touched.discord ? (
+              <div className="mt-2 font-bold text-sm text-rose-500">
+                {formik.errors.discord}
+              </div>
+            ) : (
+              <></>
+            )}
+            </div>
+            <div className="my-4">
+            <label className="input-wrapper">Youtube</label>
+            <div className="flex items-center gap-1">
+              <AiFillYoutube size={32} className="text-red-500" />
+            <input
+              className={`input-box  ${
+                formik.errors.youtube && formik.touched.youtube
+                  ? "focus:ring-rose-600 focus:border-rose-600"
+                  : ""
+              } `}
+              type="text"
+              id="youtube"
+              placeholder='https://www.youtube.com/@youtubecreators'
+              {...formik.getFieldProps("youtube")}
+            /></div>
+            {formik.errors.youtube && formik.touched.youtube ? (
+              <div className="mt-2 font-bold text-sm text-rose-500">
+                {formik.errors.youtube}
+              </div>
+            ) : (
+              <></>
+            )}
+            </div>
+            
             <div className="my-4">
             <label className="input-wrapper">Website</label>
             <div className="flex items-center gap-1">
@@ -213,7 +195,8 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
               <></>
             )}
             </div>
-            <button type='submit' className="btn w-full mt-4">Update</button>
+            <button type='submit' className="btn !bg-dark-info w-full mt-4 disabled:cursor-not-allowed disabled:!bg-red-600" disabled={!formik.isValid || !formik.dirty}>Update</button>
+          
           </form>      
         </EditProfileModel>
     </div>

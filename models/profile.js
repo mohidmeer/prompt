@@ -7,7 +7,8 @@ import { Schema, model, models } from 'mongoose';
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    unique:true,
   },
   views:{
     type:Number,
@@ -37,15 +38,15 @@ import { Schema, model, models } from 'mongoose';
     type:String,
     default:''
   },
+  discord:{
+    type:String,
+    default:''
+  },
   instagram:{
     type:String,
     default:''
   },
   website:{
-    type:String,
-    default:''
-  },
-  bio:{
     type:String,
     default:''
   },
