@@ -46,7 +46,7 @@ export default function Index({ session }) {
                 </button> */}
               {!loading && <EditProfile p={profile} isOpen={isOpen} setIsOpen={setIsOpen} /> }
             </div>
-            <Emotions />
+            {!loading && <Emotions e={profile.EmotionNumbers}  /> }
           </div>
         </div>
         <UserPrompts session={session} />
@@ -56,38 +56,28 @@ export default function Index({ session }) {
   )
 }
 
-
-
-const Emotions = () => {
-  const [like, setLike] = useState(0)
-  const [dislike, setDislikes] = useState(0)
-  const [happy, setHappy] = useState(0)
-  const [sad, setSad] = useState(0)
-  const [favorite, setFavorite] = useState(0)
-
-
-
+const Emotions = ({e}) => {
   return (
     <div className=" relative flex gap-2  text-sm  ">
       <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
         <p className='text-red-500 text-sm'>❤</p>
-        <p>{favorite} </p>
+        <p>{e.favorites} </p>
       </span>
       <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
         <p className='text-sm'>👍</p>
-        <p>{like}</p>
+        <p>{e.likes}</p>
       </span>
       <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
         <p className='text-sm'>👎</p>
-        <p>{dislike}</p>
+        <p>{e.dislikes}</p>
       </span>
       <span className={`flex  items-center gap-2 bg-dark-light py-2 px-2 rounded-md cursor-pointer`} >
         <p className='text-sm'>😂</p>
-        <p>{happy}</p>
+        <p>{e.happy}</p>
       </span>
       <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
         <p className='text-sm'>😥</p>
-        <p>{sad}</p>
+        <p>{e.sad}</p>
       </span>
     </div>
   )
@@ -283,22 +273,22 @@ const Accounts = ({profile}) => {
   return(
     <div className=" relative flex justify-between  text-sm p-2 gap-4   ">
       <Tippy content={profile.facebook} placement="bottom">
-        <Link href={''}><FaFacebookF className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
+        <Link href={'https://'+profile.facebook}><FaFacebookF className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
       </Tippy>
       <Tippy content={profile.twitter} placement="bottom">
-        <Link href={''}><AiOutlineTwitter className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
+        <Link href={'https://'+profile.twitter}><AiOutlineTwitter className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
       </Tippy>
       <Tippy content={profile.instagram} placement="bottom">
-        <Link href={''}><AiFillInstagram className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
+        <Link href={'https://'+profile.instagram}><AiFillInstagram className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
       </Tippy>
       <Tippy content={profile.discord} placement="bottom">
-        <Link href={''}><BsDiscord className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
+        <Link href={'https://'+profile.discord}><BsDiscord className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
       </Tippy>
       <Tippy content={profile.youtube} placement="bottom">
-        <Link href={''}><AiFillYoutube className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
+        <Link href={'https://'+profile.youtube}><AiFillYoutube className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
       </Tippy>
       <Tippy content={profile.website} placement="bottom">
-        <Link href={''}><BiGlobe className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
+        <Link href={'https://'+profile.website}><BiGlobe className="bg-dark-light p-2 cursor-pointer  rounded-md " size={40} /></Link>
       </Tippy>
   </div>
   )
