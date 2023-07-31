@@ -50,6 +50,37 @@ import { Schema, model, models } from 'mongoose';
     type:String,
     default:''
   },
+  EmotionNumbers:{
+    likes: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      favorites: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      dislikes: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      happy: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      sad: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+},
+  EmotionId:{
+  type:Schema.Types.ObjectId,
+  ref: 'emotion'
+  },
   
   },{timestamps:true})
 
