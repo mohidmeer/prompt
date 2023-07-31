@@ -97,7 +97,7 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
             </div>
             <div className="my-4">
             <label className="input-wrapper">Facebook</label>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               <FaFacebookF size={32} />
             <input
               className={`input-box  ${
@@ -122,7 +122,7 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
             <div className="my-4">
 
             <label className="input-wrapper">Twitter</label>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               <AiOutlineTwitter size={32} />
             <input
               className={`input-box  ${
@@ -146,7 +146,7 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
             </div>
             <div className="my-4">
             <label className="input-wrapper">Youtube</label>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               <AiFillYoutube size={32} />
             <input
               className={`input-box  ${
@@ -169,7 +169,7 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
             </div>
             <div className="my-4">
             <label className="input-wrapper">Instagram</label>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               <AiFillInstagram size={32} />
             <input
               className={`input-box  ${
@@ -192,7 +192,7 @@ const EditProfile = ({isOpen,setIsOpen,p}) => {
             </div>
             <div className="my-4">
             <label className="input-wrapper">Website</label>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               <BiGlobe size={32} />
             <input
               className={`input-box  ${
@@ -229,15 +229,13 @@ const EditProfileModel = ({children,isOpen,setIsOpen }) => {
 
   return (
       <>
-    <div className="flex  justify-end  mt-4">
       <button
         type="button"
         onClick={openModal}
-        className="btn mb-4"
+        className="flex px-4 py-1 bg-red-600 text-white text-sm rounded font-bold"
       >
-        Edit Profile
+        Edit 
       </button>
-    </div>
 
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>

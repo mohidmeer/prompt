@@ -70,7 +70,6 @@ export default function Home({session}) {
 
 const Details = ({p,user_id,emotionsArray,product_id,session}) => {
   const router =useRouter()
-
   const [like,setLike]=useState(p.EmotionNumbers.likes)
   const [dislike,setDislikes]=useState(p.EmotionNumbers.dislikes)
   const [happy,setHappy]=useState(p.EmotionNumbers.happy)
@@ -201,7 +200,6 @@ export async function getServerSideProps(context) {
   let session = await getServerAuthSession(context.req, context.res)
 
   session=JSON.parse(JSON.stringify(session))
-  // Otherwise, return the data as props
   return {
     props: {
        session

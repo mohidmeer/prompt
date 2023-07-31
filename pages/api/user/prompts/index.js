@@ -74,7 +74,7 @@ export default async function handler(req, res) {
 
     }
     if (req.method==='GET'){  
-      const products= await Product.find({vendorId:session.user.id});
+      const products= await Product.find({vendorId:session.user.id}).populate('EmotionId');
       return res.status(200).json({products})
     }
 }
