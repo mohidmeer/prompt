@@ -7,7 +7,8 @@ import { Schema, model, models } from 'mongoose';
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    unique:true,
   },
   views:{
     type:Number,
@@ -37,6 +38,10 @@ import { Schema, model, models } from 'mongoose';
     type:String,
     default:''
   },
+  discord:{
+    type:String,
+    default:''
+  },
   instagram:{
     type:String,
     default:''
@@ -45,9 +50,36 @@ import { Schema, model, models } from 'mongoose';
     type:String,
     default:''
   },
-  bio:{
-    type:String,
-    default:''
+  EmotionNumbers:{
+    likes: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      favorites: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      dislikes: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      happy: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+      sad: {
+        type: Number,
+        default: 0,
+        min: 0
+      },
+},
+  EmotionId:{
+  type:Schema.Types.ObjectId,
+  ref: 'emotion'
   },
   
   },{timestamps:true})

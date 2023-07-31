@@ -5,7 +5,6 @@ import Product from "@/models/products";
 
 export default async function handler(req, res) {
 
-
     if(req.method === "GET"){
         connectMongo();
         const cat= await Category.find().select('-_id slug')
@@ -25,5 +24,6 @@ export default async function handler(req, res) {
          return res.status(200).json({products,p:products.length})
         // return res.status(200).json({category,catnames,limit,page})
     }
+
 
 }
