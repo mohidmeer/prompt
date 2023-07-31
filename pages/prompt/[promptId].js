@@ -20,6 +20,7 @@ export default function Prompt({Header,session}){
   const router = useRouter();
   const [prompt,setprompt]=useState()
   const [loading,setLoading]=useState(true)
+  const [threadId,setThreadId]=useState('')
   const isInitialMount = useRef(true);
 
   // Related to AddComments
@@ -64,7 +65,8 @@ export default function Prompt({Header,session}){
         commentValue={commentValue}
         setCommentValue={setCommentValue}
         setComments={setComments}
-        threadId={prompt.commentId._id}
+        threadId={threadId}
+        setThreadId={setThreadId}
         />
         <div className='mt-8 p-4 mx-auto sm:w-1/2'>
             <div className='relative w-fit '>
@@ -85,7 +87,7 @@ export default function Prompt({Header,session}){
   )
 }
 
-const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComments,threadId }) => {
+const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComments,threadId,setThreadId }) => {
   const router = useRouter();
   return (
     <div className=' fixed right-0 h-full  z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm '>
@@ -104,6 +106,7 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
           <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-4'>
             <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
               <AddComments 
+              setThreadId={setThreadId}
               session={session} 
               product_id={prompt._id}
               commentValue={commentValue}
@@ -242,7 +245,7 @@ const Avatar = ({time,name,flex,src='https://lh3.googleusercontent.com/a/AAcHTtf
 
 }
 
-const AddComments = ({session,product_id,commentValue,setCommentValue,setComments,CommentsNumber}) => {
+const AddComments = ({session,product_id,commentValue,setCommentValue,setComments,CommentsNumber,setThreadId}) => {
 
   const [loading,setLoading] = useState(false);
   const handleChange = (e) => {
@@ -260,6 +263,7 @@ const AddComments = ({session,product_id,commentValue,setCommentValue,setComment
     const response = await GetComments(product_id)
     setComments(response.data.comments[0].comment)
     setLoading(false);
+    setThreadId(response.data.comments[0]._id)
     setCommentValue('')
   }
 
@@ -405,6 +409,7 @@ const SingleComment=({c,threadId,setComments,session})=>{
 
 const EditCommentMenu = ({commentId,setIsEdit,threadId,setComments}) => {
   const handleDeleteComment = async ()=>{
+  
    const res = await DeleteComments(threadId,{messageId:commentId});
    setComments(res.data.comments.comment)
   }
