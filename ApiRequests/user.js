@@ -17,43 +17,39 @@ export async function addNewProduct(values) {
         serverSuccessHandler(201,res.data.message)
      })
      .catch((e)=>{toast.error('Server Error')}) ;
-  }
+}
 export async function deleteProduct(id) {
      await AxiosClient.delete(`/prompts/${id}`)
      .then((res)=>{
         serverSuccessHandler(201,res.data.message)
      })
      .catch((e)=>{toast.error('Server Error')}) ;
-  }
-
+}
 export async function getUserProducts(){
    return await AxiosClient.get(`/prompts`)
    .then((res)=>{ return res.data.products})
    .catch((e)=>{toast.error('Server Error')})
-  }
+}
 export async function getUserFavourites(){
    return await AxiosClient.get(`/prompts/favourite`)
    .then((res)=>{ return res.data.favourites})
    .catch((e)=>{toast.error('Server Error')})
-  }
+}
 export async function getUserPurchases(){
    return await AxiosClient.get(`/prompts/purchases`)
    .then((res)=>{ return res.data.purchases})
    .catch((e)=>{toast.error('Server Error')})
-  }
+}
 export async function getUserSales(){
    return await AxiosClient.get(`/prompts/sales`)
    .then((res)=>{ return res.data.sales})
    .catch((e)=>{toast.error('Server Error')})
-  }
-
-
+}
 export async function AddToFavourites(id){
     await AxiosClient.post(`/prompts/favourite/${id}`)
    .then((res)=>{ toast.info('Server Error')})
    .catch((e)=>{ serverErrorHandler(404) })
-  }
-
+}
 export async function AddEmotions(id,emotionType){
   try {
     const response = await AxiosClient.post(`/prompts/emotion/${id}`,emotionType)
@@ -98,10 +94,24 @@ export async function UpdateComments(id,comment_id){
      toast.info('General Server Error')
   }
 }
-
-
-
-
+export async function Updateprofile(d){
+  const id = toast.loading('Updating profile')
+  await AxiosClient.post(`/profile`,d)
+  .then((res)=>{
+    toast.update(id, { render: "Profile Updated", type: "success", isLoading: false });
+  })
+  .catch((e)=>{
+    toast.update(id, { render: "Server Error", type: "error", isLoading: false })
+  })
+}
+export async function checkUserNameTaken(d){
+  try {
+    const u = await AxiosClient.put(`/profile`,d)
+    return u.data
+  } catch (error) {
+    toast.error('Server Error Occured')
+  }
+}
 export async function buyThePrompt(id){
   try {
     const response = await AxiosClient.post(`/prompts/buy`, id);
@@ -109,8 +119,7 @@ export async function buyThePrompt(id){
   } catch (error) {
     toast.error('Server Error');
   }
-  }
-
+}
 export async function getOnboardingUrl(){
   try {
     const response = await AxiosClient.get('/stripe')
@@ -120,6 +129,8 @@ export async function getOnboardingUrl(){
     
   }
 }
+
+
 
   
 

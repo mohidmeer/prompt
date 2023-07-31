@@ -27,7 +27,14 @@ module.exports = {
            'muted':'#b6bdc4',
            'success':'#2b8a3e',
            'info':'#1864ab',
-        } 
+        } ,
+        'facebook': '#4267B2',
+        'twitter': '#1DA1F2',
+        'instagram': '#833AB4',
+        'discord': '#7289da',
+        'pintrest': '#E60023',
+        'telegram': ' #229ED9',
+        'reddit': '#FF5700',
       },
 
 
