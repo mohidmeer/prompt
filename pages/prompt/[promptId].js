@@ -546,10 +546,6 @@ const Emotions=({p,id,emotionsArray,user_id})=>{
     })
   }
 
-
-
-
-  
   return(
     <div className=" relative flex gap-7  text-sm p-4 border-b border-dark-border">
           <span className={`flex flex-col items-center gap-1 

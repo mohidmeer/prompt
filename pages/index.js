@@ -37,7 +37,7 @@ export default function Home({session}) {
             <div key={rowIndex} className='flex flex-col gap-4'>
               {products.slice(rowIndex * 5, rowIndex * 5 + 5).map((p, i) => (
                 <div key={i} className="rounded border border-dark-border relative ">
-                  <Details p={p} product_id={p._id}   emotionsArray={p.EmotionId} user_id={session ? session.user.id :'123' } />
+                  <Details p={p} product_id={p._id} session={session}  emotionsArray={p.EmotionId} user_id={session ? session.user.id :'123' } />
                 <Link href={'/prompt/'+p.slug}  >
                   <CldImage src={p.images[0]}
                       width={300}

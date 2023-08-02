@@ -1,6 +1,8 @@
 import connectMongo from "@/database/conn";
 import { getServerAuthSession } from "../../auth/[...nextauth]";
 import Profile from "@/models/profile";
+import Emotion from "@/models/emotions";
+import User from "@/models/user";
 
 
 
@@ -9,7 +11,10 @@ export default async function handler(req, res) {
     const session = await getServerAuthSession(req, res);
     if (req.method==='GET'){
       let isFollowing=false;
-      const profile= await Profile.findOne({name:req.query.username})
+      const profile= await Profile.findOne({name:req.query.username}).populate({
+        path:'userId',
+        select:'-_id avatar'
+      }).populate('EmotionId')
       if (!session){
           return res.status(200).json({profile:{...profile._doc,isFollowing}})
         } 
@@ -29,13 +34,20 @@ export default async function handler(req, res) {
       
     }
 
+
+
+
+
+
+
+
     if (req.method==='POST'){
       if (!session) 
       {
         return res.status(401).json({ error: 'You are not authorized' })
       }
 
-      const {type,emotion}= req.body
+      const {type}= req.body
 
       if (type==='FOLLOW'){
         const profile= await Profile.findOne({name:req.query.username});
@@ -44,20 +56,18 @@ export default async function handler(req, res) {
             profile.followerlist.push(session.user.id)
             profile.followers +=1;
             profile.save();
-            console.log('INCREMENTING')
             return res.status(201).json({message:'You are Following '+req.query.username});
         } else{
             profile.followerlist.splice(profile.followerlist.indexOf(session.user.id),1)
             profile.followers-=1;
             profile.save();
-            console.log('DCREMENTING')
             return res.status(201).json({message:'Unfollowing '+req.query.username})
         }
 
       }
 
-
-
+   
+    
 
     }
    

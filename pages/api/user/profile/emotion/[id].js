@@ -1,6 +1,6 @@
 import connectMongo from "@/database/conn";
 import Emotion from "@/models/emotions";
-import Product from "@/models/products";
+import Profile from "@/models/profile";
 import User from "@/models/user";
 import { getServerAuthSession } from "@/pages/api/auth/[...nextauth]";
 
@@ -16,9 +16,13 @@ export default async function handler(req, res) {
     const {emotionType}=req.body
 
     const u = await User.findByIdAndUpdate(session.user.id)
-    const p = await Product.findByIdAndUpdate(id)
-    const e = await Emotion.findByIdAndUpdate(p.EmotionId)
-
+    const p = await Profile.findByIdAndUpdate(id)
+    let   e = await Emotion.findByIdAndUpdate(p.EmotionId)
+    if (!e){
+        e = await Emotion.create({productId:p._id})
+        p.EmotionId=e._id
+        p.save();
+    }
 
     const like = async (u,p,e)=>{
          const index = e.likes.indexOf(u._id)
@@ -90,8 +94,7 @@ export default async function handler(req, res) {
         if (index===-1){
            e.favorites.push(u._id)
            await e.save();
-           u.favorites.push(id)
-           await u.save();
+           
            p.EmotionNumbers.favorites += 1;
            await p.save();
            return res.status(201).json({'message':'Added to Favorites',action:'FAVORITE'})
@@ -101,8 +104,6 @@ export default async function handler(req, res) {
            p.EmotionNumbers.favorites -= 1;
            p.save();
            const i = u.favorites.indexOf(p._id);
-           u.favorites.splice(i, 1);
-           u.save();
            return res.status(202).json({'message':'Removed Successfully',action:'FAVORITE'})
         }
     } 

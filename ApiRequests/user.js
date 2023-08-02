@@ -135,10 +135,7 @@ export async function getUserProfile(v=''){
   return await AxiosClient.get(`/profile/`+v)
   .then((res)=>{ return res.data.profile})
   .catch((e)=>{serverErrorHandler('Genaral Server Error')})
- }
-
-
-
+}
 
  export async function getUserPublicProfile(v=''){
   try {
