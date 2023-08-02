@@ -244,8 +244,6 @@ const Avatar = ({time,name,flex,src='https://lh3.googleusercontent.com/a/AAcHTtf
     </div>
   </div>
   )
-
-
 }
 
 const AddComments = ({session,product_id,commentValue,setCommentValue,setComments,CommentsNumber,setThreadId}) => {
@@ -659,14 +657,12 @@ export async function getServerSideProps(context) {
   const Header = await getProduct(params.promptId);
   let session = await getServerAuthSession(context.req, context.res)
 
-  // If the data is not found, return a 404 page
   if (!Header) {
     return {
       notFound: true,
     };
   }
   session=JSON.parse(JSON.stringify(session))
-  // Otherwise, return the data as props
   return {
     props: {
       Header,session

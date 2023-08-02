@@ -23,7 +23,7 @@ const contentSchema = new Schema({
   },{timestamps:true});
 
 const notificationSchema = new Schema({
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'user',
     required: true,

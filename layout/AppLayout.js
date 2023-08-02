@@ -10,7 +10,6 @@ export default function AppLayout({children}){
     return (
         <div className={`${nunito.className} bg-dark-background text-white    `}>
           <TopBar/>
-          
           <div className='container mx-auto'>
             <NavBar/>
             <TagBar/>

@@ -224,7 +224,7 @@ const AddProducts = ({Open,paymentEnabled}) => {
         </div>
         
         <div className="flex justify-end">
-            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid} >
+            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid.toString()} >
             Add
             </button>
         </div>

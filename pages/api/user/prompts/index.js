@@ -35,21 +35,21 @@ export default async function handler(req, res) {
         const imagesArray = images.map(i => {
           return  cloudinary.url(i) ;
         });
-        // const metadata= {
-        //     vendor_id:session.user.id.toString()
-        //   }
-        // const stripeProduct = await stripe.products.create({
-        //       name:name,
-        //       description:description,
-        //       images:imagesArray,
-        //       metadata:metadata,
-        //     }).catch((error)=>{stripeErrorHandler(error)})  
+        const metadata= {
+            vendor_id:session.user.id.toString()
+          }
+        const stripeProduct = await stripe.products.create({
+              name:name,
+              description:description,
+              images:imagesArray,
+              metadata:metadata,
+            }).catch((error)=>{stripeErrorHandler(error)})  
 
-        // const stripePrice = await stripe.prices.create({
-        //         unit_amount: price*100,
-        //         currency: 'usd',
-        //         product: stripeProduct.id,
-        //     }).catch((error)=>{stripeErrorHandler(error)});
+        const stripePrice = await stripe.prices.create({
+                unit_amount: price*100,
+                currency: 'usd',
+                product: stripeProduct.id,
+            }).catch((error)=>{stripeErrorHandler(error)});
 
       const P = await Product.create({
           name:name,
