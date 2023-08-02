@@ -14,9 +14,10 @@ const AxiosClient = axios.create({
 export async function addNewProduct(values) {
      await AxiosClient.post(`/prompts`,values)
      .then((res)=>{
-        serverSuccessHandler(201,res.data.message)
+        console.log(res);
+        toast.success('Created successfully')
      })
-     .catch((e)=>{toast.error('Server Error')}) ;
+     .catch((e)=>{toast.error('Error Occured')}) ;
 }
 export async function deleteProduct(id) {
      await AxiosClient.delete(`/prompts/${id}`)

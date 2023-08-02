@@ -1,5 +1,6 @@
 import connectMongo from "@/database/conn";
 import Product from "@/models/products";
+import { getServerAuthSession } from "../../auth/[...nextauth]";
 
 export default async function handler(req, res) {
     connectMongo();
