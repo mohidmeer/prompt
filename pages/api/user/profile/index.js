@@ -37,6 +37,7 @@ export default async function handler(req, res) {
 
       return res.status(500).json({ error: 'An error occurred while updating the profile.' });
     }
+    
     if (req.method==='PUT'){
       // this function i just use for checking name if exists then prompt user on frontend name Taken 
       const {username}= req.body
