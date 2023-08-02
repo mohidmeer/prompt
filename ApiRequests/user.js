@@ -135,9 +135,17 @@ export async function getUserProfile(v=''){
   return await AxiosClient.get(`/profile/`+v)
   .then((res)=>{ return res.data.profile})
   .catch((e)=>{serverErrorHandler('Genaral Server Error')})
- }
+}
 
-
+ export async function getUserPublicProfile(v=''){
+  try {
+    const response = await AxiosClient.get(`/profile/`+v)
+    toast.info(response.data.message)
+    return response.data.profile;
+  } catch (error) {
+     toast.info('General Server Error')
+  }
+}
  export async function AddEmotionsToProfile(id,emotionType){
   try {
     const response = await AxiosClient.post(`/profile/emotion/${id}`,emotionType)
@@ -145,6 +153,16 @@ export async function getUserProfile(v=''){
     return response;
   } catch (error) {
      toast.info('General Server Error')
+  }
+}
+
+ export async function followProfile(name,data){
+  const id = toast.loading('Loading')
+  try {
+    const response = await AxiosClient.post(`/profile/${name}`,data)
+    toast.update(id, { render: response.data.message, type: "success", isLoading: false ,autoClose:1000});
+  } catch (error) {
+    toast.update(id, { render: "Server Error", type: "error", isLoading: false })
   }
 }
 

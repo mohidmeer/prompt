@@ -1,9 +1,9 @@
 import VendorLayout from "@/layout/VendorLayout";
 import { getServerAuthSession } from "../api/auth/[...nextauth]";
 import { AiFillInstagram, AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
-import EditProfile from "@/components/Profile/EditProfile";
+
 import { useEffect, useState } from "react";
-import { getUserProfile } from "@/ApiRequests/user";
+import { AddEmotionsToProfile, followProfile, getUserPublicProfile } from "@/ApiRequests/user";
 import { useUserStore } from "@/stores/user/user";
 import moment from "moment/moment";
 import Tippy from "@tippyjs/react";
@@ -15,64 +15,94 @@ import { useRouter } from "next/router";
 import { AddEmotions } from "@/ApiRequests/user";
 import { FaFacebookF } from "react-icons/fa";
 import { BiGlobe } from "react-icons/bi";
+import { ZCOOL_KuaiLe } from "next/font/google";
 
 export default function Index({ session }) {
 
-  const { profile, fetchProfile } = useUserStore();
+  const [profile ,setProfile] = useState();
   const [loading, setLoading] = useState(true);
+  const [Following, setFollowing] = useState(true);
+
   const router = useRouter();
 
-  useEffect(() => { fetchProfile(router.query.username).then(() => { setLoading(false) }) }, []);
+   const fetchUserProfile = async() => {
+    await getUserPublicProfile(router.query.username).then((d)=>{
+      setProfile(d)
+      setLoading(false)
+      setFollowing(false);
+    })
+   
+  
+  }
+  const handleFollowClick = async () => {
+    setFollowing(true)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await followProfile(profile.name, { type: "FOLLOW" });
+    fetchUserProfile();
+  }
 
+  useEffect(()=>{
+   if (router.query.username === undefined ) {
+      return;
+    }
+    fetchUserProfile();
+  
+  },[router.query.username])
 
-  if (loading){return ;}
-
+  // useEffect(()=>{ console.log(('executed')) },[profile])
 
   return (
     <VendorLayout>
-      <div className="max-w-6xl mx-auto ">
+      {!loading ? <div className="max-w-6xl mx-auto ">
+            <div className="mt-2 p-2 flex justify-between  " >
+              <div className="flex-col flex gap-4" >
+                <Avatar name={session.user.name} time={moment(profile.createdAt).fromNow()} src={profile.userId.avatar} />
+                <Accounts profile={profile}/>
+              </div>
 
-        <div className="mt-2 p-2 flex justify-between  " >
-          <div className="flex-col flex gap-4" >
-            <Avatar name={session.user.name} time={moment(profile.createdAt).fromNow()} />
-            <Accounts profile={profile}/>
-          </div>
-
-          <div className="flex-col flex gap-4">
-            <div className=" flex  items-center gap-4  ">
-              <p className="font-semibold ml-auto">{profile.followers} Followers</p>
-              <button className="flex px-4 py-1 bg-blue-600 text-white text-sm rounded font-bold ">
-                  <span>Follow</span>
-                </button>
+              <div className="flex-col flex gap-4">
+                <div className=" flex  items-center gap-4  ">
+                  <p className="font-semibold ml-auto">{profile.followers} Followers</p>
+                  
+                        <button className={`flex px-4 py-1 ${profile.isFollowing  ? 'bg-red-600'  : 'bg-blue-600'  }
+                          text-white text-sm rounded font-bold `} onClick={()=>{handleFollowClick()}}>
+                        {Following ? <BtnLoader/> : '' }
+                        <span>{profile.isFollowing ? 'Following'  : 'Follow'  }</span>
+                        {/* <p>{JSON.stringify(profile.isFollowing)}</p> */}
+                      </button>
+                  
+                </div>
+                <Emotions session={session} user_id={session ? session.user.id : '123'}  e={profile.EmotionNumbers} emotionsArray={profile.EmotionId} profile_id={profile._id}  /> 
+              </div>
             </div>
-            {!loading && <Emotions e={profile.EmotionNumbers}  /> }
-          </div>
-        </div>
-        <UserPrompts session={session} />
+            <UserPrompts session={session} />
 
-      </div>
+            </div>
+       : ''  
+      }
     </VendorLayout>
   )
 }
 
 
-const Emotions = ({e}) => {
+const Emotions = ({e,emotionsArray,session,profile_id,user_id}) => {
   const router =useRouter()
+
   const [like,setLike]=useState(e.likes)
   const [dislike,setDislikes]=useState(e.dislikes)
   const [happy,setHappy]=useState(e.happy)
   const [sad,setSad]=useState(e.sad)
   const [favorite,setFavorite]=useState(e.favorites)
 
-  // const [isLiked,setIsLiked]=useState(emotionsArray.likes.includes(user_id))
-  // const [isDisliked,setIsDisliked]=useState(emotionsArray.dislikes.includes(user_id))
-  // const [isFav,setIsFav]=useState(emotionsArray.favorites.includes(user_id))
-  // const [isHappy,setIsHappy]=useState(emotionsArray.happy.includes(user_id))
-  // const [isSad,setIsSad]=useState(emotionsArray.sad.includes(user_id))
+  const [isLiked,setIsLiked]=useState(emotionsArray.likes.includes(user_id))
+  const [isDisliked,setIsDisliked]=useState(emotionsArray.dislikes.includes(user_id))
+  const [isFav,setIsFav]=useState(emotionsArray.favorites.includes(user_id))
+  const [isHappy,setIsHappy]=useState(emotionsArray.happy.includes(user_id))
+  const [isSad,setIsSad]=useState(emotionsArray.sad.includes(user_id))
 
-  const AddEmotionsToProfile = async(e)=>{
+  const AddEmotionsToUserProfile = async(e)=>{
     if (!session){ return router.push('/login')}
-    await AddEmotions(product_id,e).then((res)=>{
+    await AddEmotionsToProfile(profile_id,e).then((res)=>{
       switch(res.data.action){
         case 'LIKE' :
           if (res.status===201){
@@ -127,33 +157,43 @@ const Emotions = ({e}) => {
   }
   return (
     <div className=" relative flex gap-2  text-sm  ">
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
+      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md 
+      ${isFav ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }
+      cursor-pointer`} 
+      onClick={()=>{AddEmotionsToUserProfile({emotionType:'Favorite'})}} >
         <p className='text-red-500 text-sm'>❤</p>
-        <p>{e.favorites} </p>
+        <p>{favorite} </p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
+      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md 
+      ${isLiked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' } cursor-pointer`}
+      onClick={()=>{AddEmotionsToUserProfile({emotionType:'Like'})}}>
         <p className='text-sm'>👍</p>
-        <p>{e.likes}</p>
+        <p>{like}</p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
+      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md 
+      ${isDisliked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' } cursor-pointer`} 
+      onClick={()=>{AddEmotionsToUserProfile({emotionType:'Dislike'})}}>
         <p className='text-sm'>👎</p>
-        <p>{e.dislikes}</p>
+        <p>{dislike}</p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light py-2 px-2 rounded-md cursor-pointer`} >
+      <span className={`flex  items-center gap-2 bg-dark-light py-2 px-2 rounded-md
+      ${isHappy ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }
+      cursor-pointer`}
+      onClick={()=>{AddEmotionsToUserProfile({emotionType:'Happy'})}} >
         <p className='text-sm'>😂</p>
-        <p>{e.happy}</p>
+        <p>{happy}</p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md cursor-pointer`} >
+      <span className={`flex  items-center gap-2 bg-dark-light
+      ${isSad ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' } py-2 px-2 rounded-md cursor-pointer`}
+      onClick={()=>{AddEmotionsToUserProfile({emotionType:'Sad'})}} >
         <p className='text-sm'>😥</p>
-        <p>{e.sad}</p>
+        <p>{sad}</p>
       </span>
     </div>
   )
 }
 
-
 const UserPrompts = ({ prompts, session }) => {
-
   const { products, fetchProductData } = useUserStore();
   const [loading, setLoading] = useState(true);
   useEffect(() => { fetchProductData().then(() => { setLoading(false) }) }, [])
@@ -186,11 +226,6 @@ const UserPrompts = ({ prompts, session }) => {
   );
 
 }
-
-
-
-
-
 
 const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
   const router = useRouter()
@@ -317,9 +352,7 @@ const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
   )
 }
 
-
-
-const Avatar = ({ time, name, flex, src = 'https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' }) => {
+const Avatar = ({ time, name, flex, src = '' }) => {
   return (
     <div className={`flex items-center gap-2`}>
       <Image className=" rounded-full" alt='UserProfile' src={src} width={40} height={40} />
@@ -332,6 +365,7 @@ const Avatar = ({ time, name, flex, src = 'https://lh3.googleusercontent.com/a/A
 
 
 }
+
 
 
 const Accounts = ({profile}) => {
@@ -362,22 +396,28 @@ const Accounts = ({profile}) => {
 
 
 
+
+function BtnLoader(){
+return(
+  <svg aria-hidden="true" className="w-4 h-4 mt-[2px] mr-2 text-gray-400 animate-spin fill-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+)
+}
+
 export async function getServerSideProps(context) {
   const { params } = context;
-  const Header = await getUserProfile(params.username);
+  // const Header = await getUserProfile(params.username);
   let session = await getServerAuthSession(context.req, context.res)
-
   // If the data is not found, return a 404 page
-  if (!Header) {
-    return {
-      notFound: true,
-    };
-  }
+  // if (!Header) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
   session=JSON.parse(JSON.stringify(session))
   // Otherwise, return the data as props
   return {
     props: {
-      Header,session
+      session
     },
   };
 }
