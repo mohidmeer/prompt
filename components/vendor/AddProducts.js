@@ -11,20 +11,20 @@ import { BsStripe } from "react-icons/bs";
 const AddProducts = ({Open,paymentEnabled}) => {
     const { categories, fetchCategoryData } = useExplore();
     const router = useRouter();
-    const [uploadedImages, setuploadedImages] = useState(['Prompts/u8fttp6lzdnmemaaqxsd']);
+    const [uploadedImages, setuploadedImages] = useState([]);
     let [isOpen, setIsOpen] = useState(Open)
     function closeModal() {
         setIsOpen(false)
       }
     const formik = useFormik({
       initialValues: {
-        name: 'dsf',
-        price: 1,
-        category: 'Animals',
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesettin",
-        instruction: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesettin",
+        name: "",
+        price: "",
+        category: "Select a Category",
+        description: "",
+        instruction: "",
         images: uploadedImages,
-        model: "stable-diffusion",
+        model: "Select a Model",
       },onSubmit,
       validate: product_validate,
     });

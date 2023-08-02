@@ -16,9 +16,10 @@ export default async function handler(req, res) {
       
     }
     if (req.method==='DELETE'){ 
-        Product.findByIdAndDelete(id)
-      .then((p)=>{return res.status(200).json({message:p.name+" is Deleted Successfully"})})
-      .catch(()=>{return res.status(400).json({error:"Not Deleted" })})
+       return Product.findByIdAndDelete(id)
+        .then((p)=>{
+         return res.status(200).json({message:p.name+" is Deleted Successfully"})})
+        .catch((e)=>{return res.status(400).json({error:"Not Deleted" })})
      }
 }
 

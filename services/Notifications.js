@@ -19,9 +19,12 @@ export async function sendProductNotifications(product_id,user_id){
               notifications: [],
             });
           }
-          notificationDoc.notifications.push({
-            message: notificationMessage,
-          });
+            notificationDoc.notifications.push({
+             message: notificationMessage,
+             productId:product._id,
+             type:'Prompt',
+            });
+            notificationDoc.notification
           await notificationDoc.save();
         }
       } catch (error) {

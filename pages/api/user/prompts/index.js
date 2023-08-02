@@ -16,7 +16,6 @@ cloudinary.config({
 
 const stripe = Stripe(process.env.STRIPE_SCERET_KEY);
 
-
 export default async function handler(req, res) {
 
   connectMongo();
