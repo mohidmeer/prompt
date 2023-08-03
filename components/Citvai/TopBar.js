@@ -273,11 +273,11 @@ function Notifications({id}){
 
   async function getData(id) {
     const n = await  getUserNotifications();
+    console.log(n)
     setNotifications(n);
     setLoading(false)
   }
   useEffect(() => {
-    console.log('useEffect called');
     getData();
   }, []);
   return (
@@ -300,13 +300,12 @@ function Notifications({id}){
           ring-1 ring-black 
           ring-opacity-5 ">
             <div className="px-1 py-1 ">
-               {Loading ?  <Loader/>  :
-                //   
+               {/* {Loading ?  <Loader/>  :  
+                notifications.length=== 0 ? '':
                 notifications.map((n)=>(
                   <SingleNotification n={n}  />
                 ))
-                 
-               }
+               } */}
               
             </div>             
           </Menu.Items>

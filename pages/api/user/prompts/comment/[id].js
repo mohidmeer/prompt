@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     }
     if (req.method==='PUT'){
       
-      const comments = await Comment.findByIdAndUpdate(id,{ $pull: { comment: { _id: messageId } } },{ new: true }).populate({
+      const comments = await Comment.findByIdAndUpdate(id,{ $pull: { comment: { _id: messageId ,userId: session.user.id} } },{ new: true }).populate({
         path:'comment.userId',
         model:'user',
         select:'name avatar'
@@ -80,8 +80,4 @@ export default async function handler(req, res) {
       });
       res.status(200).json({comments})
     }
-
-
-
-    
 }
