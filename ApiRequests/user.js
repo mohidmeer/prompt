@@ -9,21 +9,23 @@ const AxiosClient = axios.create({
     'Content-Type': 'application/json',
   }
 });
-
-
 export async function addNewProduct(values) {
      await AxiosClient.post(`/prompts`,values)
      .then((res)=>{
-        serverSuccessHandler(201,res.data.message)
+        console.log(res);
+        toast.success('Created successfully')
      })
-     .catch((e)=>{toast.error('Server Error')}) ;
+     .catch((e)=>{toast.error('Error Occured')}) ;
 }
 export async function deleteProduct(id) {
+  const tid = toast.loading('Loading')
      await AxiosClient.delete(`/prompts/${id}`)
      .then((res)=>{
-        serverSuccessHandler(201,res.data.message)
+        toast.update(tid, { render: res.data.message, type:'success', isLoading: false ,autoClose:1000 })
      })
-     .catch((e)=>{toast.error('Server Error')}) ;
+     .catch((e)=>{
+        toast.update(tid, { render: "Server Error", type: "error", isLoading: false ,autoClose:1000})
+     }) ;
 }
 export async function getUserProducts(){
    return await AxiosClient.get(`/prompts`)
@@ -59,7 +61,6 @@ export async function AddEmotions(id,emotionType){
      toast.info('General Server Error')
   }
 }
-
 export async function AddComment(id,content){
   try {
     const response = await AxiosClient.post(`/prompts/comment/${id}`,content)
@@ -130,13 +131,11 @@ export async function getOnboardingUrl(){
     
   }
 }
-
 export async function getUserProfile(v=''){
   return await AxiosClient.get(`/profile/`+v)
   .then((res)=>{ return res.data.profile})
   .catch((e)=>{serverErrorHandler('Genaral Server Error')})
 }
-
  export async function getUserPublicProfile(v=''){
   try {
     const response = await AxiosClient.get(`/profile/`+v)
@@ -155,7 +154,6 @@ export async function getUserProfile(v=''){
      toast.info('General Server Error')
   }
 }
-
  export async function followProfile(name,data){
   const id = toast.loading('Loading')
   try {
@@ -166,6 +164,16 @@ export async function getUserProfile(v=''){
   }
 }
 
+
+export async function getUserNotifications(){
+  try {
+    const response  = await AxiosClient.get('/notifications');
+    console.log(response.data.notifications.notifications)
+    return response.data.notifications.notifications
+  } catch (error) {
+    toast.error('Error occured while reteriving notifications')
+  }
+}
 
   
 

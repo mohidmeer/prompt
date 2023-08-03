@@ -18,9 +18,9 @@ const AddProducts = ({Open,paymentEnabled}) => {
       }
     const formik = useFormik({
       initialValues: {
-        name: '',
-        price: '',
-        category: 'Select a Category',
+        name: "",
+        price: "",
+        category: "Select a Category",
         description: "",
         instruction: "",
         images: uploadedImages,
@@ -164,7 +164,7 @@ const AddProducts = ({Open,paymentEnabled}) => {
             )}
           </div>
           <div className="my-4 col-span-2 ">
-            <label className="input-wrapper">Prompt Instructions</label>
+            <label className="input-wrapper ">Prompt Instructions</label>
             <textarea
               id="instruction"
               placeholder="Create captivating Tokens for fantasy characters ...."
@@ -224,7 +224,7 @@ const AddProducts = ({Open,paymentEnabled}) => {
         </div>
         
         <div className="flex justify-end">
-            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid} >
+            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid.toString()} >
             Add
             </button>
         </div>

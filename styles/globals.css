@@ -57,7 +57,7 @@ img {
     block 
     w-full p-2.5 
    outline-none
-   placeholder:text-dark-muted
+   placeholder:text-gray-600
  }
 
  .input-wrapper{

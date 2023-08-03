@@ -17,6 +17,7 @@ export default function App({ Component, pageProps ,router}) {
       position="bottom-left"
       theme='dark'
       autoClose={1000}
+      limit={5}
     />
     <NextNProgress />
       <Component {...pageProps} />
