@@ -6,9 +6,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { AiFillEye, AiFillLike } from "react-icons/ai";
-import { BiHeart } from "react-icons/bi";
-import { BsFillHeartFill } from "react-icons/bs";
 import { getServerAuthSession } from "./api/auth/[...nextauth]";
 export default function Home({session}) {
 
@@ -138,12 +135,12 @@ const Details = ({p,user_id,emotionsArray,product_id,session}) => {
         <p className="p-1 bg-dark-info font-bold rounded ">{p.model.replace(/-/g, ' ')}</p>
       </div>
       <div className=" absolute bottom-0 w-full  ">
-         <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
+         <div className="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
         <p className="relative z-10 text-white px-1  ">{p.name}</p>
 
         <div className="relative" >
-      <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
-      <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
+      <div className="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
+      <div className="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>  
       <div className=" relative flex justify-between  text-sm p-2 overflow-hidden  ">
          <span className={`flex items-center gap-1 
          ${isFav ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }   px-2 py-1 rounded-md cursor-pointer`} 

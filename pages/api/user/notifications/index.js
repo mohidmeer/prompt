@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'You are not authorized' })
     }
     if (req.method==='GET'){
-      const notifications= await Notification.findOne({userId:session.user.id});
+      const notifications= await Notification.find({userId:session.user.id});
       return res.status(200).json({notifications})
     }
 

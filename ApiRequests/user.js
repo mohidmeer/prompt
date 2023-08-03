@@ -164,12 +164,10 @@ export async function getUserProfile(v=''){
   }
 }
 
-
 export async function getUserNotifications(){
   try {
     const response  = await AxiosClient.get('/notifications');
-    console.log(response.data.notifications.notifications)
-    return response.data.notifications.notifications
+    return response.data.notifications
   } catch (error) {
     toast.error('Error occured while reteriving notifications')
   }
