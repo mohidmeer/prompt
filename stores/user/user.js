@@ -20,6 +20,7 @@ export const useUserStore=create((set)=>({
         let p = await getUserProducts()
         set({products:p})
     },
+    
     fetchFavourites: async ()=>{
         let p = await getUserFavourites()
         set({favourites:p})

@@ -1,4 +1,4 @@
-import { getFeaturedProduct, getProducts } from '@/ApiRequests/explore';
+import { ProfileProductData, getFeaturedProduct, getProducts } from '@/ApiRequests/explore';
 import serverErrorHandler from '@/lib/server/serverErrorHandler';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -11,7 +11,15 @@ export const useExplore=create((set)=>({
     models:[],
     ProductLoading:true,
     PaginationLoading:false,
-    ProductLimit:false, 
+    ProductLimit:false,
+    profileProducts:[] ,
+
+    fetchProfileProductData: async (id)=>{
+        console.log(id)
+        const p = await ProfileProductData(id)
+        console.log(p)
+        set({profileProducts:p})
+    },
 
 
     fetchProductData: async (v,page) =>{
