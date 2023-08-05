@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { getServerAuthSession } from "./api/auth/[...nextauth]";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import Tippy from "@tippyjs/react";
 export default function Home({session}) {
 
   const {products,ProductLoading,PaginationLoading}=useExplore(); 
@@ -28,7 +30,6 @@ export default function Home({session}) {
                       height={500}
                       crop="fill"
                       alt={p.name}
-
                       draggable='false'
                       unselectable='off' 
                       />
@@ -121,6 +122,15 @@ const Details = ({p,user_id,emotionsArray,product_id,session}) => {
 
   return (
     <>
+    <div className="absolute right-2 top-2  ">
+    <Tippy content={p.name} placement="bottom">
+        <button>
+            <BiDotsVerticalRounded className="text-2xl shadow-xl text-gray-400" />
+        </button>
+      </Tippy>
+    </div>
+
+
       <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
         <p className="p-1 bg-dark-info font-bold rounded ">{p.model.replace(/-/g, ' ')}</p>
       </div>
