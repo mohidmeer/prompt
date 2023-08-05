@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       let isFollowing=false;
       const profile= await Profile.findOne({name:req.query.username}).populate({
         path:'userId',
-        select:'-_id avatar'
+        select:'-_id avatar name'
       }).populate('EmotionId')
       if (!session){
           return res.status(200).json({profile:{...profile._doc,isFollowing}})

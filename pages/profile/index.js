@@ -30,6 +30,7 @@ export default function Index({ session }) {
 
   return (
     <VendorLayout>
+     
       <div className="max-w-6xl mx-auto ">
 
         <div className="mt-2 p-2 flex justify-between  " >
@@ -97,10 +98,10 @@ const UserPrompts = ({ prompts, session }) => {
       <p className="font-bold text-2xl border-b  border-dark-border ">Prompts</p>
       {
         loading ? '' :
-          <div className="grid-cols-4 grid gap-4 mt-4">
+          <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-1/2   sm:w-full mx-auto">
             {products.map((p, i) => (
               <div key={i} className="rounded border border-dark-border relative ">
-                <Details p={p} product_id={p._id} emotionsArray={p.EmotionId} user_id={session ? session.user.id : '123'} />
+                <Details p={p} product_id={p._id} session={session} emotionsArray={p.EmotionId} user_id={session ? session.user.id : '123'} />
                 <Link href={'/prompt/' + p.slug}  >
                   <CldImage src={p.images[0]}
                     width={300}
@@ -200,54 +201,48 @@ const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
 
   return (
     <>
-      <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
-        <p className="p-1 bg-dark-info font-bold rounded ">{p.model.replace(/-/g, ' ')}</p>
-      </div>
-      <div className=" absolute bottom-0 w-full  ">
-        <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>
-        <p className="relative z-10 text-white px-1  ">{p.name}</p>
+    <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
+    <p className="p-1 bg-dark-info  rounded  text-white">{p.model.replace(/-/g, ' ')}</p>
+  </div>
+  <div className=" absolute bottom-2 left-0 right-0 mx-auto flex justify-center ">
+    <div className="relative" >
+      <div className="absolute inset-0 bg-opacity-70 backdrop-blur-sm bg-black rounded-xl "></div>  
+      <div className=" relative flex gap-2 text-sm  overflow-hidden px-2  ">
+     <span className={`flex items-center gap-1 
+     ${isFav ? 'bg-dark-info/60  hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`} 
+     onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}>
+        <p className='text-red-500'>❤</p>
+        <p className="text-xs" >{favorite}</p>
+      </span>
+      <span className={`flex items-center gap-1 
+      ${isLiked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
+      onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}   >
+        <p>👍</p>
+        <p className="text-xs" >{like}</p>
+      </span>
+      <span className={`flex items-center gap-1 
+      ${isDisliked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
+      onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}  >
+        <p>👎</p>
+        <p className="text-xs" >{dislike}</p>
+      </span>
+      <span className={`flex items-center gap-1 
+      ${isHappy ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`}  
+      onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}} >
+        <p>😂</p>
+        <p className="text-xs" >{happy}</p>
+      </span>
+      <span className={`flex items-center gap-1 
+      ${isSad ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`}  
+      onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}  >
+        <p>😥</p>
+        <p className="text-xs">{sad}</p>
+      </span>
+    </div>
 
-        <div className="relative" >
-          <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>
-          <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>
-          <div className=" relative flex justify-between  text-sm p-2 overflow-hidden  ">
-            <span className={`flex items-center gap-1 
-         ${isFav ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Favorite' }) }}>
-              <p className='text-red-500'>❤</p>
-              <p>{favorite}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isLiked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Like' }) }}   >
-              <p>👍</p>
-              <p >{like}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isDisliked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Dislike' }) }}  >
-              <p>👎</p>
-              <p >{dislike}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isHappy ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Happy' }) }} >
-              <p>😂</p>
-              <p >{happy}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isSad ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}  px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Sad' }) }}  >
-              <p>😥</p>
-              <p>{sad}</p>
-            </span>
-          </div>
-
-        </div>
-      </div>
-
-
-    </>
+  </div>
+  </div>
+  </>
   )
 }
 

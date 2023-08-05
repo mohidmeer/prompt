@@ -7,7 +7,7 @@ import { MdDelete, MdModeEdit, MdOutlineCancel } from 'react-icons/md';
 import { AiFillCopy, } from 'react-icons/ai';
 import { IoIosShareAlt } from 'react-icons/io';
 import { toast } from 'react-toastify';
-import { AddEmotions, AddToFavourites, buyThePrompt,AddComment, GetComments, DeleteComments, UpdateComments } from '@/ApiRequests/user';
+import { AddEmotions, buyThePrompt,AddComment, GetComments, DeleteComments, UpdateComments } from '@/ApiRequests/user';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -58,7 +58,20 @@ export default function Prompt({Header,session}){
         <meta name="description" content={Header.description} />
       </Head>
       {loading ? <Loader/> :
-      <>
+      <div className='flex justify-center '>
+        <div className='mt-2 p-4 mx-auto rounded-xl '>
+            <div className=' rounded-xl'>
+              <CldImage src={prompt.images[0]}
+              className=' rounded-xl '
+              width={800}
+              height={800}
+              sizes="50w"
+              crop=''
+              alt={prompt.name}
+              unselectable='off' 
+              />
+            </div>
+        </div>
         <Sidebar 
         prompt={prompt} 
         session={session} 
@@ -69,20 +82,7 @@ export default function Prompt({Header,session}){
         threadId={threadId}
         setThreadId={setThreadId}
         />
-        <div className='mt-8 p-4 mx-auto sm:w-1/2'>
-            <div className='relative w-fit '>
-              <CldImage src={prompt.images[0]}
-              className='border border-dark-border rounded-md'
-              width={700}
-              height={900}
-              sizes="50w"
-              crop='fill_pad'
-              alt={prompt.name}
-              unselectable='off' 
-              />
-            </div>
-        </div>
-      </>
+      </div>
       }
     </PromptLayout>
   )
@@ -91,7 +91,7 @@ export default function Prompt({Header,session}){
 const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComments,threadId,setThreadId }) => {
   const router = useRouter();
   return (
-    <div className=' fixed right-0 h-full  z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm '>
+    <div className=' h-full z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm overflow-hidden '>
 
       <div className='flex justify-between p-4 border-b border-dark-border '>
         <Link href={'/profile/'+prompt.vendorId.profileId.name}>
@@ -104,7 +104,7 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
         </div>
       </div>
       
-      <div className=' h-full overflow-y-auto '>
+      <div className=' h-full overflow-hidden  '>
           <Emotions  user_id={session ? session.user.id :'123'} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
           <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-4'>
             <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
@@ -625,9 +625,6 @@ const PromptInstructions=({session,id,purchased,instructions})=>{
 function Loader() {
   return (
     <PromptLayout>
-      <>
-      </>
-
     </PromptLayout>
   )
 }

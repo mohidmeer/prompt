@@ -1,8 +1,6 @@
 import connectMongo from "@/database/conn";
 import Product from "@/models/products";
 import { getServerAuthSession } from "../../auth/[...nextauth]";
-import Products from "@/pages/account/prompts";
-import User from "@/models/user";
 import stripeErrorHandler from "@/lib/server/stripeErrorHandler";
 import cloudinary from 'cloudinary';
 const Stripe = require('stripe');
@@ -14,6 +12,7 @@ cloudinary.config({
 })
 
 const stripe = Stripe(process.env.STRIPE_SCERET_KEY);
+
 
 export default async function handler(req, res) {
   connectMongo();

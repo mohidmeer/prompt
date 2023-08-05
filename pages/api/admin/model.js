@@ -1,6 +1,7 @@
 import connectMongo from "@/database/conn";
-import Category from "@/models/categories";
+import Model from "@/models/model";
 import { getServerAuthSession } from "../auth/[...nextauth]";
+
 
 export default async function handler(req, res) {
   const session = await getServerAuthSession(req, res)
@@ -11,7 +12,6 @@ export default async function handler(req, res) {
     {
         return res.status(403).json({ error: 'Forbidden routes' })
     }
-
     connectMongo();
     if (req.method === "POST") {
       if (!req.body)
@@ -19,21 +19,20 @@ export default async function handler(req, res) {
       const { name } = req.body;
 
       // checking if feild exists 
-      const ifcategoryexists=await Category.findOne({name:name})
-      if (ifcategoryexists){ return res.status(409).json({error:name+' Already Exists'})}
-
+      const ifmodelexists=await Model.findOne({name:name})
+      if (ifmodelexists){ return res.status(409).json({error:name+' Already Exists'})}
       const slug = name.toLowerCase().replace(/ +/g, "-")
-      Category.create({
+      Model.create({
        name,slug 
-      }).then((data)=>{return res.status(201).json({ category: data }); 
+      }).then((data)=>{return res.status(201).json({ model: data }); 
       }).catch((error)=>{return res.status(400).json({error})})
 
     }else if(req.method === "GET"){
-      const categories= await Category.find();
-      return res.status(200).json({categories})
+      const models= await Model.find();
+      return res.status(200).json({models})
     }else if (req.method==="PUT"){
        const { id } = req.body;
-       Category.findByIdAndDelete(id)
+       Model.findByIdAndDelete(id)
       .then(()=>{return  res.status(200).json({message:"Deleted Successfully"})})
       .catch(()=>{return res.status(400).json({error:"Not Deleted" })})
     }else {

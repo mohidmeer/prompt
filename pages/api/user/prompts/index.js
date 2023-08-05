@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         const stripeProduct = await stripe.products.create({
               name:name,
               description:description,
-              images:imagesArray,
+              images:imagesArray.slice(0, 5),
               metadata:metadata,
             }).catch((error)=>{stripeErrorHandler(error)})  
 
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
           price:price,
           vendorId:session.user.id,
           status:'PENDING',
-          stripePriceId:'asdasd'
+          stripePriceId:stripePrice.id
         }).then((P)=>{
           sendProductNotifications(P._id,session.user.id);
 
