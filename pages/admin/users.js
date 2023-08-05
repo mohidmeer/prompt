@@ -1,4 +1,4 @@
-import SideBar from "@/components/Admin/sidebar";
+
 import AdminLayout from "@/layout/AdminLayout";
 import { getServerAuthSession } from "../api/auth/[...nextauth]";
 const dashboard = () => {

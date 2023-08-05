@@ -1,5 +1,4 @@
 import VendorLayout from '@/layout/VendorLayout'
-import Navbar from '@/components/vendor/Navbar'
 import Container from '@/components/vendor/Container'
 import { useUserStore } from '@/stores/user/user'
 import { useEffect, useState } from 'react';
@@ -16,12 +15,8 @@ export default function Products({session}) {
       const { products,fetchProductData } = useUserStore();
       const router = useRouter();
       const { create } = router.query;
-
       const [editProduct,setEditProduct]=useState();
       let [isOpen, setIsOpen] = useState(false)
-      
-      useEffect(()=>{fetchProductData();})
-
       const handleDelete =(id)=>{
         deleteProduct(id).then(()=>{fetchProductData()})
       }
@@ -31,19 +26,19 @@ export default function Products({session}) {
         setIsOpen(true)
       }
 
-      
+  
+      useEffect(()=>{fetchProductData();})
 
   
   return (
     <VendorLayout>
-      <Navbar/>
         <Container label={'Prompts'}>
-          <AddProducts Open={create==='true'?true:false} paymentEnabled={session.user.payment} />
+          <AddProducts Open={create==='true'?true:false}  />
 
           {isOpen &&  <UpdateProducts isOpen={isOpen} setIsOpen={setIsOpen} product={editProduct}   /> }
         <div className="relative overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-sm text-left bg-dark-light">
+          <thead className="text-xs  uppercase bg-dark-light">
             <tr>
               <th scope="col" className="px-6 py-3">
                 name
@@ -67,8 +62,8 @@ export default function Products({session}) {
           </thead>
           <tbody>
             {products.map((product)=>(
-            <tr key={product._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr key={product._id} className=" border-b0">
+                <th scope="row" className="px-6 py-4 font-medium  whitespace-nowrap ">
                     {product.name}
                 </th>
                 <td className="px-6 py-4">
@@ -115,6 +110,17 @@ export async function getServerSideProps(context) {
       },
     }
   }
+  if (!session.user.payment) {
+    return {
+      redirect: {
+        destination: '/stripe',
+        permanent: false,
+      },
+    }
+  }
+
+
+
   session=JSON.parse(JSON.stringify(session))
   return {
     props: {

@@ -5,6 +5,7 @@ import Products from "@/pages/account/prompts";
 import stripeErrorHandler from "@/lib/server/stripeErrorHandler";
 import cloudinary from 'cloudinary';
 import User from "@/models/user";
+import { sendProductNotifications } from "@/services/Notifications";
 const Stripe = require('stripe');
 
 cloudinary.config({
@@ -14,7 +15,6 @@ cloudinary.config({
 })
 
 const stripe = Stripe(process.env.STRIPE_SCERET_KEY);
-
 
 export default async function handler(req, res) {
 
@@ -35,22 +35,21 @@ export default async function handler(req, res) {
         const imagesArray = images.map(i => {
           return  cloudinary.url(i) ;
         });
-          const metadata= {
+        const metadata= {
             vendor_id:session.user.id.toString()
           }
-          const stripeProduct = await stripe.products.create({
+        const stripeProduct = await stripe.products.create({
               name:name,
               description:description,
-              images:imagesArray,
+              images:imagesArray.slice(0, 5),
               metadata:metadata,
-            })
-              .catch((error)=>{stripeErrorHandler(error)})  
+            }).catch((error)=>{stripeErrorHandler(error)})  
 
-          const stripePrice = await stripe.prices.create({
+        const stripePrice = await stripe.prices.create({
                 unit_amount: price*100,
                 currency: 'usd',
                 product: stripeProduct.id,
-              }).catch((error)=>{stripeErrorHandler(error)});
+            }).catch((error)=>{stripeErrorHandler(error)});
 
       const P = await Product.create({
           name:name,
@@ -64,9 +63,12 @@ export default async function handler(req, res) {
           vendorId:session.user.id,
           status:'PENDING',
           stripePriceId:stripePrice.id
-        }).then(()=>{
-         return res.status(201).json({message:'Created Successfully.....'})
+        }).then((P)=>{
+          sendProductNotifications(P._id,session.user.id);
+
+          return res.status(201).json({message:'Created Successfully.....'})
         }).catch((error)=>{
+          console.log(error)
          return  res.status(400).json({error: 'Not Created'})
         })
 
@@ -74,7 +76,7 @@ export default async function handler(req, res) {
 
     }
     if (req.method==='GET'){  
-      const products= await Product.find({vendorId:session.user.id});
+      const products= await Product.find({vendorId:session.user.id}).populate('EmotionId');
       return res.status(200).json({products})
     }
 }

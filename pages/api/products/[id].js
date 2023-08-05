@@ -11,27 +11,54 @@ export default async function handler(req, res) {
 
         if (!session) 
     {
-       
             console.log('session doesnt Exists')
-            const products= await Product.findOne({slug:req.query.id}).select('-instructions')
+            const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
+                path: 'commentId',
+                populate: {
+                  path: 'comment.userId',
+                  model: 'user',
+                  select: 'name avatar',
+                },
+              }).populate({
+                path:'vendorId',
+                select:'profileId',
+                populate:{
+                  path:'profileId',
+                  model:'profile',
+                  select:'name'
+                }
+              })
             return res.status(200).json({products})
         
     } else{
             
-           let isFav=false
            let isPurchased=false
            const u = await User.findById(session.user.id)
-           let products= await Product.findOne({slug:req.query.id}).select('-instructions')
+           let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
+            path: 'commentId',
+            populate: {
+              path: 'comment.userId',
+              model: 'user',
+              select: 'name avatar',
+            },
 
-             if (u.favourites.includes(products.id)){
-                 isFav=true
-             }
+          }).populate({
+            path:'vendorId',
+            select:'profileId',
+            populate:{
+              path:'profileId',
+              model:'profile',
+              select:'name'
+            }
+          })
+
+            
              if (u.purchases.includes(products.id)){
                 isPurchased=true
                 products= await Product.findOne({slug:req.query.id})
              }
 
-            return res.status(200).json({products:{...products._doc,isFav,isPurchased}})
+            return res.status(200).json({products:{...products._doc,isPurchased}})
         
 
     }
@@ -39,11 +66,5 @@ export default async function handler(req, res) {
 
 
     return res.status(404).json({message:'Method Not Allowed'})
-
-
-
-
-
-    
 
 }

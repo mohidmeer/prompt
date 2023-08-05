@@ -29,8 +29,8 @@ const Index = ({session}) => {
         }
       }, [countdown]);
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-200">
-       <div className="max-w-2xl flex justify-center shadow-2xl bg-white p-4 rounded">
+    <div className="flex items-center justify-center h-screen">
+       <div className="max-w-2xl flex justify-center shadow-2xl text-white p-4 rounded">
         <div className="flex flex-col justify-center items-center">
             <BsStripe className="w-12 h-12 text-indigo-500" />
             <h2 className="text-xl font-bold">Stripe</h2>

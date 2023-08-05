@@ -21,7 +21,8 @@ export default async function handler(req, res) {
           }
           if (user.stripeConnectId==''){
               const accountId =  await createStripeConnectAccount(session.user.email)
-              user.stripeConnectId=accountId
+              user.stripeConnectId=accountId;
+              user.stripePayments=true;
               user.save();
               const onboardingRedirectUrl= await completeOnboardingLink(accountId)
               return res.status(200).json({url:onboardingRedirectUrl})

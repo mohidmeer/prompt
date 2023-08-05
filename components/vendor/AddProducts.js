@@ -18,9 +18,9 @@ const AddProducts = ({Open,paymentEnabled}) => {
       }
     const formik = useFormik({
       initialValues: {
-        name: '',
-        price: '',
-        category: 'Select a Category',
+        name: "",
+        price: "",
+        category: "Select a Category",
         description: "",
         instruction: "",
         images: uploadedImages,
@@ -39,12 +39,6 @@ const AddProducts = ({Open,paymentEnabled}) => {
     }, [uploadedImages]);
 
 
-   useEffect(()=>{
-
-    if (!paymentEnabled){
-      router.push('/stripe')
-  }
-   })
 
   
     return (
@@ -170,7 +164,7 @@ const AddProducts = ({Open,paymentEnabled}) => {
             )}
           </div>
           <div className="my-4 col-span-2 ">
-            <label className="input-wrapper">Prompt Instructions</label>
+            <label className="input-wrapper ">Prompt Instructions</label>
             <textarea
               id="instruction"
               placeholder="Create captivating Tokens for fantasy characters ...."
@@ -230,7 +224,7 @@ const AddProducts = ({Open,paymentEnabled}) => {
         </div>
         
         <div className="flex justify-end">
-            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid} >
+            <button type='submit' className="btn w-1/3  disabled:bg-gray-600" disable={formik.isValid.toString()} >
             Add
             </button>
         </div>
@@ -293,10 +287,10 @@ const AddProducts = ({Open,paymentEnabled}) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-4xl  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-4xl  transform overflow-hidden rounded-2xl bg-dark-light  p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-3xl text-center font-medium leading-6 text-gray-900"
+                    className="text-3xl text-center font-medium leading-6 "
                   >
                     Add New Prompt
                   </Dialog.Title>

@@ -1,0 +1,27 @@
+const  Categories = [
+    { name: "Landscape", slug: "landscape" },
+    { name: "Animals", slug: "animals" },
+    { name: "Portrait", slug: "portrait" },
+    { name: "Clothes", slug: "clothes" }, 
+    { name: "Celebrity", slug: "celebrity" }, 
+    { name: "Abstract", slug: "abstract" },
+    { name: "Nature", slug: "nature" },
+    { name: "Stilllife", slug: "stilllife" },
+    { name: "Fantasy", slug: "fantasy" },
+    { name: "Architecture", slug: "architecture" },
+    { name: "Wildlife", slug: "wildlife" },
+    { name: "Macro", slug: "macro" },
+    { name: "Cityscape", slug: "cityscape" },
+    { name: "Blackandwhite", slug: "blackandwhite" },
+    { name: "Minimal", slug: "minimal" },
+    { name: "Vintage", slug: "vintage" },
+    { name: "Surreal", slug: "surreal" },
+    { name: "Expressionism", slug: "expressionism" },
+    { name: "Popart", slug: "popart" },
+    { name: "Impressionism", slug: "impressionism" },
+    { name: "Graffiti", slug: "graffiti" },
+    { name: "Futurism", slug: "futurism" },
+    { name: "Mosaic", slug: "mosaic" },
+  ];
+
+export default Categories;

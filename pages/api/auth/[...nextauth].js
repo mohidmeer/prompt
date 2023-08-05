@@ -35,7 +35,12 @@ export const authOptions = {
                 if(user){
                     return true;
                 }else{
-                   await User.create({name:profile.name,email:profile.email,password:Math.random().toString(16).substr(2, 8)})
+                   await User.create({
+                    name:profile.name,
+                    email:profile.email,
+                    password:Math.random().toString(16).substr(2, 8),
+                    avatar:profile.picture
+                })
                 }
 
               
@@ -46,6 +51,7 @@ export const authOptions = {
             connectMongo().catch(error=>{error:'Connection Failed'})
             const u = await  User.findOne({email:session.user.email})
             session.user.id=u._id
+            session.user.avatar=u.avatar
              u.stripePayments? session.user.payment=true:session.user.payment=false  
              u.isAdmin ? session.user.role='ADMIN':session.user.role='USER'
           return session 

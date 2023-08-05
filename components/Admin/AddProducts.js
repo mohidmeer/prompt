@@ -8,7 +8,7 @@ import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { Fragment, useEffect, useState } from "react";
 
 const AddProducts = () => {
-    const { categories , fetchCategoryData } = useExplore();
+    const { categories , fetchCategoryData,models,fetchModelData } = useExplore();
     const {fetchProductData}=useProducts();
     const [uploadedImages, setuploadedImages] = useState([]);
     let [isOpen, setIsOpen] = useState(false)
@@ -35,6 +35,7 @@ const AddProducts = () => {
   
     useEffect(() => {
       fetchCategoryData();
+      fetchModelData();
        formik.values.images=uploadedImages
     }, [uploadedImages]);
   
@@ -103,9 +104,11 @@ const AddProducts = () => {
               } `}
             >
               <option>Select a Model</option>
-              <option value="midjourney">MidJourney</option>
-              <option value="stable-diffusion">Stable Diffusion</option>
-              <option value="gpt-4">GPT 4</option>
+              {models.map((category) => (
+                <option key={category._id} value={category.slug}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             {formik.errors.model && formik.touched.model ? (
               <div className="mt-2 font-bold text-sm text-rose-500">
@@ -126,7 +129,7 @@ const AddProducts = () => {
               } `}
               type="number"
               id="price"
-              placeholder="3$"
+              placeholder="3"
               {...formik.getFieldProps("price")}
             />
             {formik.errors.price && formik.touched.price ? (
@@ -284,10 +287,10 @@ const AddProducts = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-4xl  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-4xl  transform overflow-hidden rounded-2xl bg-dark-light p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-3xl text-center font-medium leading-6 text-gray-900"
+                    className="text-3xl text-center font-medium leading-6 "
                   >
                     Add New Prompt
                   </Dialog.Title>
