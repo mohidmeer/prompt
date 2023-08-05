@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     }
     
     if (req.method === 'GET') {
-        const prod = Products;
+        const prod =  Products;
             prod.map( async (p)=>{
                 await  Product.create({
                     name:p.name,
