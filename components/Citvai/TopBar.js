@@ -15,7 +15,7 @@ import moment from "moment"
 const TopBar = () => {
     const {data:session}=useSession();
     return (
-        <div className="flex justify-between items-center px-10 py-4  gap-10 border-b border-dark-border bg-dark-background text-white ">
+        <div className="flex justify-between items-center px-10 py-4  gap-10 border-b border-dark-border bg-dark-background text-white sticky top-0 z-50 ">
             <Logo  />
             <Search/>
             <RightMenu session={session}/>
@@ -273,7 +273,6 @@ function Notifications({id}){
 
   async function getData(id) {
     const n = await  getUserNotifications();
-    console.log(n)
     setNotifications(n);
     setLoading(false)
   }
@@ -300,12 +299,12 @@ function Notifications({id}){
           ring-1 ring-black 
           ring-opacity-5 ">
             <div className="px-1 py-1 ">
-               {/* {Loading ?  <Loader/>  :  
-                notifications.length=== 0 ? '':
+               {Loading ?  <Loader/>  :  
+                notifications.length=== 0 ? <NoNotification key={1}/>:
                 notifications.map((n)=>(
-                  <SingleNotification n={n}  />
+                  <SingleNotification key={n._id} n={n}  />
                 ))
-               } */}
+               }
               
             </div>             
           </Menu.Items>
@@ -324,6 +323,16 @@ const SingleNotification = ({n}) => {
         <Link  href=''  className={`${ active ? 'bg-dark-hover ' : '' } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2`}>
              <Avatar message={n.message} name={'Mohid Meer'} time={moment(n.createdAt).fromNow()}   />
         </Link>
+               )}
+     </Menu.Item>
+  )
+}
+const NoNotification = () => {
+  return (
+    <Menu.Item>{({ active }) => (
+        <div href=''  className={''}>
+             <p className="text-center p-8">No Notifications</p>
+        </div>
                )}
      </Menu.Item>
   )

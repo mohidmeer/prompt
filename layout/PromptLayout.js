@@ -8,10 +8,10 @@ const nunito = Nunito({ subsets: ['latin'] })
 export default function promptLayout({children}){
 
     return (
-        <div className={`${nunito.className} bg-dark-background text-white`}>
-          <div className=' '>
+        <div className={`${nunito.className} bg-dark-background text-white  `}>
+        
           <TopBar/>
-          </div>
+         
             {children}
         </div>
       )

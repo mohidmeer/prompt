@@ -15,9 +15,9 @@ import { useRouter } from "next/router";
 import { AddEmotions } from "@/ApiRequests/user";
 import { FaFacebookF } from "react-icons/fa";
 import { BiGlobe } from "react-icons/bi";
-import { ZCOOL_KuaiLe } from "next/font/google";
+import Head from "next/head";
 
-export default function Index({ session }) {
+export default function Index({ session ,Header}) {
 
   const [profile ,setProfile] = useState();
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,7 @@ export default function Index({ session }) {
     setFollowing(true)
     await new Promise((resolve) => setTimeout(resolve, 1000));
     await followProfile(profile.name, { type: "FOLLOW" });
-    fetchUserProfile();
+    fetchUserProfile().then((r)=>{console.log(r)});
   }
 
   useEffect(()=>{
@@ -49,14 +49,17 @@ export default function Index({ session }) {
   
   },[router.query.username])
 
-  // useEffect(()=>{ console.log(('executed')) },[profile])
 
   return (
     <VendorLayout>
+       <Head>
+        <title>{Header.userId.name}</title>
+        <meta name="description" content={Header.bio} />
+      </Head>
       {!loading ? <div className="max-w-6xl mx-auto ">
             <div className="mt-2 p-2 flex justify-between  " >
               <div className="flex-col flex gap-4" >
-                <Avatar name={session.user.name} time={moment(profile.createdAt).fromNow()} src={profile.userId.avatar} />
+                <Avatar name={profile.name} time={moment(profile.createdAt).fromNow()} src={profile.userId.avatar} />
                 <Accounts profile={profile}/>
               </div>
 
@@ -72,7 +75,13 @@ export default function Index({ session }) {
                       </button>
                   
                 </div>
-                <Emotions session={session} user_id={session ? session.user.id : '123'}  e={profile.EmotionNumbers} emotionsArray={profile.EmotionId} profile_id={profile._id}  /> 
+                <Emotions 
+                session={session} 
+                user_id={session ? session.user.id : '123'}  
+                e={profile.EmotionNumbers} 
+                emotionsArray={profile.EmotionId} 
+                profile_id={profile._id}  
+                /> 
               </div>
             </div>
             <UserPrompts session={session} />
@@ -157,34 +166,34 @@ const Emotions = ({e,emotionsArray,session,profile_id,user_id}) => {
   }
   return (
     <div className=" relative flex gap-2  text-sm  ">
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md 
-      ${isFav ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }
+      <span className={`flex  items-center gap-2   py-2 px-2 rounded-md 
+      ${isFav ? 'bg-blue-500/40 hover:brightness-125  ' : 'hover:bg-dark-muted bg-dark-light ' } 
       cursor-pointer`} 
       onClick={()=>{AddEmotionsToUserProfile({emotionType:'Favorite'})}} >
         <p className='text-red-500 text-sm'>❤</p>
         <p>{favorite} </p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md 
-      ${isLiked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' } cursor-pointer`}
+      <span className={`flex  items-center gap-2   py-2 px-2 rounded-md 
+      ${isLiked ? 'bg-blue-500/40 hover:brightness-125  ' : 'hover:bg-dark-muted bg-dark-light' } cursor-pointer`}
       onClick={()=>{AddEmotionsToUserProfile({emotionType:'Like'})}}>
         <p className='text-sm'>👍</p>
         <p>{like}</p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light  py-2 px-2 rounded-md 
-      ${isDisliked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' } cursor-pointer`} 
+      <span className={`flex  items-center gap-2   py-2 px-2 rounded-md 
+      ${isDisliked ? 'bg-blue-500/40 hover:brightness-125 ' : 'hover:bg-dark-muted bg-dark-light' } cursor-pointer`} 
       onClick={()=>{AddEmotionsToUserProfile({emotionType:'Dislike'})}}>
         <p className='text-sm'>👎</p>
         <p>{dislike}</p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light py-2 px-2 rounded-md
-      ${isHappy ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' }
+      <span className={`flex  items-center gap-2  py-2 px-2 rounded-md
+      ${isHappy ? 'bg-blue-500/40 hover:brightness-125  ' : 'hover:bg-dark-muted bg-dark-light' }
       cursor-pointer`}
       onClick={()=>{AddEmotionsToUserProfile({emotionType:'Happy'})}} >
         <p className='text-sm'>😂</p>
         <p>{happy}</p>
       </span>
-      <span className={`flex  items-center gap-2 bg-dark-light
-      ${isSad ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted' } py-2 px-2 rounded-md cursor-pointer`}
+      <span className={`flex  items-center gap-2 
+      ${isSad ? 'bg-blue-500/40 hover:brightness-125  ' : 'hover:bg-dark-muted bg-dark-light' } py-2 px-2 rounded-md cursor-pointer`}
       onClick={()=>{AddEmotionsToUserProfile({emotionType:'Sad'})}} >
         <p className='text-sm'>😥</p>
         <p>{sad}</p>
@@ -203,7 +212,7 @@ const UserPrompts = ({ prompts, session }) => {
       <p className="font-bold text-2xl border-b  border-dark-border ">More prompts </p>
       {
         loading ? '' :
-          <div className="grid-cols-4 grid gap-4 mt-4">
+          <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-1/2   sm:w-full mx-auto">
             {products.map((p, i) => (
               <div key={i} className="rounded border border-dark-border relative ">
                 <Details p={p} product_id={p._id} emotionsArray={p.EmotionId} user_id={session ? session.user.id : '123'} />
@@ -244,7 +253,6 @@ const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
   const AddEmotionsToPrompt = async (e) => {
     if (!session) { return router.push('/login') }
     await AddEmotions(product_id, e).then((res) => {
-      console.log(res.data)
       switch (res.data.action) {
         case 'LIKE':
           if (res.status === 201) {
@@ -302,49 +310,45 @@ const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
   return (
     <>
       <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
-        <p className="p-1 bg-dark-info font-bold rounded ">{p.model.replace(/-/g, ' ')}</p>
+        <p className="p-1 bg-dark-info text-white rounded ">{p.model.replace(/-/g, ' ')}</p>
       </div>
-      <div className=" absolute bottom-0 w-full  ">
-        <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>
-        <p className="relative z-10 text-white px-1  ">{p.name}</p>
-
+      <div className=" absolute bottom-2 left-0 right-0 mx-auto flex justify-center ">
         <div className="relative" >
-          <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>
-          <div class="absolute inset-0 bg-opacity-50 backdrop-blur-sm bg-black "></div>
-          <div className=" relative flex justify-between  text-sm p-2 overflow-hidden  ">
-            <span className={`flex items-center gap-1 
-         ${isFav ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Favorite' }) }}>
-              <p className='text-red-500'>❤</p>
-              <p>{favorite}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isLiked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Like' }) }}   >
-              <p>👍</p>
-              <p >{like}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isDisliked ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Dislike' }) }}  >
-              <p>👎</p>
-              <p >{dislike}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isHappy ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}   px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Happy' }) }} >
-              <p>😂</p>
-              <p >{happy}</p>
-            </span>
-            <span className={`flex items-center gap-1 
-          ${isSad ? 'bg-dark-muted hover:brightness-150' : 'hover:bg-dark-muted'}  px-2 py-1 rounded-md cursor-pointer`}
-              onClick={() => { AddEmotionsToPrompt({ emotionType: 'Sad' }) }}  >
-              <p>😥</p>
-              <p>{sad}</p>
-            </span>
-          </div>
-
+          <div className="absolute inset-0 bg-opacity-70 backdrop-blur-sm bg-black rounded-xl "></div>  
+          <div className=" relative flex gap-2 text-sm  overflow-hidden px-2  ">
+         <span className={`flex items-center gap-1 
+         ${isFav ? 'bg-dark-info/40  hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`} 
+         onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}>
+            <p className='text-red-500'>❤</p>
+            <p className="text-xs" >{favorite}</p>
+          </span>
+          <span className={`flex items-center gap-1 
+          ${isLiked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}   >
+            <p>👍</p>
+            <p className="text-xs" >{like}</p>
+          </span>
+          <span className={`flex items-center gap-1 
+          ${isDisliked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}  >
+            <p>👎</p>
+            <p className="text-xs" >{dislike}</p>
+          </span>
+          <span className={`flex items-center gap-1 
+          ${isHappy ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`}  
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}} >
+            <p>😂</p>
+            <p className="text-xs" >{happy}</p>
+          </span>
+          <span className={`flex items-center gap-1 
+          ${isSad ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`}  
+          onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}  >
+            <p>😥</p>
+            <p className="text-xs">{sad}</p>
+          </span>
         </div>
+
+      </div>
       </div>
 
 
@@ -365,8 +369,6 @@ const Avatar = ({ time, name, flex, src = '' }) => {
 
 
 }
-
-
 
 const Accounts = ({profile}) => {
 
@@ -405,19 +407,19 @@ return(
 
 export async function getServerSideProps(context) {
   const { params } = context;
-  // const Header = await getUserProfile(params.username);
+  const Header = await getUserPublicProfile(params.username);
   let session = await getServerAuthSession(context.req, context.res)
   // If the data is not found, return a 404 page
-  // if (!Header) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
+  if (!Header) {
+    return {
+      notFound: true,
+    };
+  }
   session=JSON.parse(JSON.stringify(session))
   // Otherwise, return the data as props
   return {
     props: {
-      session
+      session,Header
     },
   };
 }

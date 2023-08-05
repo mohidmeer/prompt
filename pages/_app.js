@@ -6,9 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'tippy.js/dist/tippy.css'
 import useScrollRestoration from '@/utils/useScrollRestoration';
 
-export default function App({ Component, pageProps ,router}) {
+export default function App({ Component, pageProps,router }) {
 
-  useScrollRestoration(router)
+  useScrollRestoration(router);
   return (
     
    <SessionProvider session={pageProps.session}>
