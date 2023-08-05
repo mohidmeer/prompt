@@ -105,7 +105,7 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
       </div>
       
       <div className=' h-full overflow-hidden  '>
-          <Emotions  user_id={session ? session.user.id :'123'} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
+          <Emotions session={session} user_id={session ? session.user.id :'123'} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
           <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-4'>
             <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
               <AddComments 
@@ -474,8 +474,8 @@ const EditCommentMenu = ({commentId,setIsEdit,threadId,setComments}) => {
   );
 }
 
-const Emotions=({p,id,emotionsArray,user_id})=>{
-
+const Emotions=({p,id,emotionsArray,user_id,session})=>{
+  const router= useRouter();
   const [like,setLike]=useState(p.likes)
   const [dislike,setDislikes]=useState(p.dislikes)
   const [happy,setHappy]=useState(p.happy)
@@ -490,6 +490,7 @@ const Emotions=({p,id,emotionsArray,user_id})=>{
 
 
   const AddEmotionsToPrompt = async(e)=>{
+    if (!session){ return router.push('/login')}
     await AddEmotions(id,e).then((res)=>{
       switch(res.data.action){
         case 'LIKE' :

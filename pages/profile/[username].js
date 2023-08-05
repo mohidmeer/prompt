@@ -1,10 +1,8 @@
 import VendorLayout from "@/layout/VendorLayout";
 import { getServerAuthSession } from "../api/auth/[...nextauth]";
 import { AiFillInstagram, AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
-
 import { useEffect, useState } from "react";
 import { AddEmotionsToProfile, followProfile, getUserPublicProfile } from "@/ApiRequests/user";
-import { useUserStore } from "@/stores/user/user";
 import moment from "moment/moment";
 import Tippy from "@tippyjs/react";
 import Image from "next/image";
@@ -16,6 +14,7 @@ import { AddEmotions } from "@/ApiRequests/user";
 import { FaFacebookF } from "react-icons/fa";
 import { BiGlobe } from "react-icons/bi";
 import Head from "next/head";
+import { useExplore } from "@/stores/explore";
 
 export default function Index({ session ,Header}) {
 
@@ -35,6 +34,7 @@ export default function Index({ session ,Header}) {
   
   }
   const handleFollowClick = async () => {
+    if (!session){ return router.push('/login')}
     setFollowing(true)
     await new Promise((resolve) => setTimeout(resolve, 1000));
     await followProfile(profile.name, { type: "FOLLOW" });
@@ -70,7 +70,9 @@ export default function Index({ session ,Header}) {
                         <button className={`flex px-4 py-1 ${profile.isFollowing  ? 'bg-red-600'  : 'bg-blue-600'  }
                           text-white text-sm rounded font-bold `} onClick={()=>{handleFollowClick()}}>
                         {Following ? <BtnLoader/> : '' }
+                        {!session ? 'Sign in to Follow' :
                         <span>{profile.isFollowing ? 'Following'  : 'Follow'  }</span>
+                        }
                         {/* <p>{JSON.stringify(profile.isFollowing)}</p> */}
                       </button>
                   
@@ -84,7 +86,7 @@ export default function Index({ session ,Header}) {
                 /> 
               </div>
             </div>
-            <UserPrompts session={session} />
+            <UserPrompts session={session} user_id={profile.userId._id} />
 
             </div>
        : ''  
@@ -202,10 +204,10 @@ const Emotions = ({e,emotionsArray,session,profile_id,user_id}) => {
   )
 }
 
-const UserPrompts = ({ prompts, session }) => {
-  const { products, fetchProductData } = useUserStore();
+const UserPrompts = ({ session ,user_id }) => {
+  const {profileProducts,fetchProfileProductData}=useExplore(); 
   const [loading, setLoading] = useState(true);
-  useEffect(() => { fetchProductData().then(() => { setLoading(false) }) }, [])
+  useEffect(() => { fetchProfileProductData(user_id).then(() => { setLoading(false) }) }, [])
 
   return (
     <div className="p-2 mt-4">
@@ -213,7 +215,7 @@ const UserPrompts = ({ prompts, session }) => {
       {
         loading ? '' :
           <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-1/2   sm:w-full mx-auto">
-            {products.map((p, i) => (
+            {profileProducts.map((p, i) => (
               <div key={i} className="rounded border border-dark-border relative ">
                 <Details p={p} product_id={p._id} emotionsArray={p.EmotionId} user_id={session ? session.user.id : '123'} />
                 <Link href={'/prompt/' + p.slug}  >
