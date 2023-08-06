@@ -39,9 +39,10 @@ export default function Prompt({Header,session}){
       getProduct(router.query.Id)
         .then((d) => {
           setprompt(d);
-          console.log(d);
-          setComments(d.commentId.comment)
-          setThreadId(d.commentId._id)
+          if (!(d.commentId===undefined)){
+            setComments(d.commentId.comment)
+             setThreadId(d.commentId._id)
+          }
           setLoading(false);
         })
         .catch((error) => {

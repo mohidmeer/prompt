@@ -32,7 +32,6 @@ export default function Index({ session }) {
     <VendorLayout>
      
       <div className="max-w-6xl mx-auto ">
-
         <div className="mt-2 p-2 flex justify-between  " >
           <div className="flex-col flex gap-4" >
             <Avatar name={session.user.name} time={moment(profile.createdAt).fromNow()} />
