@@ -1,9 +1,6 @@
 import connectMongo from "@/database/conn";
 import { getServerAuthSession } from "../../auth/[...nextauth]";
 import Profile from "@/models/profile";
-import Emotion from "@/models/emotions";
-import User from "@/models/user";
-
 
 
 export default async function handler(req, res) {

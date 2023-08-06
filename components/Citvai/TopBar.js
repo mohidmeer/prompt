@@ -1,8 +1,6 @@
 import Image from "next/image"
 import {BsBell, BsCash, BsGraphUp, BsHeart, BsPlus, BsSearch} from "react-icons/bs"
-import {BiChevronDown, BiLinkExternal, BiLogOut, BiPurchaseTag, BiUser} from "react-icons/bi"       
-import {AiOutlineEyeInvisible} from "react-icons/ai"
-import {RxAvatar} from "react-icons/rx"
+import { BiLogOut, BiPurchaseTag, BiUser} from "react-icons/bi"       
 import {VscAccount} from "react-icons/vsc"
 import { signOut, useSession } from 'next-auth/react'
 import Link from "next/link"
@@ -26,11 +24,15 @@ export default TopBar
 
 function Logo() {
     return (
-        <Link href={'/'} className="flex items-center gap-2 ">
-            <div className=" w-10 h-10 rounded-tr-xl rounded-bl-xl bg-white md:hidden "></div>
+      <div className="flex gap-2 items-center ">
+        <Link href={'/'} >
+            <div className=" w-8 h-8 rounded-tr-xl rounded-bl-xl bg-white md:hidden "></div>
             <p className="text-2xl md:block hidden whitespace-nowrap">Prompt Works</p>
-            <Actions/>
+           
         </Link>
+        <Actions/>
+      </div>
+        
     )
 }
 
@@ -49,9 +51,9 @@ function Search() {
 
 function Actions(){
     return(
-        <div className="flex gap-2">
-            <Create/>
-            <BsHeart className="text-dark-success text-3xl"/>
+        <div className=" mt-2">
+            <Create />
+            {/* <BsHeart className="text-dark-success text-2xl"/> */}
         </div>
 
     )
@@ -86,9 +88,9 @@ function Profile({session}) {
       <div className="flex gap-4">
         <Notifications/>
         <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button >    
-                <Image className=" rounded-full" alt='UserProfile' src={session.user.avatar} width={32} height={32} />
+          <div className="w-8">
+            <Menu.Button  >    
+                <Image className="rounded-full" alt='UserProfile' src={session.user.avatar} width={32} height={32} />
             </Menu.Button>
           </div>
           <Transition
@@ -222,9 +224,9 @@ function Profile({session}) {
 function Create({id}) {
     return (
       <div className="">
-        <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative inline-block text-left ">
           <div>
-            <Menu.Button >    
+            <Menu.Button>    
                 <BsPlus className="bg-dark-success text-white rounded-full text-3xl"/>
             </Menu.Button>
           </div>
