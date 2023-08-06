@@ -13,8 +13,9 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#da532c"/>
         <meta name="theme-color" content="#ffffff"/>
         <meta name="keywords" content="prompt, gpt-3, dall-e, ai, midjourney, stable diffusion, marketplace, buy, sell"></meta>
+        <meta property="og:description" content="A marketplace for quality DALL·E, Midjourney, ChatGPT, Stable Diffusion &amp; GPT Prompts. Find the best prompts, produce better results, save on API costs, make money selling prompts." />
         <meta name="description" content="A marketplace for quality DALL·E, Midjourney, ChatGPT, Stable Diffusion &amp; GPT Prompts. Find the best prompts, produce better results, save on API costs, make money selling prompts."></meta>
-        <meta property="og:image" content="/favicon-32x32.png"/>
+        <meta property="og:image" content="/android-chrome-192x192.png"/>
         <meta property="og:image:width" content="32" />
         <meta property="og:image:height" content="32" />
       </Head>
