@@ -33,10 +33,10 @@ export default function Prompt({Header,session}){
       isInitialMount.current = false;
     } else {
       // This code will run on subsequent renders (e.g., when router.query changes)
-      if (router.query.promptId === undefined) {
+      if (router.query.Id === undefined) {
         return;
       }
-      getProduct(router.query.promptId)
+      getProduct(router.query.Id)
         .then((d) => {
           setprompt(d);
           console.log(d);
@@ -625,8 +625,7 @@ const PromptInstructions=({session,id,purchased,instructions})=>{
 
 function Loader() {
   return (
-    <PromptLayout>
-    </PromptLayout>
+    <></>
   )
 }
 
@@ -652,7 +651,7 @@ function BtnLoader(){
 
 export async function getServerSideProps(context) {
   const { params } = context;
-  const Header = await getProduct(params.promptId);
+  const Header = await getProduct(params.Id);
   let session = await getServerAuthSession(context.req, context.res)
 
   if (!Header) {
