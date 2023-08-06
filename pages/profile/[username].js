@@ -47,7 +47,7 @@ export default function Index({ session ,Header}) {
   return (
     <VendorLayout>
        <Head>
-        <title>{Header.userId.name}</title>
+        <title>{'Profile'}</title>
         <meta name="description" content={Header.bio} />
       </Head>
       {!loading ? <div className="max-w-6xl mx-auto ">

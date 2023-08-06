@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { AddEmotions } from "@/ApiRequests/user";
 import { FaFacebookF } from "react-icons/fa";
 import { BiGlobe } from "react-icons/bi";
+import Head from "next/head";
 
 export default function Index({ session }) {
 
@@ -30,7 +31,10 @@ export default function Index({ session }) {
 
   return (
     <VendorLayout>
-     
+      <Head>
+        <title>{'Profile'}</title>
+      </Head>
+
       <div className="max-w-6xl mx-auto ">
         <div className="mt-2 p-2 flex justify-between  " >
           <div className="flex-col flex gap-4" >
