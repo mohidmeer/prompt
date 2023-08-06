@@ -51,6 +51,11 @@ export default function Prompt({Header,session,ogimgurl}){
         <meta property="og:image" content={ogimgurl}/>
         <meta property="og:image:width" content="400" />
         <meta property="og:image:height" content="400" />
+
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content={Header.name}/>  
+        <meta name="twitter:description"  content={Header.description.slice(0,100)} />
+        <meta name="twitter:image" content={ogimgurl} />
       </Head>
       {loading ? <Loader/> :
       <div className='flex justify-center '>

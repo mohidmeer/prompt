@@ -16,7 +16,6 @@ export default function Home({session}) {
     <AppLayout>
       <Head>
         <title>PromptWorks | Marketpalace</title>
-        <meta name="description" content='' />
       </Head>
       { ProductLoading ?  '' :
       
