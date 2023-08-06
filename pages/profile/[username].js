@@ -418,7 +418,6 @@ export async function getServerSideProps(context) {
     };
   }
   session=JSON.parse(JSON.stringify(session))
-  // Otherwise, return the data as props
   return {
     props: {
       session,Header

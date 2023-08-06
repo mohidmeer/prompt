@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
         if (!session) 
     {
-            console.log('session doesnt Exists')
+       
             const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
                 path: 'commentId',
                 populate: {
