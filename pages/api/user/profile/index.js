@@ -1,7 +1,7 @@
 import connectMongo from "@/database/conn";
 import { getServerAuthSession } from "../../auth/[...nextauth]";
 import Profile from "@/models/profile";
-
+import Emotion from "@/models/emotions";
 
 
 export default async function handler(req, res) {

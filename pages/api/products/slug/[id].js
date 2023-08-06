@@ -1,6 +1,6 @@
 import connectMongo from "@/database/conn";
 import Product from "@/models/products";
-import { getServerAuthSession } from "../auth/[...nextauth]";
+import { getServerAuthSession } from "../../auth/[...nextauth]";
 import User from "@/models/user";
 
 export default async function handler(req, res) {
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     connectMongo();
     if (req.method==='GET'){
 
-        if (!session) 
+    if (!session) 
     {
        
             const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({

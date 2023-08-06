@@ -20,14 +20,10 @@ export const useExplore=create((set)=>({
         console.log(p)
         set({profileProducts:p})
     },
-
-
     fetchProductData: async (v,page) =>{
        const p =await getProducts(v,page);
        set({products:p})
     },
-  
-
     fetchProductPaginationData: async (v,page,limit) =>{
         if (useExplore.getState().PaginationLoading===true){
             return

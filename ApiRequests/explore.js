@@ -1,5 +1,5 @@
-import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import axios from "axios";
+import { toast } from "react-toastify";
 const buildQueryString = (queryParams) => {
   const queryString = Object.keys(queryParams)
     .map((key) => {
@@ -31,18 +31,18 @@ export async function getProducts(q,p,limit){
   console.log(queryString)
     return await AxiosClient.get(`/products/${queryString}`)
    .then((res)=>{ console.log(res.data.products); return res.data.products; })
-   .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
+   .catch((e)=>{toast.error('General Server Error')})
   }
 export async function getProduct(slug){
-   return await AxiosClient.get(`/products/${slug}`)
+   return await AxiosClient.get(`/products/slug/${slug}`)
    .then((res)=>{ return res.data.products})
-   .catch((e)=>{serverErrorHandler(e.response.status,'Genaral Server Error')})
+   .catch((e)=>{toast.error('General Server Error')})
   }
 
 export async function getUserProfile(){
    return await AxiosClient.get(`/user/profile`)
    .then((res)=>{ return res.data.profile})
-   .catch((e)=>{serverErrorHandler('Genaral Server Error')})
+   .catch((e)=>{toast.error('Genaral Server Error')})
   }
 
   export async function ProfileProductData(id){

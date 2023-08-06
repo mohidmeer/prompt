@@ -1,6 +1,5 @@
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
-import { useProducts } from "@/stores/admin/products";
 import axios from "axios";
 const AxiosClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/admin`,

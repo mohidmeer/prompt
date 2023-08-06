@@ -12,8 +12,8 @@ export default async function handler(req, res) {
     }
 
      if (req.method==='GET'){
-         const favs=await User.findById(session.user.id).select('-_id favourites').populate({path:'favourites',select:'-instructions'})
-         const favourites=favs.favourites
+         const favs=await User.findById(session.user.id).select('-_id favorites').populate({path:'favorites',select:'-instructions'})
+         const favourites=favs.favorites
          return res.status(200).json({favourites})
      }
 }
