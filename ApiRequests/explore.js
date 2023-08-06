@@ -1,9 +1,5 @@
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
-import serverSuccessHandler from "@/lib/server/serverSuccessHandler";
 import axios from "axios";
-
-
-
 const buildQueryString = (queryParams) => {
   const queryString = Object.keys(queryParams)
     .map((key) => {

@@ -38,7 +38,7 @@ export default function Index({ session ,Header}) {
     setFollowing(true)
     await new Promise((resolve) => setTimeout(resolve, 1000));
     await followProfile(profile.name, { type: "FOLLOW" });
-    fetchUserProfile().then((r)=>{console.log(r)});
+    fetchUserProfile().then((r)=>{});
   }
 
   useEffect(()=>{

@@ -1,6 +1,5 @@
 import connectMongo from "@/database/conn";
 import Category from "@/models/categories";
-import Emotion from "@/models/emotions";
 import Product from "@/models/products";
 
 export default async function handler(req, res) {
