@@ -17,8 +17,8 @@ export default function Document() {
         
         <meta property="og:description" content="A marketplace for quality DALL·E, Midjourney, ChatGPT, Stable Diffusion &amp; GPT Prompts. Find the best prompts, produce better results, save on API costs, make money selling prompts." />
         <meta property="og:image" content="/ogimg.png"/>
-        <meta property="og:image:width" content="256"/>
-        <meta property="og:image:height" content="256"/>
+        <meta property="og:image:width" content="776"/>
+        <meta property="og:image:height" content="431"/>
 
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="Prompt Works"/>  
