@@ -16,14 +16,14 @@ export default function Document() {
         <meta name="description" content="A marketplace for quality DALL·E, Midjourney, ChatGPT, Stable Diffusion &amp; GPT Prompts. Find the best prompts, produce better results, save on API costs, make money selling prompts."></meta>
         
         <meta property="og:description" content="A marketplace for quality DALL·E, Midjourney, ChatGPT, Stable Diffusion &amp; GPT Prompts. Find the best prompts, produce better results, save on API costs, make money selling prompts." />
-        <meta property="og:image" content="/favicon512x512.png"/>
+        <meta property="og:image" content="/ogimg.png"/>
         <meta property="og:image:width" content="256"/>
         <meta property="og:image:height" content="256"/>
 
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="Prompt Works"/>  
         <meta name="twitter:description" content="A marketplace for quality DALL·E, Midjourney, ChatGPT, Stable Diffusion &amp; GPT Prompts. Find the best prompts, produce better results, save on API costs, make money selling prompts." />
-        <meta name="twitter:image" content="/favicon512x512.png" />
+        <meta name="twitter:image" content="/ogimg.png" />
       </Head>
       <body >
         <Main />
