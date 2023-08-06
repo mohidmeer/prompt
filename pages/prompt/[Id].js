@@ -21,24 +21,27 @@ export default function Prompt({Header,session}){
   const [prompt,setprompt]=useState()
   const [loading,setLoading]=useState(true)
   const [threadId,setThreadId]=useState('')
-  const isInitialMount = useRef(true);
+  // const isInitialMount = useRef(true);
+  console.log('COMPONENT MOUNTED','LOADING :',loading ,router.query.Id)
 
   // Related to AddComments
   const  [comments,setComments]=useState();
   const [commentValue, setCommentValue] = useState('');
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      // This code will run only on initial mount
-      isInitialMount.current = false;
-    } else {
-      // This code will run on subsequent renders (e.g., when router.query changes)
-      if (router.query.Id === undefined) {
-        return;
-      }
+    console.log('USEFFECT RUNS','LOADING :',loading)
+    // if (isInitialMount.current) {
+    //   // This code will run only on initial mount
+    //   isInitialMount.current = false;
+    // } else {
+    //   // This code will run on subsequent renders (e.g., when router.query changes)
+    //   if (router.query.Id === undefined) {
+    //     return;
+    //   }
       getProduct(router.query.Id)
         .then((d) => {
           setprompt(d);
+          console.log(d);
           if (!(d.commentId===undefined)){
             setComments(d.commentId.comment)
              setThreadId(d.commentId._id)
@@ -49,8 +52,8 @@ export default function Prompt({Header,session}){
           console.error(error);
           setLoading(false);
         });
-    }
-  }, [router.query]);
+    // }
+  }, []);
 
   return (
     <PromptLayout>
