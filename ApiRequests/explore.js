@@ -34,6 +34,7 @@ export async function getProducts(q,p,limit){
    .catch((e)=>{toast.error('General Server Error')})
   }
 export async function getProduct(slug){
+  await new Promise(resolve => setTimeout(resolve, 1000));
    return await AxiosClient.get(`/products/slug/${slug}`)
    .then((res)=>{ return res.data.products})
    .catch((e)=>{toast.error('General Server Error')})
