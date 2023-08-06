@@ -19,6 +19,7 @@ export default function Document() {
         <meta property="og:image" content="/ogimg.png"/>
         <meta property="og:image:width" content="776"/>
         <meta property="og:image:height" content="431"/>
+        <meta property="og:title" content='Prompt Works' />
 
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="Prompt Works"/>  
