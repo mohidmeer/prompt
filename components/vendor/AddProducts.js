@@ -256,7 +256,7 @@ const AddProducts = ({Open,paymentEnabled}) => {
         <button
           type="button"
           onClick={openModal}
-          className="btn mb-4"
+          className="flex px-3 py-1 bg-blue-600 disabled:bg-dark-background disabled:border-dark-border disabled:border  text-white text-sm rounded font-bold mb-4"
         >
           Add New Prompt
         </button>

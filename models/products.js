@@ -1,6 +1,7 @@
 import { Schema, model, models  } from 'mongoose';
 import Emotion from './emotions';
 import Comment from './comments';
+import shortUUID from 'short-uuid';
   const productSchema = new Schema({
     
     name:{
@@ -98,24 +99,28 @@ import Comment from './comments';
     
  },{timestamps:true})
 
-  productSchema.post('save',async function(doc,next){
+ productSchema.pre('save', async function(next) {
+  if (!this.isModified('slug')) {
+    return next();
+  }
 
-      const existingEmotion = await Emotion.findOne({ productId: doc._id });
-      if (!existingEmotion) {
-        const emotion = await Emotion.create({
-          productId: doc._id,
-        });
-        doc.EmotionId = emotion._id;
-        await doc.save();
-      }
-      next();
+  const existingEmotion = await Emotion.findOne({ productId: this._id });
+  if (!existingEmotion) {
+    const emotion = await Emotion.create({
+      productId: this._id,
+    });
+    this.EmotionId = emotion._id;
+  }
 
-  });
+  const productSlugExists = await Product.findOne({ slug: this.slug });
+  if (productSlugExists) {
+    const shortSlugUniqueidentifier = shortUUID.uuid();
+    this.slug = this.slug + shortSlugUniqueidentifier.substring(0, 5);
+  }
+  next();
+});
 
 
-
-
-
-  const Product = models.product || model('product', productSchema);
+const Product = models.product || model('product', productSchema);
 
 export default Product;

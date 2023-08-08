@@ -15,9 +15,7 @@ export const useExplore=create((set)=>({
     profileProducts:[] ,
 
     fetchProfileProductData: async (id)=>{
-        console.log(id)
         const p = await ProfileProductData(id)
-        console.log(p)
         set({profileProducts:p})
     },
     fetchProductData: async (v,page) =>{

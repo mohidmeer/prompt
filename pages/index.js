@@ -19,7 +19,7 @@ export default function Home({session}) {
       </Head>
       { ProductLoading ?  '' :
       
-            <div className='grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-1/2   sm:w-full mx-auto  '  >
+            <div className='grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-2/3   sm:w-full mx-auto  '  >
               {products.map((p, i) => (
                 <div key={i} className="rounded border border-dark-border relative ">
                   <Details p={p} product_id={p._id} session={session}  emotionsArray={p.EmotionId} user_id={session ? session.user.id :'123' } />

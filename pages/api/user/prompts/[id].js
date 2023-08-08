@@ -11,7 +11,8 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: 'You are not authorized' })
     }
     const product= await Product.findById(id)
-    if (product.vendorId!==session.user.id) {
+    if (product.vendorId!=session.user.id.toString()) {
+      console.log(product.vendorId,session.user.id)
       return res.status(403).json({error:'Action is Forbidden'})
     }
     if (req.method==='DELETE'){ 

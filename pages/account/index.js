@@ -7,6 +7,7 @@ import { CldImage } from 'next-cloudinary';
 import Link from 'next/link';
 import { Tab } from '@headlessui/react';
 import { getServerAuthSession } from '../api/auth/[...nextauth]';
+import Head from 'next/head';
 export default function Dashboard({session}) {
       const { favourites,fetchFavourites,purchases,fetchPurchases}  = useUserStore();
       useEffect(()=>{
@@ -16,6 +17,9 @@ export default function Dashboard({session}) {
 
   return (
     <VendorLayout>
+      <Head>
+        <title>Your Account</title>
+      </Head>
       <div className='flex justify-end p-8'>
           {/* <Link  className='btn-inverted' href={'/profile'} >Public Profile</Link> */}
       </div>
@@ -26,13 +30,13 @@ export default function Dashboard({session}) {
 function MyTabs({favourites,purchases ,session}) {
   return (
       <Tab.Group >
-      <Tab.List className={`flex gap-4 mt-8 justify-center`}>
+      <Tab.List className={`flex gap-4  justify-center`}>
         <Tab as={Fragment}>
           {({ selected }) => (
             /* Use the `selected` state to conditionally style the selected tab. */
             <button
               className={
-                selected ? 'btn' : 'btn-inverted'
+                selected ? 'blue-btn' : 'blue-btn !bg-dark-hover'
               }
             >
               Favourites
@@ -43,7 +47,7 @@ function MyTabs({favourites,purchases ,session}) {
           {({ selected }) => (
             <button
               className={
-                selected ? 'btn' : 'btn-inverted'
+                selected ? 'blue-btn' : 'blue-btn !bg-dark-hover  '
               }
             >
               Purchases
@@ -69,12 +73,19 @@ const Products=({products,label ,session})=>{
   return(
       <div>
         <p className='font-bold text-2xl'>{label}</p>
-        <hr className='mt-4'/>
+        <div className='mt-4  bg-dark-border h-[1px]  '/>
+        { products.length==0 ?
+           <div className='flex justify-center items-center h-80' >
+              <p className='text-2xl text-dark-text opacity-50 '>{`You don't have any ${label} `}</p> 
+           </div>  
+           : 
+           ''
+        }
 
-        <div className="grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-1/2   sm:w-full mx-auto">
+        <div className="grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black w-1/2   sm:w-full mx-auto">
             {products && 
             products.map((p, i) => (
-              <div key={i} className="rounded border border-dark-border relative ">
+              <div key={i} className="rounded border border-dark-border relative p-2 ">
                   <Details p={p} 
                   product_id={p._id} 
                   emotionsArray={p.EmotionId} 
@@ -91,7 +102,7 @@ const Products=({products,label ,session})=>{
                   </Link>
                 </div>
               ))
-            }
+            } 
           </div>
       </div>
   );

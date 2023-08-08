@@ -1,6 +1,7 @@
 import serverErrorHandler from "@/lib/server/serverErrorHandler";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 const AxiosClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/user`,
   headers: {
@@ -8,10 +9,11 @@ const AxiosClient = axios.create({
     'Content-Type': 'application/json',
   }
 });
+
+
 export async function addNewProduct(values) {
      await AxiosClient.post(`/prompts`,values)
      .then((res)=>{
-        console.log(res);
         toast.success('Created successfully')
      })
      .catch((e)=>{toast.error('Error Occured')}) ;

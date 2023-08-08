@@ -100,6 +100,16 @@ img {
 
 
 
+.blue-btn {
+
+  @apply flex px-3 py-1 bg-blue-600 disabled:bg-dark-background disabled:border-dark-border disabled:border  text-white text-sm rounded font-bold 
+
+}
+
+
+
+
+
 #scrollbar2::-webkit-scrollbar {
     width: 6px;
 }
