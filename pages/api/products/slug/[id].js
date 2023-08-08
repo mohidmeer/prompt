@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     {
             const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
                 path:'vendorId',
-                select:'profileId',
+                select:'profileId name avatar',
                 populate:{
                   path:'profileId',
                   model:'profile',
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
            const u = await User.findById(session.user.id)
            let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
             path:'vendorId',
-            select:'profileId',
+            select:'profileId name avatar',
             populate:{
               path:'profileId',
               model:'profile',

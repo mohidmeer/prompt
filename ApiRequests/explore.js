@@ -27,10 +27,9 @@ export async function getProducts(q,p,limit){
     category: q,
     limit:limit
   };  
-  const queryString = buildQueryString(queryParams);
-  console.log(queryString)
+  const queryString = buildQueryString(queryParams); 
     return await AxiosClient.get(`/products/${queryString}`)
-   .then((res)=>{ console.log(res.data.products); return res.data.products; })
+   .then((res)=>{ return res.data.products; })
    .catch((e)=>{toast.error('General Server Error')})
   }
 export async function getProduct(slug){
