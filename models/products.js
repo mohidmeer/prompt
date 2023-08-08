@@ -95,10 +95,6 @@ import Comment from './comments';
       type:Schema.Types.ObjectId,
       ref: 'emotion'
     },
-    commentId:{
-      type:Schema.Types.ObjectId,
-      ref: 'comment'
-    }
     
  },{timestamps:true})
 

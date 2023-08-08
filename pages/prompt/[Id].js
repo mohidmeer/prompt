@@ -21,25 +21,19 @@ export default function Prompt({Header,session,ogimgurl}){
   const router = useRouter();
   const [prompt,setprompt]=useState()
   const [loading,setLoading]=useState(true)
-  const [threadId,setThreadId]=useState('')
-  const  [comments,setComments]=useState();
-  const [commentValue, setCommentValue] = useState('');
+  
 
   useEffect(() => {
       getProduct(router.query.Id)
         .then((d) => {
           setprompt(d);
-          if (!(d.commentId===undefined)){
-            setComments(d.commentId.comment)
-             setThreadId(d.commentId._id)
-          }
+          
           setLoading(false);
         })
         .catch((error) => {
           console.error(error);
           setLoading(false);
         });
-    // }
   }, []);
 
   return (
@@ -77,12 +71,9 @@ export default function Prompt({Header,session,ogimgurl}){
         <Sidebar 
         prompt={prompt} 
         session={session} 
-        comments={comments}
-        commentValue={commentValue}
-        setCommentValue={setCommentValue}
-        setComments={setComments}
-        threadId={threadId}
-        setThreadId={setThreadId}
+      
+      
+        
         />
       </div>
       }
@@ -90,7 +81,7 @@ export default function Prompt({Header,session,ogimgurl}){
   )
 }
 
-const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComments,threadId,setThreadId }) => {
+const Sidebar  = ({prompt,session,commentValue,setCommentValue }) => {
   const router = useRouter();
   return (
     <div className=' h-full z-10 md:block  bg-dark-light border-l border-dark-border hidden  max-w-sm overflow-hidden '>
@@ -99,7 +90,7 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
         <Link href={'/profile/'+prompt.vendorId.profileId.name}>
             <Avatar time={moment(prompt.createdAt).fromNow()} name={'Mohid Meer'}/>
         </Link>
-        <div className='flex gap-4 items-center'>
+         <div className='flex gap-4 items-center'>
           <Share />
           <Report/>
           <MdOutlineCancel onClick={()=>{router.back()}} className='text-2xl cursor-pointer'/>
@@ -108,19 +99,10 @@ const Sidebar  = ({prompt,session,comments,commentValue,setCommentValue,setComme
       
       <div className=' h-full overflow-hidden  '>
           <Emotions session={session} user_id={session ? session.user.id :'123'} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId}  />
-          <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-4'>
-            <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
-              <AddComments 
-              setThreadId={setThreadId}
-              session={session} 
-              product_id={prompt._id}
-              commentValue={commentValue}
-              setCommentValue={setCommentValue}
-              setComments={setComments}
-              CommentsNumber={comments?.length}
-              />
-              <CommentsContainer session={session}  setComments={setComments} comments={comments} threadId={threadId} />
-          </div>
+          
+    
+              <CommentsSection product_id={prompt._id} session={session}  />
+         
           <hr className=" relative  text-center hr-text mt-4  -mx-4" data-content="Genaration Data"/>
           <div className='p-4 '>
             <PromptDescription description={prompt.description} />
@@ -248,7 +230,7 @@ const Avatar = ({time,name,flex,src='https://lh3.googleusercontent.com/a/AAcHTtf
   )
 }
 
-const AddComments = ({session,product_id,commentValue,setCommentValue,setComments,CommentsNumber,setThreadId}) => {
+const AddComments = ({session,product_id,commentValue,setCommentValue,setComments,CommentsNumber}) => {
 
   const [loading,setLoading] = useState(false);
   const handleChange = (e) => {
@@ -256,18 +238,18 @@ const AddComments = ({session,product_id,commentValue,setCommentValue,setComment
   };
   const handleCommentClick = async () => {
     setLoading(true)
+     await new Promise(resolve => setTimeout(resolve, 1000));
      await AddComment(product_id,{comment:commentValue}).then(()=>{  
       FetchUpdatedComments();
+      setCommentValue('')
+      setLoading(false)
       
     })
     
   };
   const FetchUpdatedComments =async()=>{
     const response = await GetComments(product_id)
-    setComments(response.data.comments[0].comment)
-    setLoading(false);
-    setThreadId(response.data.comments[0]._id)
-    setCommentValue('')
+    setComments(response.data.comments)
   }
 
   if (!session){
@@ -313,7 +295,7 @@ const AddComments = ({session,product_id,commentValue,setCommentValue,setComment
 }
 
 
-const UpdateComment = ({ commentId, content,setIsEdit,setComments,threadId }) => {
+const UpdateComment = ({ commentId, content,setIsEdit,setComments, comments}) => {
 
   const [updatedContent, setUpdatedContent] = useState(content);
   const [loading, setLoading] = useState(false);
@@ -329,10 +311,19 @@ const UpdateComment = ({ commentId, content,setIsEdit,setComments,threadId }) =>
 
   const handleCommentUp = async () => {
     setLoading(true)
-    const res = await UpdateComments(threadId,{messageId:commentId,newContent:updatedContent});
-    setComments(res.data.comments.comment);
-    setLoading(false)
-    setIsEdit('')
+    await UpdateComments(commentId,{newContent:updatedContent}).then(()=>{
+     let updatedComments= comments.map(comment =>{ 
+        if (comment._id===commentId){
+            return {...comment,content: updatedContent };
+           }
+           return comment
+      })
+  
+      setComments(updatedComments)
+      setLoading(false)
+      setIsEdit('')
+    });
+    
   };
 
   return (
@@ -370,14 +361,14 @@ const UpdateComment = ({ commentId, content,setIsEdit,setComments,threadId }) =>
   );
 }
 
-const CommentsContainer=({comments,threadId,setComments,session})=>{
+const CommentsContainer=({session,comments,setComments})=>{
 
  return(
-  <div className='flex flex-col gap-3'>
+
+  <div className={` flex flex-col gap-4  ${ comments.length===0 ? '' : 'max-h-96'}         bg-dark-background overflow-x-auto  `} id='scrollbar2'>
     {
-      comments &&
-      comments.slice().reverse().map((c, i) => (
-        <SingleComment key={i} c={c} threadId={threadId} setComments={setComments} session={session}  />
+    comments.slice().reverse().map((c, i) => (
+        <SingleComment key={i} c={c} session={session} comments={comments} setComments={setComments}  />
       ))
     }
 
@@ -387,38 +378,39 @@ const CommentsContainer=({comments,threadId,setComments,session})=>{
 }
 
 
-const SingleComment=({c,threadId,setComments,session})=>{
+const SingleComment=({c,setComments,comments,session={user:{id:'123'}}})=>{
   const [edit,setIsEdit]=useState('');
   return(
-    <div className='relative px-2'>
+    <div className='relative px-2 mt-2'>
            { edit==='' ?<>
               <Avatar src={c.userId.avatar} flex={true} name={c.userId.name} time={moment(c.createdAt).fromNow()}/>
                   
               <p className='text-sm ml-10  text-dark-text'>
                 {c.content}
-              </p>     
+              </p>   
               <div className='absolute right-0 top-2'>
               {
-                c.userId._id ===session?.user.id && <EditCommentMenu setIsEdit={setIsEdit} commentId={c._id} threadId={threadId} setComments={setComments} />
+                session  &&
+                  c.userId._id ===session.user.id && <EditCommentMenu comments={comments} setIsEdit={setIsEdit} commentId={c._id}  setComments={setComments} /> 
               }
 
               </div>
               </> :
-              <UpdateComment setIsEdit={setIsEdit}  content={c.content} threadId={threadId} commentId={c._id} setComments={setComments}  />
+              <UpdateComment setIsEdit={setIsEdit} comments={comments}  content={c.content}  commentId={c._id} setComments={setComments}  />
           }
       </div>
   );
 }
 
-const EditCommentMenu = ({commentId,setIsEdit,threadId,setComments}) => {
+const EditCommentMenu = ({commentId,setIsEdit,setComments,comments}) => {
   const handleDeleteComment = async ()=>{
-  
-   const res = await DeleteComments(threadId,{messageId:commentId});
-   setComments(res.data.comments.comment)
-  }
+    const res = await DeleteComments(commentId).then(()=>{
+    setComments(comments.filter(c =>c._id !== commentId))
+    });
 
+  }
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block text-left mr-2 ">
     <div>
       <Menu.Button >    
           <BsThreeDotsVertical className=" text-white "/>
@@ -434,7 +426,7 @@ const EditCommentMenu = ({commentId,setIsEdit,threadId,setComments}) => {
       leaveTo="transform opacity-0 scale-95"
     >
       <Menu.Items className="
-      absolute right-0  z-10
+      absolute right-0  z-20
       mt-2 w-32  
       divide-y divide-dark-border
       text-gray-300   
@@ -636,6 +628,70 @@ function Loader() {
       </div>
   )
 }
+
+function CommentLoader(){
+  return(
+        <div className='mt-2 p-4 mx-auto rounded-xl '>
+            <div className=' rounded-xl'>
+                <svg aria-hidden="true" className="w-14 h-14 mt-[2px] mr-2 text-gray-500 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+            </div>
+        </div>
+    )
+}
+
+
+const CommentsSection = ({product_id,session}) => {
+
+  const [comments,setComments] =useState()
+  const [loading ,setLoading]  =useState(true)
+  const [commentValue, setCommentValue] = useState('');
+
+  async function getlatestComments(){
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await GetComments(product_id).then((res)=>{
+       setComments(res.data.comments)
+       setLoading(false);
+    })
+
+
+  }
+
+  useEffect(()=>{
+    getlatestComments();
+  },[])
+
+
+  return(
+    <div className='p-4 bg-dark-background  text-dark-body flex flex-col gap-8  '>
+    <hr className=" relative text-center hr-text  -mx-4" data-content="Comments"/>
+        
+        { !loading ?
+        <>
+            <AddComments 
+            session={session} 
+            product_id={product_id}
+            commentValue={commentValue}
+            setCommentValue={setCommentValue}
+            setComments={setComments}
+            CommentsNumber={comments.length}
+            />
+          <CommentsContainer comments={comments} session={session} setComments={setComments}  />
+        </>
+          :
+          <div className='flex flex-col gap-3'>
+            <CommentLoader/>
+          </div>
+
+        }
+    
+
+    </div>
+  )
+
+
+
+}
+
 
 
 function BtnLoader(){

@@ -66,29 +66,31 @@ export async function AddComment(id,content){
     toast.info(response.data.message)
     return response;
   } catch (error) {
-     toast.info('General Server Error')
+     toast.error('General Server Error')
   }
 }
-export async function GetComments(id,content){
+export async function GetComments(id){
   try {
     const response = await AxiosClient.get(`/prompts/comment/${id}`)
+    console.log(response.data.comments)
     return response;
   } catch (error) {
      toast.info('General Server Error')
   }
 }
-export async function DeleteComments(id,comment_id){
+export async function DeleteComments(id){
   try {
-    const response = await AxiosClient.put(`/prompts/comment/${id}`,comment_id)
+    const response = await AxiosClient.delete(`/prompts/comment/${id}`)
     toast.info('Deleted Comment Successfully')
     return response;
   } catch (error) {
+    console.log(error)
      toast.info('General Server Error')
   }
 }
-export async function UpdateComments(id,comment_id){
+export async function UpdateComments(id,newContent){
   try {
-    const response = await AxiosClient.patch(`/prompts/comment/${id}`,comment_id)
+    const response = await AxiosClient.patch(`/prompts/comment/${id}`,newContent)
     toast.info('Updated Comment Successfully')
     return response;
   } catch (error) {

@@ -6,78 +6,72 @@ import { getServerAuthSession } from "@/pages/api/auth/[...nextauth]";
 export default async function handler(req, res) {
     connectMongo();
     const session = await getServerAuthSession(req, res)
-    if (!session) 
-    {
-        return res.status(401).json({ error: 'You are not authorized' })   
-    }
     const { id } = req.query
     const {comment}=req.body
-    const {messageId}= req.body
     const {newContent} = req.body
+
+
+
+    if (req.method==='GET'){
+      const comments = await Comment.find({productId:id}).populate({path:'userId' ,select:'avatar name' });
+      return  res.status(200).json({comments})
+    
+    }
+
     if(req.method==='POST'){
+      if (!session){return res.status(401).json({'message':'Unauthorised Access'})}
         try {
-            let existingComment = await Comment.findOne({ productId :id});
-        
-            if (existingComment) {
-              existingComment.comment.push({
-                content:comment,
-                userId:session.user.id
-              });
-              await existingComment.save();
-              await Product.findByIdAndUpdate(id,{commentId:existingComment._id})
+          const c = Comment.create({
+              productId:id,
+              content:comment,
+              userId:session.user.id
+            })
+            
              return res.status(201).json({'message':'Comment Added Successfully'})
-            } 
-            else 
-            {
-              
-              existingComment = await Comment.create({
-                productId:id,
-                comment: [{
-                    content:comment,
-                    userId:session.user.id
-                  }],
-              });
-              await Product.findByIdAndUpdate(id,{commentId:existingComment._id})
-              await existingComment.save();
-             return res.status(201).json({'message':'Comment Added Successfully'})
-            }
-        
-            return existingComment;
           } catch (error) {
             console.log(error)
             res.status(500).json({'error':'Server Error'})
           }
-
-          
     }
-    if (req.method==='GET'){
-      const comments = await Comment.find({productId:id}).populate({
-        path:'comment.userId',
-        model:'user',
-        select:'name avatar'
-      });
-      res.status(200).json({comments})
+    if (req.method==='DELETE'){
+      if (!session){return res.status(401).json({'message':'Unauthorised Access'})}
+        const c = await Comment.findById(id)
+        if (!c) {
+               return res.status(404).json({ message: 'Comment not found' });
+          }
+        
+        if (c.userId==session.user.id.toString() ){
+             await Comment.findByIdAndDelete(id)
+             return res.status(200).json({'message' : 'Comment Deleted Successfully'})
 
-    }
-    if (req.method==='PUT'){
-      
-      const comments = await Comment.findByIdAndUpdate(id,{ $pull: { comment: { _id: messageId ,userId: session.user.id} } },{ new: true }).populate({
-        path:'comment.userId',
-        model:'user',
-        select:'name avatar'
-      });
-      res.status(200).json({comments})
+         }else{
+
+          return res.status(401).json({'message':'Unauthorised Access'})
+        
+        }
+
+
     }
     if (req.method==='PATCH'){
-      const comments = await Comment.findOneAndUpdate(
-        { 'comment._id': id, 'comment._id': messageId}, // Find the specific comment and content within the comment
-        { $set: { 'comment.$.content': newContent } }, // Update the content field of the matched comment
-        { new: true }
-      ).populate({
-        path:'comment.userId',
-        model:'user',
-        select:'name avatar'
-      });
-      res.status(200).json({comments})
+       if (!session){return res.status(401).json({'message':'Unauthorised Access'})}
+        const c = await Comment.findById(id)
+        if (!c) {
+               return res.status(404).json({ message: 'Comment not found' });
+          }
+        
+        if (c.userId==session.user.id.toString() ){
+             await Comment.findByIdAndUpdate(id, {content:newContent})
+             return res.status(200).json({'message' : 'Comment Deleted Successfully'})
+
+         }else{
+
+          return res.status(401).json({'message':'Unauthorised Access'})
+        
+        }
     }
+
+
+
+    
+    
 }

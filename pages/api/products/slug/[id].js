@@ -11,15 +11,7 @@ export default async function handler(req, res) {
 
     if (!session) 
     {
-       
             const products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
-                path: 'commentId',
-                populate: {
-                  path: 'comment.userId',
-                  model: 'user',
-                  select: 'name avatar',
-                },
-              }).populate({
                 path:'vendorId',
                 select:'profileId',
                 populate:{
@@ -30,19 +22,11 @@ export default async function handler(req, res) {
               })
             return res.status(200).json({products})
         
-    } else{
+    } else {
             
            let isPurchased=false
            const u = await User.findById(session.user.id)
            let products= await Product.findOne({slug:req.query.id}).select('-instructions').populate('EmotionId').populate({
-            path: 'commentId',
-            populate: {
-              path: 'comment.userId',
-              model: 'user',
-              select: 'name avatar',
-            },
-
-          }).populate({
             path:'vendorId',
             select:'profileId',
             populate:{
