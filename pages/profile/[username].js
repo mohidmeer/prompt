@@ -24,7 +24,7 @@ export default function Index({ session ,Header}) {
 
   const router = useRouter();
 
-   const fetchUserProfile = async() => {
+  async function fetchUserProfile() {
     await getUserPublicProfile(router.query.username).then((d)=>{
       setProfile(d)
       setLoading(false)
@@ -33,7 +33,7 @@ export default function Index({ session ,Header}) {
    
   
   }
-   const handleFollowClick = async () => {
+   async function handleFollowClick() {
     if (!session){ return router.push('/login')}
     setFollowing(true)
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -48,7 +48,7 @@ export default function Index({ session ,Header}) {
     <VendorLayout>
        <Head>
         <title>{'Profile'}</title>
-        <meta name="description" content={Header.bio} />
+        <meta name="description" content='No desc' />
       </Head>
       {!loading ? <div className="max-w-6xl mx-auto ">
             <div className="mt-2 p-2 flex justify-between">

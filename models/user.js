@@ -1,6 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 import bcrypt from "bcrypt";
 import Profile from './profile';
+import Emotion from './emotions';
 
 
   const userSchema = new Schema({
@@ -81,7 +82,16 @@ import Profile from './profile';
         })
         doc.profileId=profile._id
         await doc.save();
+        const emotion = await Emotion.create({
+          productId:profile._id
+        });
+        profile.EmotionId= emotion._id;
+        await profile.save();
+        
      }
+
+
+
      next();
   
   });

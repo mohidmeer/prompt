@@ -143,6 +143,7 @@ export async function getUserProfile(v=''){
     toast.info(response.data.message)
     return response.data.profile;
   } catch (error) {
+    console.log(error)
      toast.info('General Server Error')
   }
 }
