@@ -14,7 +14,7 @@ import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/router";
 import { AddEmotions } from "@/ApiRequests/user";
 import { FaFacebookF } from "react-icons/fa";
-import { BiGlobe } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiGlobe } from "react-icons/bi";
 import Head from "next/head";
 
 export default function Index({ session }) {
@@ -38,19 +38,23 @@ export default function Index({ session }) {
       <div className="max-w-6xl mx-auto ">
         <div className="mt-2 p-2 flex justify-between  " >
           <div className="flex-col flex gap-4" >
-            <Avatar name={session.user.name} time={moment(profile.createdAt).fromNow()} />
-            <Accounts profile={profile}/>
+            <Avatar name={session.user.name} time={moment(profile.createdAt).fromNow()} followers={profile.followers} />
+            <div className=" hidden  lg:block">
+              <Accounts profile={profile}/>
+            </div>
+            <div className="md:hidden ml-2">
+              {!loading && <Emotions e={profile.EmotionNumbers}  /> }
+            </div>
           </div>
 
           <div className="flex-col flex gap-4">
-            <div className=" flex  items-center gap-4  ">
-              <p className="font-semibold ml-auto">{profile.followers} Followers</p>
-              {/* <button className="flex px-4 py-1 bg-blue-600 text-white text-sm rounded font-bold ">
-                  <span>Follow</span>
-                </button> */}
-              {!loading && <EditProfile p={profile} isOpen={isOpen} setIsOpen={setIsOpen} /> }
+            <div className=" flex flex-col md:flex-row  items-center gap-4 justify-end  ">
+              
+                  {!loading && <EditProfile p={profile} isOpen={isOpen} setIsOpen={setIsOpen} /> }
             </div>
-            {!loading && <Emotions e={profile.EmotionNumbers}  /> }
+            <div className="hidden md:block ">
+              {!loading && <Emotions e={profile.EmotionNumbers}  /> }
+            </div>
           </div>
         </div>
         <UserPrompts session={session} />
@@ -101,7 +105,7 @@ const UserPrompts = ({ prompts, session }) => {
       <p className="font-bold text-2xl border-b  border-dark-border ">Prompts</p>
       {
         loading ? '' :
-          <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-2/3   sm:w-full mx-auto">
+          <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-3 grid-cols-2  gap-4 bg-black p-2 sm:w-full mx-auto">
             {products.map((p, i) => (
               <div key={i} className="rounded border border-dark-border relative ">
                 <Details p={p} product_id={p._id} session={session} emotionsArray={p.EmotionId} user_id={session ? session.user.id : '123'} />
@@ -204,38 +208,45 @@ const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
 
   return (
     <>
+    <div className="absolute right-2 top-2  ">
+    <Tippy content={p.name} placement="bottom">
+        <button>
+            <BiDotsVerticalRounded className="text-2xl shadow-xl text-gray-400" />
+        </button>
+      </Tippy>
+    </div>
     <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
-    <p className="p-1 bg-dark-info  rounded  text-white">{p.model.replace(/-/g, ' ')}</p>
+    <p className="p-1 bg-dark-info hidden sm:block rounded  text-white ">{p.model.replace(/-/g, ' ')}</p>
   </div>
   <div className=" absolute bottom-2 left-0 right-0 mx-auto flex justify-center ">
     <div className="relative" >
       <div className="absolute inset-0 bg-opacity-70 backdrop-blur-sm bg-black rounded-xl "></div>  
       <div className=" relative flex gap-2 text-sm  overflow-hidden px-2  ">
-     <span className={`flex items-center gap-1 
+     <span className={`flex items-center gap-1 sm:flex-row flex-col 
      ${isFav ? 'bg-dark-info/60  hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`} 
      onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}>
         <p className='text-red-500'>❤</p>
         <p className="text-xs" >{favorite}</p>
       </span>
-      <span className={`flex items-center gap-1 
+      <span className={`flex items-center gap-1 sm:flex-row flex-col 
       ${isLiked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
       onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}   >
         <p>👍</p>
         <p className="text-xs" >{like}</p>
       </span>
-      <span className={`flex items-center gap-1 
+      <span className={`flex items-center gap-1 sm:flex-row flex-col 
       ${isDisliked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
       onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}  >
         <p>👎</p>
         <p className="text-xs" >{dislike}</p>
       </span>
-      <span className={`flex items-center gap-1 
+      <span className={`flex items-center gap-1 sm:flex-row flex-col 
       ${isHappy ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`}  
       onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}} >
         <p>😂</p>
         <p className="text-xs" >{happy}</p>
       </span>
-      <span className={`flex items-center gap-1 
+      <span className={`flex items-center gap-1 sm:flex-row flex-col 
       ${isSad ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`}  
       onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}  >
         <p>😥</p>
@@ -251,13 +262,17 @@ const Details = ({ p, user_id, emotionsArray, product_id, session }) => {
 
 
 
-const Avatar = ({ time, name, flex, src = 'https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' }) => {
+const Avatar = ({ time, name, flex, followers, src = 'https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' }) => {
   return (
     <div className={`flex items-center gap-2`}>
       <Image className=" rounded-full" alt='UserProfile' src={src} width={40} height={40} />
       <div className={`text-dark-text ${flex ? 'flex items-center  gap-2 ' : ''} `}>
-        <p className='text-sm font-bold'>{name}</p>
+        <div className="flex gap-2 items-center">
+          <p className='text-sm font-bold'>{name}</p>
+          <p className="text-xs px-2 py-[2px] rounded-sm  bg-green-700 text-white mt-1 ml-2 ">{followers+ (followers==1? ' Follower' : ' Followers') } </p>
+        </div>
         <p className={`text-xs ${flex ? 'font-extralight ' : ''} `}>{time}</p>
+        
       </div>
     </div>
   )

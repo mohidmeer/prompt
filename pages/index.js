@@ -19,7 +19,7 @@ export default function Home({session}) {
       </Head>
       { ProductLoading ?  '' :
       
-            <div className='grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-col-1 gap-4 bg-black p-2 w-2/3   sm:w-full mx-auto  '  >
+            <div className='grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3  grid-cols-2 gap-4 bg-black p-2  sm:w-full mx-auto  '  >
               {products.map((p, i) => (
                 <div key={i} className="rounded border border-dark-border relative ">
                   <Details p={p} product_id={p._id} session={session}  emotionsArray={p.EmotionId} user_id={session ? session.user.id :'123' } />
@@ -118,7 +118,6 @@ const Details = ({p,user_id,emotionsArray,product_id,session}) => {
     })
   }
 
-
   return (
     <>
     <div className="absolute right-2 top-2  ">
@@ -130,38 +129,38 @@ const Details = ({p,user_id,emotionsArray,product_id,session}) => {
     </div>
 
 
-      <div className="absolute top-2 left-2 text-xs backdrop-blur-md ">
+      <div className="absolute top-2 left-2 text-xs backdrop-blur-md  ">
         <p className="p-1 bg-dark-info font-bold rounded ">{p.model.replace(/-/g, ' ')}</p>
       </div>
       <div className=" absolute bottom-2 left-0 right-0 mx-auto flex justify-center ">
         <div className="relative" >
           <div className="absolute inset-0 bg-opacity-70 backdrop-blur-sm bg-black rounded-xl "></div>  
-          <div className=" relative flex gap-2 text-sm  overflow-hidden px-2  ">
-         <span className={`flex items-center gap-1 
+          <div className=" relative flex gap-2 text-sm  px-2 overflow-hidden  ">
+         <span className={`flex items-center gap-1 sm:flex-row flex-col 
          ${isFav ? 'bg-dark-info/40  hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`} 
          onClick={()=>{AddEmotionsToPrompt({emotionType:'Favorite'})}}>
             <p className='text-red-500'>❤</p>
             <p className="text-xs" >{favorite}</p>
           </span>
-          <span className={`flex items-center gap-1 
+          <span className={`flex items-center gap-1 sm:flex-row flex-col
           ${isLiked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
           onClick={()=>{AddEmotionsToPrompt({emotionType:'Like'})}}   >
             <p>👍</p>
             <p className="text-xs" >{like}</p>
           </span>
-          <span className={`flex items-center gap-1 
+          <span className={`flex items-center gap-1 sm:flex-row flex-col
           ${isDisliked ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`} 
           onClick={()=>{AddEmotionsToPrompt({emotionType:'Dislike'})}}  >
             <p>👎</p>
             <p className="text-xs" >{dislike}</p>
           </span>
-          <span className={`flex items-center gap-1 
+          <span className={`flex items-center gap-1 sm:flex-row flex-col
           ${isHappy ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }   p-1 rounded-md cursor-pointer`}  
           onClick={()=>{AddEmotionsToPrompt({emotionType:'Happy'})}} >
             <p>😂</p>
             <p className="text-xs" >{happy}</p>
           </span>
-          <span className={`flex items-center gap-1 
+          <span className={`flex items-center gap-1 sm:flex-row flex-col
           ${isSad ? 'bg-dark-info/40   hover:brightness-150' : 'hover:bg-dark-muted' }  p-1 rounded-md cursor-pointer`}  
           onClick={()=>{AddEmotionsToPrompt({emotionType:'Sad'})}}  >
             <p>😥</p>

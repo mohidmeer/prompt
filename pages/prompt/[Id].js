@@ -114,11 +114,11 @@ const Sidebar = ({ prompt, session  }) => {
           <Emotions flextype={'flex-row'} gap={'gap-7'} session={session} user_id={session ? session.user.id : '123'} p={prompt.EmotionNumbers} id={prompt._id} emotionsArray={prompt.EmotionId} />
         </div>
         <div>
-        <div className='sm:hidden flex justify-center  '>
+        <div className='sm:hidden flex justify-center bg-dark-background   '>
         {!prompt.isPurchased &&
-          <button className='blue-btn   flex justify-center w-1/3 whitespace-nowrap  ' onClick={() => { Buy() }}>
+          <button className='blue-btn   flex justify-center mt-2 w-9/12   whitespace-nowrap  ' onClick={() => { Buy() }}>
             {loading && <BtnLoader />}
-            Get This Prompt
+              Get This Prompt
           </button>}
        </div>
         </div>
