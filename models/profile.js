@@ -98,7 +98,7 @@ import shortUUID from 'short-uuid';
     
       const shortSlugUniqueidentifier = shortUUID.uuid();
     
-      this.name = this.slug + shortSlugUniqueidentifier.substring(0, 5);
+      this.name = this.name + shortSlugUniqueidentifier.substring(0, 5);
     
     }
     

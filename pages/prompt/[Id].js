@@ -21,7 +21,6 @@ export default function Prompt({ Header, session, ogimgurl }) {
   const router = useRouter();
   const [prompt, setprompt] = useState()
   const [loading, setLoading] = useState(true)
-  const [menu, setMenu] = useState(false)
 
 
   useEffect(() => {

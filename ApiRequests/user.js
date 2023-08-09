@@ -139,7 +139,7 @@ export async function getUserProfile(v=''){
   .then((res)=>{ return res.data.profile})
   .catch((e)=>{serverErrorHandler('Genaral Server Error')})
 }
- export async function getUserPublicProfile(v=''){
+ export async function getUserPublicProfile(v){
   try {
     const response = await AxiosClient.get(`/profile/`+v)
     toast.info(response.data.message)
