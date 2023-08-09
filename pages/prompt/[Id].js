@@ -73,11 +73,6 @@ export default function Prompt({ Header, session, ogimgurl }) {
           <Sidebar
             prompt={prompt}
             session={session}
-            menu={menu}
-            setmenu={setMenu}
-
-
-
           />
         </div>
       }
