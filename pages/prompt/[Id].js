@@ -234,12 +234,12 @@ const Report = () => {
   )
 }
 
-const Avatar = ({ time, name, flex, src = 'https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' }) => {
+const Avatar = ({ className , time, name, flex, src = 'https://lh3.googleusercontent.com/a/AAcHTtfefauh4g1E36pf7scajv8IcTfWKziUCdajwWHjl8s8igc=s96-c' }) => {
 
   return (
     <div className={`flex items-center gap-2`}>
       <Image className=" rounded-full" alt='UserProfile' src={src} width={32} height={32} />
-      <div className={`text-dark-text ${flex ? 'flex items-center  gap-2 ' : ''} `}>
+      <div className={`text-dark-text ${className} ${flex ? 'flex items-center  gap-2 ' : ''} `}>
         <p className='text-sm font-bold'>{name}</p>
         <p className={`text-xs ${flex ? 'font-extralight ' : ''} `}>{time}</p>
       </div>
@@ -740,20 +740,20 @@ function PromptDetails({ prompt, session, purchased }) {
   return (
     <div className='lg:hidden '>
       <div className=' absolute right-3 top-6'>
-        <div className='flex gap-4 items-center'>
+        <div className='flex gap-4 items-center backdrop-opacity-10 backdrop-invert rounded-md bg-black/30 p-1'>
           <Share />
           <Report />
           <MdOutlineCancel onClick={() => { router.back() }} className='text-2xl mb-2 cursor-pointer' />
         </div>
       </div>
-      <div className=' absolute left-3 top-5'>
+      <div className=' absolute left-3 top-5 backdrop-opacity-10 backdrop-invert rounded-md bg-black/30 p-1 '>
         <div className='flex gap-4 items-center'>
           <Link href={'/profile/' + prompt.vendorId.profileId.name}>
-            <Avatar time={moment(prompt.createdAt).fromNow()} name={'Mohid Meer'} />
+            <Avatar time={moment(prompt.createdAt).fromNow()} name={'Mohid Meer'} className={'!text-white'} />
           </Link>
         </div>
       </div>
-      <div className=' absolute left-0 bottom-5'>
+      <div className=' absolute left-2 bottom-2  backdrop-opacity-10 backdrop-invert rounded-md bg-black/30 p-1 '>
         <Emotions
           gap={'gap-4'}
           flextype={'flex-row  sm:flex-col '}
