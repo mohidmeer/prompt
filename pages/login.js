@@ -4,7 +4,7 @@ import Link from "next/link";
 import Button from "@/components/Buttons";
 import { FcGoogle} from "react-icons/fc"
 import { FaGithub } from "react-icons/fa";
-import { useSession,signIn} from "next-auth/react";
+import { useSession,signIn, getSession} from "next-auth/react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import login_validate from "@/lib/client/loginValidationHelper";
@@ -34,11 +34,6 @@ export default function Login() {
    if (status.error){serverErrorHandler(401,status.error);console.log(status)}
   }
 
-  const { data: session } = useSession()
-  if(session) {
-      router.push('/')
-  }
-  
     return (
       <AuthLayout >
         <div className="sm:w-1/2 w-full  lg:w-1/4  p-8 rounded-xl  bg-dark-light text-gray-400    ">
@@ -85,7 +80,9 @@ export default function Login() {
 
 
   export async function getServerSideProps(context) {
-    let session = await getServerAuthSession(context.req, context.res)
+    // let session = await getServerAuthSession(context.req, context.res)
+    const session = await getSession(context);
+    console.log
   
     if (session) {
       return {
